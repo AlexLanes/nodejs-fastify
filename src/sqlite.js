@@ -39,7 +39,6 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
         // We have a database already - write users records to log for info
       } else {
         console.log("Database already exists");
-        console.log(await db.all("SELECT * FROM users"));
       }
     } catch (dbError) {
       console.error(dbError);
