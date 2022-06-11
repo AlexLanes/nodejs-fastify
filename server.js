@@ -14,7 +14,7 @@ const path = require("path");
 const fastify = require("fastify")({
   // Set this to true for detailed logging:
   logger: false
-});
+}); 
 // Setup our static files
 fastify.register(require("fastify-static"), {
   root: path.join(__dirname, "public"),

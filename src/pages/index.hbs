@@ -89,12 +89,7 @@
 </head>
 
 <body>
-  <div class="wrapper">
-    <div class="content" role="main">
-
-      <!-- This is the start of content for our page -->
-      <h1>Hello SQLite!</h1>
-      <p>A poll built with Chart.js and powered by Node.js with a {{seo.db}} database.</p>
+  <div class="form">
       
       {{#if error}}
         <p class="error">
@@ -102,22 +97,22 @@
         </p>
       
       {{else}}
-        <!-- Server asks for Login -->
-        <form method="post" action="/">
-          <!-- The server script returns the list of language options to offer in the poll -->
-          <h1>Login</h1>
-            <input type="text" id="user" name="user" required />
-            <label for="user">Usuario: </label>
-          
-            <input type="password" id="password" name="password" required />
-            <label for="password">Senha: </label>
-            <br /><br />
-          <button type="submit">Submit</button>
-        </form>
+          <!-- Server asks for Login -->
+        
+          <form method="post" action="/">
+            <!-- The server script returns the list of language options to offer in the poll -->
+            <h1>Login</h1>
+              <label>Usuario</label><br/>
+              <input type="text" id="user" name="user" required />
+              <br/>
+              <label>Senha</label><br/>
+              <input type="password" id="password" name="password" required />
+              <br/><br/>
+            <button type="submit">Submit</button>
+          </form>
       
       {{/if}}
-
-    </div>
+    
   </div>
 </body>
 

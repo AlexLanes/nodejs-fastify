@@ -13,20 +13,35 @@ module.exports = {
   
   showLogin: async(request, reply) => {
     console.log("exec showLogin");
-    let params = { seo: seo };
+    // params
+      let params = { seo: seo };
     // Show index.hbs
-    reply.view("/src/pages/index.hbs", params);
+      reply.view("/src/pages/index.hbs", params);
   },
   
   validateLogin: async(request, reply) => {
-    // On Request
     console.log("exec validateLogin");
-    let user = request.body.user;
-    let password = request.body.password;
-    console.log(user + password);
+    // params
+      let params = { seo: seo };
+    // On Request
+      let user_login = request.body.user;
+      if( user_login.length < 1 || user_login.length > 20 ){
+        console.error("Usuário deve possuir entre 1 e 20 Caracteres")
+        reply.view("/src/pages/index.hbs");
+      }
+      let user_password = request.body.password;
+      if( user_password.length < 1 || user_password.length > 20 ){
+        console.error("Senha deve possuir entre 1 e 20 Caracteres")
+        alert("Senha deve possuir entre 1 e 20 Caracteres");
+      }
+      console.log(user_login + user_password);
     // Database
-    let all_users = await db.getUsers();
-    console.log(all_users);
+      /*let all_users = await db.getUsers();
+      console.log(all_users);
+      for( let user of all_users ) {
+        console.log( user["user"] );
+        console.log( user["password"] );
+      }*/
   }
   
 };
