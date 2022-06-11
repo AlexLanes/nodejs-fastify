@@ -39,16 +39,17 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
         // We have a database already - write users records to log for info
       } else {
         console.log("Database already exists");
+        console.log( await db.all("SELECT * FROM users") )
       }
     } catch (dbError) {
       console.error(dbError);
-    }
+    } 
   });
 
 // Our server script will call these methods to connect to the db
 module.exports = {
   
-  //Find user in the database
+  // Find user in the database
   getUser: async(user) => {
     console.log("exec getUser");
     // We use a try catch block in case of db errors
@@ -61,13 +62,27 @@ module.exports = {
     }
   },
   
-  //Check specific password from user in the database
+  // Check specific password from user in the database
   getPassword: async(user, password) => {
     console.log("exec getPassword");
     // We use a try catch block in case of db errors
     try {
       let result = db.all(`SELECT * FROM users WHERE user="${user}" and password="${password}"`);
       return result;
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
+  // Create a new user in the database
+  createUser: async(user, password) => {
+    console.log("exec getPassword");
+    // We use a try catch block in case of db errors
+    try {
+      await db.run(
+        `INSERT INTO users (user, password) VALUES ("${user}", "${password}")`
+      );
     } catch (dbError) {
       // Database connection error
       console.error(dbError);

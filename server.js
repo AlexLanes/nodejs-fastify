@@ -40,7 +40,7 @@ const data = require("./src/data.json");
 const db = require("./src/" + data.database);
 
 // .env CONTROLLERS Dependency Injection
-let names = process.env.CONTROLLERS.split(", "); 
+let names = process.env.CONTROLLERS.split(","); 
 for(let i = 0; i < names.length; i++) {
   let path = `./src/controllers/${names[i]}.js`;
   let controller = require(path);

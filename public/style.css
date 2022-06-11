@@ -2,41 +2,44 @@
 @import url("//fonts.googleapis.com/css2?family=Bungee+Shade:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 
 /* Form Division */
-.form form{
-  left: 50%;
-  top: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  border-style:solid;
-  border-color:#ff1919;
-  border-width:2px;
-  padding-left:22px;
-  padding-right:22px;
-  padding-top:22px;
-  padding-bottom:22px;
-  border-top-left-radius:22px;
-  border-top-right-radius:22px;
-  border-bottom-left-radius:22px;
-  border-bottom-right-radius:22px;
-  box-shadow:0px 0px 22px 11px #f6eea1;
-}
-.form form h1{
-  font-family:'Bungee Shade', display;
-  text-align:center;
-}
-.form form input{
-  border-top-left-radius:50px;
-  border-top-right-radius:50px;
-  border-bottom-left-radius:50px;
-  border-bottom-right-radius:50px;
-}
-.form form button{
-  border-top-left-radius:50px;
-  border-top-right-radius:50px;
-  border-bottom-left-radius:50px;
-  border-bottom-right-radius:50px;
-  background-color:#000000;
-  color:#ffffff;
-  display: block;
-  margin: 0 auto;
-}
+  .form form{
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-style:solid;
+    border-color:#ff1919;
+    border-width:2px;
+    padding-left:22px;
+    padding-right:22px;
+    padding-top:22px;
+    padding-bottom:22px;
+    border-top-left-radius:22px;
+    border-top-right-radius:22px;
+    border-bottom-left-radius:22px;
+    border-bottom-right-radius:22px;
+    box-shadow:0px 0px 22px 11px #f6eea1;
+  }
+  .form form h1{
+    font-family:'Bungee Shade', display;
+    text-align:center;
+  }
+  .form form input{
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
+  }
+  .form form button{
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
+    background-color:#000000;
+    color:#ffffff;
+    display: block;
+    margin: 0 auto;
+  }
+  .form form a{
+    color:#ffffff;
+  }

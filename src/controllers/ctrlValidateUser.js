@@ -6,17 +6,17 @@ module.exports = {
   
   listen: async(servidor) => {
     // GET on root 
-    servidor.get("/", module.exports.showLogin);
+    servidor.get("/", module.exports.viewLogin);
     // POST on root
     servidor.post("/", module.exports.validateLogin);
   },
   
-  showLogin: async(request, reply) => {
-    console.log("exec showLogin");
+  viewLogin: async(request, reply) => {
+    console.log("exec viewLogin");
     // params
       let params = { seo: seo };
-    // Show index.hbs
-      reply.view("/src/pages/index.hbs", params);
+    // Show login.hbs
+      reply.view("/src/pages/login.hbs", params);
   },
   
   validateLogin: async(request, reply) => {
@@ -29,14 +29,14 @@ module.exports = {
       if( user.length < 1 || user.length > 20 ){
         console.error("Usuário deve possuir entre 1 e 20 Caracteres")
         params.error = "Usuário deve possuir entre 1 e 20 Caracteres";
-        reply.view("/src/pages/index.hbs", params);
+        reply.view("/src/pages/login.hbs", params);
         return;
       }
       let password = request.body.password;
       if( password.length < 1 || password.length > 20 ){
         console.error("Senha deve possuir entre 1 e 20 Caracteres")
         params.error = "Senha deve possuir entre 1 e 20 Caracteres";
-        reply.view("/src/pages/index.hbs", params);
+        reply.view("/src/pages/login.hbs", params);
         return;
       }
       
@@ -47,7 +47,7 @@ module.exports = {
         if( result.length === 0 ){
           console.error("Usuário inexistente")
           params.error = "Usuário inexistente";
-          reply.view("/src/pages/index.hbs", params);
+          reply.view("/src/pages/login.hbs", params);
           return;
         }
       //Find if password corresponds to user
@@ -55,7 +55,7 @@ module.exports = {
         if( result.length === 0 ){
           console.error("Senha incorreta")
           params.error = "Senha incorreta";
-          reply.view("/src/pages/index.hbs", params);
+          reply.view("/src/pages/login.hbs", params);
           return;
         }
     
