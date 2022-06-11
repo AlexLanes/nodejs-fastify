@@ -5,9 +5,9 @@ var servidor = null
 module.exports = {
   
   listen: async(servidor) => {
-    // GET / 
+    // GET on root 
     servidor.get("/", module.exports.showLogin);
-    // POST /
+    // POST on root
     servidor.post("/", module.exports.validateLogin);
   },
   
@@ -41,13 +41,24 @@ module.exports = {
       }
       
     // Validate Database
-      let result = await db.getUser(user, password);
-      if( result.length === 0 ){
-        console.error("Usuário ou Senha incorreto")
-        params.error = "Usuário ou Senha incorreto";
-        reply.view("/src/pages/index.hbs", params);
-        return;
-      }
+      var result;
+      //Find if user exists
+        result = await db.getUser(user);
+        if( result.length === 0 ){
+          console.error("Usuário inexistente")
+          params.error = "Usuário inexistente";
+          reply.view("/src/pages/index.hbs", params);
+          return;
+        }
+      //Find if password corresponds to user
+        result = await db.getPassword(user, password);
+        if( result.length === 0 ){
+          console.error("Senha incorreta")
+          params.error = "Senha incorreta";
+          reply.view("/src/pages/index.hbs", params);
+          return;
+        }
+    
     // Success
       console.log(`User: ${user} successfully logged in`);
   }

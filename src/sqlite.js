@@ -33,7 +33,7 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
         );
         // Add default Admin user to the table
         await db.run(
-          "INSERT INTO users (user, password) VALUES ('Admin', '123456')"
+          `INSERT INTO users (user, password) VALUES ("Admin", "${process.env.ADMIN_PASSWORD}")`
         );
 
         // We have a database already - write users records to log for info
@@ -49,12 +49,12 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
 // Our server script will call these methods to connect to the db
 module.exports = {
   
-  //Get all users in the database
-  getUsers: async() => {
-    console.log("exec getUsers");
+  //Find user in the database
+  getUser: async(user) => {
+    console.log("exec getUser");
     // We use a try catch block in case of db errors
     try {
-      let result = db.all("SELECT * FROM users");
+      let result = db.all(`SELECT * FROM users WHERE user="${user}"`);
       return result;
     } catch (dbError) {
       // Database connection error
@@ -62,9 +62,9 @@ module.exports = {
     }
   },
   
-  //Get specific user in the database
-  getUser: async(user, password) => {
-    console.log("exec getUser");
+  //Check specific password from user in the database
+  getPassword: async(user, password) => {
+    console.log("exec getPassword");
     // We use a try catch block in case of db errors
     try {
       let result = db.all(`SELECT * FROM users WHERE user="${user}" and password="${password}"`);
