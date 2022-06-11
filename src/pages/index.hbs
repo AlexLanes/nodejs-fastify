@@ -90,28 +90,25 @@
 
 <body>
   <div class="form">
-      
+    
+    <!-- Server asks for Login -->
+    <form method="post" action="/">
+      <!-- Header -->
+      <h1>Login</h1>
+      <!-- User -->
+      <label>Usuario</label><br/>
+      <input type="text" id="user" name="user" required /><br/>
+      <!-- Password -->
+      <label>Senha</label><br/>
+      <input type="password" id="password" name="password" required /><br/><br/>
+      <!-- Create Error label if exists -->
       {{#if error}}
-        <p class="error">
-          {{error}}
-        </p>
-      
-      {{else}}
-          <!-- Server asks for Login -->
-        
-          <form method="post" action="/">
-            <!-- The server script returns the list of language options to offer in the poll -->
-            <h1>Login</h1>
-              <label>Usuario</label><br/>
-              <input type="text" id="user" name="user" required />
-              <br/>
-              <label>Senha</label><br/>
-              <input type="password" id="password" name="password" required />
-              <br/><br/>
-            <button type="submit">Submit</button>
-          </form>
-      
+        <label>Erro: {{error}}</label>
+        <br/><br/>
       {{/if}}
+      <!-- Input Button -->
+      <button type="submit">Entrar</button>
+    </form>
     
   </div>
 </body>

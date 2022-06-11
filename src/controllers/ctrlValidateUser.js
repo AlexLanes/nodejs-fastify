@@ -23,25 +23,33 @@ module.exports = {
     console.log("exec validateLogin");
     // params
       let params = { seo: seo };
-    // On Request
-      let user_login = request.body.user;
-      if( user_login.length < 1 || user_login.length > 20 ){
+    
+    // Validate Length
+      let user = request.body.user;
+      if( user.length < 1 || user.length > 20 ){
         console.error("Usuário deve possuir entre 1 e 20 Caracteres")
-        reply.view("/src/pages/index.hbs");
+        params.error = "Usuário deve possuir entre 1 e 20 Caracteres";
+        reply.view("/src/pages/index.hbs", params);
+        return;
       }
-      let user_password = request.body.password;
-      if( user_password.length < 1 || user_password.length > 20 ){
+      let password = request.body.password;
+      if( password.length < 1 || password.length > 20 ){
         console.error("Senha deve possuir entre 1 e 20 Caracteres")
-        alert("Senha deve possuir entre 1 e 20 Caracteres");
+        params.error = "Senha deve possuir entre 1 e 20 Caracteres";
+        reply.view("/src/pages/index.hbs", params);
+        return;
       }
-      console.log(user_login + user_password);
-    // Database
-      /*let all_users = await db.getUsers();
-      console.log(all_users);
-      for( let user of all_users ) {
-        console.log( user["user"] );
-        console.log( user["password"] );
-      }*/
+      
+    // Validate Database
+      let result = await db.getUser(user, password);
+      if( result.length === 0 ){
+        console.error("Usuário ou Senha incorreto")
+        params.error = "Usuário ou Senha incorreto";
+        reply.view("/src/pages/index.hbs", params);
+        return;
+      }
+    // Success
+      console.log(`User: ${user} successfully logged in`);
   }
   
 };

@@ -49,18 +49,26 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
 // Our server script will call these methods to connect to the db
 module.exports = {
   
-  /**
-   * Get the users in the database
-   *
-   * Return everything in the users table
-   * Throw an error in case of db connection issues
-   */
-  getUsers: async () => {
+  //Get all users in the database
+  getUsers: async() => {
+    console.log("exec getUsers");
     // We use a try catch block in case of db errors
     try {
-      let all_users = db.all("SELECT * FROM users");
-      console.log("exec getUsers");
-      return all_users;
+      let result = db.all("SELECT * FROM users");
+      return result;
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
+  //Get specific user in the database
+  getUser: async(user, password) => {
+    console.log("exec getUser");
+    // We use a try catch block in case of db errors
+    try {
+      let result = db.all(`SELECT * FROM users WHERE user="${user}" and password="${password}"`);
+      return result;
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
