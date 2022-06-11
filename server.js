@@ -39,22 +39,14 @@ if (seo.url === "glitch-default") {
 const data = require("./src/data.json");
 const db = require("./src/" + data.database);
 
-
-
-
-
-//
-// .evn CONTROLLERS Dependency Injection
-//
-let nomesCtrl = process.env.CONTROLLERS.split(", "); 
-for(let i = 0; i < nomesCtrl.length; i++) {
-  let path = "./src/controllers/" + nomesCtrl[i] + ".js";
-  let ctrl = require(path);
+// .env CONTROLLERS Dependency Injection
+let names = process.env.CONTROLLERS.split(", "); 
+for(let i = 0; i < names.length; i++) {
+  let path = "./src/controllers/" + names[i] + ".js";
+  let controller = require(path);
   console.log("CONTROLLER injected: " + path);
-  ctrl.configurar(fastify);
+  controller.listen(fastify);
 }
-
- 
 
 // Run the server and report out to the logs
 fastify.listen(process.env.PORT, '0.0.0.0', function(err, address) {
