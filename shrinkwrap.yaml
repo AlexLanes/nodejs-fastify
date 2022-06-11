@@ -1,5 +1,6 @@
 dependencies:
   fastify: 3.29.0
+  fastify-cookie: 5.7.0
   fastify-formbody: 5.3.0
   fastify-static: 4.7.0
   handlebars: 4.7.7
@@ -236,6 +237,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==
+  /cookie-signature/1.2.0:
+    dev: false
+    engines:
+      node: '>=6.6.0'
+    resolution:
+      integrity: sha512-R0BOPfLGTitaKhgKROKZQN6iyq2iDQcH1DOF8nJoaWapguX5bC2w+Q/I9NmmM5lfcvEarnLZr+cCvmEYYSXvYA==
   /cookie/0.5.0:
     dev: false
     engines:
@@ -364,6 +371,20 @@ packages:
     dev: false
     resolution:
       integrity: sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==
+  /fastify-cookie/5.6.1:
+    dependencies:
+      cookie-signature: 1.2.0
+      fastify-plugin: 3.0.1
+    dev: false
+    resolution:
+      integrity: sha512-qKFxDOLkrXn2TkxlO/+cK0tWYCTSrJDmuwty6Zl7kD5FtALwcjUHPFzOdR1Gxupb5oWhvbpSHBMx2XS+t9fbQQ==
+  /fastify-cookie/5.7.0:
+    dependencies:
+      fastify-cookie-deprecated: /fastify-cookie/5.6.1
+      process-warning: 1.0.0
+    dev: false
+    resolution:
+      integrity: sha512-l9UDkHysfOBdyA2rNkr1DQqe6xFdT3NuT60W+o7ramvuyyIc9kv6VmrhpLeEx29EftVJR9lRpW4Pg8T+RDNBLw==
   /fastify-formbody/5.2.0:
     dependencies:
       fastify-plugin: 3.0.1
@@ -1325,6 +1346,7 @@ shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   fastify: ^3.28.0
+  fastify-cookie: ^5.7.0
   fastify-formbody: ^5.2.0
   fastify-static: ^4.6.1
   handlebars: ^4.7.7

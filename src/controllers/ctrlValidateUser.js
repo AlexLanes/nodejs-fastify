@@ -59,8 +59,20 @@ module.exports = {
           return;
         }
     
+    // Cookie Creation
+      let now = Date.now();
+      reply.setCookie('Authentication', now, {
+        domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
+        path: '/',
+        maxAge: 60 * 22, // 22 minutes
+        secure: true,
+        sameSite: 'lax',
+        httpOnly: true
+      });
+    
     // Success
       console.log(`User: ${user} successfully logged in`);
+      reply.view("/src/pages/books.hbs", params);
   }
   
 };
