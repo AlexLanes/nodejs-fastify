@@ -42,10 +42,10 @@ const db = require("./src/" + data.database);
 // .env CONTROLLERS Dependency Injection
 let names = process.env.CONTROLLERS.split(", "); 
 for(let i = 0; i < names.length; i++) {
-  let path = "./src/controllers/" + names[i] + ".js";
+  let path = `./src/controllers/${names[i]}.js`;
   let controller = require(path);
-  console.log("CONTROLLER injected: " + path);
   controller.listen(fastify);
+  console.log("CONTROLLER injected: " + path);
 }
 
 // Run the server and report out to the logs
@@ -55,5 +55,4 @@ fastify.listen(process.env.PORT, '0.0.0.0', function(err, address) {
     process.exit(1);
   }
   console.log(`Your app is listening on ${address}`);
-  fastify.log.info(`server listening on ${address}`);
 });

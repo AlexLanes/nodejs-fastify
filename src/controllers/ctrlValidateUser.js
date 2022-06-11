@@ -1,28 +1,32 @@
 const seo = require("../seo.json");
+const db  = require("../sqlite.js");
 var servidor = null
 
 module.exports = {
   
   listen: async(servidor) => {
     // GET / 
-    servidor.get("/", module.exports.showIndex);
+    servidor.get("/", module.exports.showLogin);
     // POST /
-    servidor.post("/", module.exports.processLogin);
+    servidor.post("/", module.exports.validateLogin);
   },
   
-  showIndex: async(request, reply) => {
-    console.log("exec showIndex");
+  showLogin: async(request, reply) => {
+    console.log("exec showLogin");
     let params = { seo: seo };
     // Show index.hbs
     reply.view("/src/pages/index.hbs", params);
   },
   
-  processLogin: async(request, reply) => {
-    console.log("exec processLogin");
+  validateLogin: async(request, reply) => {
+    // On Request
+    console.log("exec validateLogin");
     let user = request.body.user;
     let password = request.body.password;
     console.log(user + password);
-    //return user + password;  
+    // Database
+    let all_users = await db.getUsers();
+    console.log(all_users);
   }
   
 };

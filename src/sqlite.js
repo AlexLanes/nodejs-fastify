@@ -18,11 +18,7 @@ let db;
 We're using the sqlite wrapper so that we can make async / await connections
 - https://www.npmjs.com/package/sqlite
 */
-dbWrapper
-  .open({
-    filename: dbFile,
-    driver: sqlite3.Database,
-  })
+dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
   .then(async (dBase) => {
     db = dBase;
 
@@ -52,6 +48,7 @@ dbWrapper
 
 // Our server script will call these methods to connect to the db
 module.exports = {
+  
   /**
    * Get the users in the database
    *
@@ -61,13 +58,13 @@ module.exports = {
   getUsers: async () => {
     // We use a try catch block in case of db errors
     try {
-      let all_users = await db.all("SELECT * FROM users");
+      let all_users = db.all("SELECT * FROM users");
       console.log("exec getUsers");
-      console.log(all_users);
       return all_users;
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
     }
-  },
+  }
+  
 };

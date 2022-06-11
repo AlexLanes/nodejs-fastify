@@ -12,8 +12,8 @@
     "fastify-static": "^4.6.1",
     "handlebars": "^4.7.7",
     "point-of-view": "^5.2.0",
-    "sqlite": "^4.0.25",
-    "sqlite3": "^5.0.7"
+    "sqlite": "^4.1.1",
+    "sqlite3": "^5.0.8"
   },
   "engines": {
     "node": "12.x"
