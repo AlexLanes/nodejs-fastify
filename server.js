@@ -8,60 +8,62 @@
 **/
 
 // Utilities we need
-const fs = require("fs");
-const path = require("path");
-// Require the fastify framework and instantiate it
-const fastify = require("fastify")({
-  // Set this to true for detailed logging:
-  logger: false
-});
+  const path = require("path");
+  // Require the fastify framework and instantiate it
+  const fastify = require("fastify")({
+    // Set this to true for detailed logging
+    logger: false
+  });
+
 // Setup our static files
-fastify.register(require("fastify-static"), {
-  root: path.join(__dirname, "public"),
-  prefix: "/" // optional: default '/'
-});
+  fastify.register(require("fastify-static"), {
+    root: path.join(__dirname, "public"),
+    prefix: "/" // optional: default '/'
+  });
+
 // fastify-formbody lets us parse incoming forms
-fastify.register(require("fastify-formbody"));
+  fastify.register(require("fastify-formbody"));
 // point-of-view is a templating manager for fastify
-fastify.register(require("point-of-view"), {
-  engine: {
-    handlebars: require("handlebars")
-  }
-});
+  fastify.register(require("point-of-view"), {
+    engine: {
+      handlebars: require("handlebars")
+    }
+  });
+// Fastify Cookie Configuration
+  fastify.register(require('fastify-cookie'), {
+    secret: `${process.env.COOKIE_SECRET}`, // Secret Key
+    parseOptions: {}
+  });
 
 // Load and parse SEO data
-const seo = require("./src/seo.json");
-if (seo.url === "glitch-default") {
-  seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
-}
+  const seo = require("./src/seo.json");
+  if (seo.url === "glitch-default") {
+    seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
+  }
 
 // We use a module for handling database operations in /src
-const data = require("./src/data.json");
-const db = require("./src/" + data.database);
+  const data = require("./src/data.json");
+  const db = require("./src/" + data.database);
 
-
-
-
-
-//
-// .evn CONTROLLERS Dependency Injection
-//
-let nomesCtrl = process.env.CONTROLLERS.split(", "); 
-for(let i = 0; i < nomesCtrl.length; i++) {
-  let path = "./src/controllers/" + nomesCtrl[i] + ".js";
-  let ctrl = require(path);
-  console.log("CONTROLLER injected: " + path);
-  ctrl.configurar(fastify);
-}
-
- 
-
-// Run the server and report out to the logs
-fastify.listen(process.env.PORT, '0.0.0.0', function(err, address) {
-  if (err) {
-    fastify.log.error(err);
-    process.exit(1);
+// .env CONTROLLERS Dependency Injection
+  let names = process.env.CONTROLLERS.split(","); 
+  for(let i = 0; i < names.length; i++) {
+    let path = `./src/controllers/${names[i]}.js`;
+    let controller = require(path);
+    controller.listen(fastify);
+    console.log("CONTROLLER injected: " + path);
   }
-  console.log(`Your app is listening on ${address}`);
-  fastify.log.info(`server listening on ${address}`);
-});
+
+
+
+
+/*
+    Run the server and report out to the logs
+*/ 
+  fastify.listen(process.env.PORT, '0.0.0.0', function(err, address) {
+    if (err) {
+      fastify.log.error(err);
+      process.exit(1);
+    }
+    console.log(`Your app is listening on ${address}`);
+  });
