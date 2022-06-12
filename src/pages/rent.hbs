@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- 
+    This is the main Handlebars template for the site 
+    - When the user visits the homepage or submits a choice the app calls the endpoints in server.js
+    - The server script passes data in here and the Handlebars code builds it into the HTML page
+  -->
+
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://glitch.com/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>{{seo.title}}</title>
+
+  <!-- Meta tags for SEO and social sharing -->
+  <link rel="canonical" href="{{seo.url}}">
+  <meta name="description" content="{{seo.description}}">
+  <meta property="og:title" content="{{seo.title}}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{seo.url}}">
+  <meta property="og:description" content="{{seo.description}}">
+  <meta property="og:image" content="{{seo.image}}">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Import the webpage's stylesheet -->
+  <link rel="stylesheet" href="/style.css" />
+
+</head>
+
+<body>
+  
+  <div class="topnav">
+    <a href="/books">Livros</a>
+    <a class="active" href="/rent">Aluguel</a>
+    <a href="/home">Minha Área</a>
+  </div>
+  <header>
+    <h1>Aluguel de Livros</h1>
+  </header>
+  <form method="post" action="/rent">
+    <label for="book">Escolha um Livro: </label>
+    <select id="book" name="book">
+      {{#each books}}
+        <option value="{{name}}">{{name}}</option>
+      {{/each}}
+    </select><br/><br/>
+    <label for="days">Duração em Dias: </label>
+    <input type="number" id="days" name="days" required /><br/><br/>
+    <button type="submit">Alugar</button>
+  </form>
+  
+</body>
+
+</html>

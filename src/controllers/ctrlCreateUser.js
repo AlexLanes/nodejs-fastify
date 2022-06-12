@@ -64,7 +64,7 @@ module.exports = {
       // Insert user in the database
         await db.createUser(user, password);
     
-    //Success
+    // Success
       console.log(`User: ${user} successfully created`);
       reply.view("/src/pages/login.hbs", params);
   }
