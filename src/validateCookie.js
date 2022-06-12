@@ -1,4 +1,4 @@
-const Base64 = require("js-base64");
+const crypto = require("crypto-js");
 const db     = require("./sqlite.js");
 
 module.exports = {
@@ -6,19 +6,19 @@ module.exports = {
   // Validate Authentication Cookie
   isValid: async(Authentication) => {
     console.log("exec isValid");
-    // Exists ?
+    // Don't Exists
       if( Authentication == null || Authentication == undefined ) {
         console.error("User not Authenticated")
         return false;
       }
-    // Valid ?
-      let credentials = Base64.decode(Authentication).split(":");
-      let result = await db.getPassword(credentials[0], credentials[1]);
-      if( result.length === 0 ){
+    // Not Valid
+      let credentials = Authentication.split(":");
+      let result = await db.getUser(credentials[0]);
+      if( result.length === 0 || crypto.AES.decrypt(result[0].password, process.env.AES_Salt).toString(crypto.enc.Utf8) != crypto.AES.decrypt(credentials[1], process.env.AES_Salt).toString(crypto.enc.Utf8) ){
         console.error("Bad Cookie Value")
         return false;
       }
-    
+    // Success
     return true
   }
 

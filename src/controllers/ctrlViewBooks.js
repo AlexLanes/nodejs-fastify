@@ -1,7 +1,6 @@
 const seo    = require("../seo.json");
 const db     = require("../sqlite.js");
 const cookie = require("../validateCookie.js");
-var servidor = null
 
 module.exports = {
   

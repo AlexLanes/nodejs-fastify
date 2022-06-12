@@ -1,8 +1,7 @@
 const seo    = require("../seo.json");
 const db     = require("../sqlite.js");
 const ctrl   = require("./ctrlViewBooks.js");
-const Base64 = require("js-base64");
-var servidor = null
+const crypto = require("crypto-js");
 
 module.exports = {
   
@@ -24,46 +23,35 @@ module.exports = {
   validateLogin: async(request, reply) => {
     console.log("exec validateLogin");
     // params
-      let params = { seo: seo };
-    
-    // Validate Length
-      let user = request.body.user;
-      if( user.length < 1 || user.length > 20 ){
-        console.error("Usuário deve possuir entre 1 e 20 Caracteres")
-        params.error = "Usuário deve possuir entre 1 e 20 Caracteres";
-        reply.view("/src/pages/login.hbs", params);
-        return;
-      }
-      let password = request.body.password;
-      if( password.length < 1 || password.length > 20 ){
-        console.error("Senha deve possuir entre 1 e 20 Caracteres")
-        params.error = "Senha deve possuir entre 1 e 20 Caracteres";
-        reply.view("/src/pages/login.hbs", params);
-        return;
-      }      
+      let params = { seo: seo };    
       
     // Validate Database
-      var result;
-      //Find if user exists
+      let user     = request.body.user;
+      let password = request.body.password;
+      let result   = await db.getUser(user);
+      //let encrypted = crypto.AES.encrypt(request.body.password, process.env.AES_Salt).toString();
+      //let decrypted = crypto.AES.decrypt(password, process.env.AES_Salt).toString(crypto.enc.Utf8);
+      
+      // Find if user exists
         result = await db.getUser(user);
         if( result.length === 0 ){
-          console.error("Usuário inexistente")
+          console.error("User does not exists")
           params.error = "Usuário inexistente";
           reply.view("/src/pages/login.hbs", params);
           return;
         }
-      //Find if password corresponds to user
-        result = await db.getPassword(user, password);
-        if( result.length === 0 ){
-          console.error("Senha incorreta")
+      // Find if password corresponds to user
+        if( crypto.AES.decrypt(result[0].password, process.env.AES_Salt).toString(crypto.enc.Utf8) != password ){
+          console.error("Wrong Password")
           params.error = "Senha incorreta";
           reply.view("/src/pages/login.hbs", params);
           return;
         }
     
     // Cookie Creation
-      let basic_authentication = Base64.encode( `${user}:${password}` );
-      reply.setCookie('Authentication', basic_authentication, {
+      password = crypto.AES.encrypt(password, process.env.AES_Salt).toString();
+      let credential = `${user}:${password}`;
+      reply.setCookie('Authentication', credential, {
         domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
         path: '/',
         maxAge: 60 * 22, // 22 minutes
@@ -71,7 +59,7 @@ module.exports = {
         sameSite: 'lax',
         httpOnly: true
       });
-      request.cookies.Authentication = basic_authentication;
+      request.cookies.Authentication = credential;
     
     // Success
       console.log(`User: ${user} successfully logged in`);
