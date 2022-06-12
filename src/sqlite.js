@@ -8,7 +8,7 @@
 const fs = require("fs");
 
 // Initialize the database
-const dbFile = "./.data/users.db";
+const dbFile = "./.data/library.db";
 const exists = fs.existsSync(dbFile);
 const sqlite3 = require("sqlite3").verbose();
 const dbWrapper = require("sqlite");
@@ -24,22 +24,32 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
 
     // We use try and catch blocks throughout to handle any database errors
     try {
-      // The async / await syntax lets us write the db operations in a way that won't block the app
+      // Database doesn't exist yet
       if (!exists) {
-        // Database doesn't exist yet - create users table
-        console.log("Criando o Database users");
-        await db.run(
-          "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, user VARCHAR[20], password VARCHAR[20])"
-        );
-        // Add default Admin user to the table
-        await db.run(
-          `INSERT INTO users (user, password) VALUES ("Admin", "${process.env.ADMIN_PASSWORD}")`
-        );
+        // Create users table
+          console.log("Criando o Database users");
+          await db.run(
+            "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, user VARCHAR[20], password VARCHAR[20])"
+          );
+          // Add default Admin user to the table
+          await db.run(
+            `INSERT INTO users (user, password) VALUES ("Admin", "${process.env.ADMIN_PASSWORD}")`
+          );
+        // Create books table
+          console.log("Criando o Database books");
+          await db.run(
+            "CREATE TABLE books (isbn INTEGER PRIMARY KEY, name VARCHAR[40], author VARCHAR[40], quantity INTEGER)"
+          );
+          // Add default books to the table
+          await db.run(
+            "INSERT INTO books (isbn, name, author, quantity) VALUES (8532530788, 'Harry Potter e a Pedra Filosofal', 'J.K. Rowling', 1), (8556510787, 'A Guerra dos Tronos', 'GEORGE R. R. MARTIN', 2), (8599296361, 'A cabana', 'William Paul Young', 3)"
+          );
 
         // We have a database already - write users records to log for info
       } else {
         console.log("Database already exists");
-        console.log( await db.all("SELECT * FROM users") )
+        //console.log( await db.all("SELECT * FROM users") )
+        //console.log( await db.all("SELECT * FROM books") )
       }
     } catch (dbError) {
       console.error(dbError);
@@ -83,6 +93,19 @@ module.exports = {
       await db.run(
         `INSERT INTO users (user, password) VALUES ("${user}", "${password}")`
       );
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
+  // Get all books in the database
+  getBooks: async() => {
+    console.log("exec getBooks");
+    // We use a try catch block in case of db errors
+    try {
+      let result = await db.all("SELECT * FROM books");
+      return result;
     } catch (dbError) {
       // Database connection error
       console.error(dbError);

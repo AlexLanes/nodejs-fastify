@@ -14,7 +14,8 @@
     "point-of-view": "^5.2.0",
     "sqlite": "^4.1.1",
     "sqlite3": "^5.0.8",
-    "fastify-cookie": "^5.7.0"
+    "fastify-cookie": "^5.7.0",
+    "js-base64": "^3.7.2"
   },
   "engines": {
     "node": "12.x"

@@ -41,6 +41,21 @@ module.exports = {
           reply.view("/src/pages/registration.hbs", params);
           return;
         }
+      // Basic Auth Exception
+        if( user.includes(":") ){
+          console.error("Caracter especial não permitido")
+          params.error = "Caracter especial não permitido";
+          reply.view("/src/pages/registration.hbs", params);
+          return;
+        }
+    
+    // Basic Auth Exception
+      if( user.includes(":") ){
+        console.error("Caracter especial não permitido")
+        params.error = "Caracter especial não permitido";
+        reply.view("/src/pages/registration.hbs", params);
+        return;
+      }
       
     // Database
       // Find if user exists

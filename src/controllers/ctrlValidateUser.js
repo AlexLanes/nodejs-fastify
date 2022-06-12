@@ -1,5 +1,7 @@
-const seo = require("../seo.json");
-const db  = require("../sqlite.js");
+const seo    = require("../seo.json");
+const db     = require("../sqlite.js");
+const ctrl   = require("./ctrlViewBooks.js");
+const Base64 = require("js-base64");
 var servidor = null
 
 module.exports = {
@@ -38,7 +40,7 @@ module.exports = {
         params.error = "Senha deve possuir entre 1 e 20 Caracteres";
         reply.view("/src/pages/login.hbs", params);
         return;
-      }
+      }      
       
     // Validate Database
       var result;
@@ -60,8 +62,8 @@ module.exports = {
         }
     
     // Cookie Creation
-      let now = Date.now();
-      reply.setCookie('Authentication', now, {
+      let basic_authentication = Base64.encode( `${user}:${password}` );
+      reply.setCookie('Authentication', basic_authentication, {
         domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
         path: '/',
         maxAge: 60 * 22, // 22 minutes
@@ -69,10 +71,11 @@ module.exports = {
         sameSite: 'lax',
         httpOnly: true
       });
+      request.cookies.Authentication = basic_authentication;
     
     // Success
       console.log(`User: ${user} successfully logged in`);
-      reply.view("/src/pages/books.hbs", params);
+      await ctrl.viewBooks(request, reply);
   }
   
 };

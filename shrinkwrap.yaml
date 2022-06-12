@@ -4,6 +4,7 @@ dependencies:
   fastify-formbody: 5.3.0
   fastify-static: 4.7.0
   handlebars: 4.7.7
+  js-base64: 3.7.2
   point-of-view: 5.3.0
   sqlite: 4.1.1
   sqlite3: 5.0.8
@@ -666,6 +667,10 @@ packages:
     optional: true
     resolution:
       integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
+  /js-base64/3.7.2:
+    dev: false
+    resolution:
+      integrity: sha512-NnRs6dsyqUXejqk/yv2aiXlAvOs56sLkX6nUdeaNezI5LFFLlsZjOThmwnrcwh5ZZRwZlCMnVAY3CvhIhoVEKQ==
   /json-schema-traverse/0.4.1:
     dev: false
     resolution:
@@ -1350,6 +1355,7 @@ specifiers:
   fastify-formbody: ^5.2.0
   fastify-static: ^4.6.1
   handlebars: ^4.7.7
+  js-base64: ^3.7.2
   point-of-view: ^5.2.0
   sqlite: ^4.1.1
   sqlite3: ^5.0.8

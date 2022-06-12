@@ -31,7 +31,34 @@
 </head>
 
 <body>
-    <h1>Main Page</h1>
+  <div class="topnav">
+    <a class="active" href="/books">Livros</a>
+    <a href="/rent">Aluguel</a>
+    <a href="/home">Minha Área</a>
+  </div>
+  <header>
+    <h1>Livros Disponíveis</h1>
+  </header>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ISBN</th>
+        <th>Nome</th>
+        <th>Autor</th>
+        <th>Estoque</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each books}}
+        <tr>
+          <td>{{isbn}}</td>
+          <td>{{name}}</td>
+          <td>{{author}}</td>
+          <td>{{quantity}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </body>
 
 </html>

@@ -6,14 +6,14 @@ var servidor = null
 module.exports = {
   
   listen: async(servidor) => {
-    // GET on /books 
-    servidor.get("/books", module.exports.viewBooks);
-    // POST on /books
-    //servidor.post("/books", module.exports.viewBooks);
+    // GET on /rent
+    servidor.get("/rent", module.exports.viewRent);
+    // POST on /rent
+    //servidor.post("/rent", module.exports.viewRent);
   },
   
-  viewBooks: async(request, reply) => {
-    console.log("exec viewBooks");
+  viewRent: async(request, reply) => {
+    console.log("exec viewRent");
     // params
       let params = request.query.raw ? {} : { seo: seo };
     // Validate Authentication Cookie
@@ -23,10 +23,8 @@ module.exports = {
         reply.view("/src/pages/login.hbs", params);
         return;
       }
-    // Acessing book's table
-      params.books = await db.getBooks();
-    // Show books.hbs
-      reply.view("/src/pages/books.hbs", params);
-  }
-  
+    // Show login.hbs
+      reply.view("/src/pages/rent.hbs", params);
+  },
+
 }
