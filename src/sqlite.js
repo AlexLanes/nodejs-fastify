@@ -42,7 +42,7 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
           );
           // Add default books to the table
           await db.run(
-            "INSERT INTO books (isbn, name, author, quantity) VALUES (8532530788, 'Harry Potter e a Pedra Filosofal', 'J.K. Rowling', 1), (8556510787, 'A Guerra dos Tronos', 'GEORGE R. R. MARTIN', 2), (8599296361, 'A cabana', 'William Paul Young', 3)"
+            "INSERT INTO books (isbn, name, author, quantity) VALUES (8532530788, 'Harry Potter e a Pedra Filosofal', 'J.K. Rowling', 1), (8556510787, 'A Guerra dos Tronos', 'GEORGE R. R. MARTIN', 11), (8599296361, 'A Cabana', 'William Paul Young', 5)"
           );
         
         // Create rents table
@@ -92,11 +92,15 @@ module.exports = {
   },
   
   // Get a book in the database
-  getBook: async(name) => {
+  getBook: async(parameter) => {
     console.log("exec getBook");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all(`SELECT * FROM books WHERE name="${name}"`);
+      let where;
+      typeof(parameter) == "string"
+        ? where = `name="${parameter}"`
+        : where = `isbn=${parameter}`
+      let result = await db.all(`SELECT * FROM books WHERE ${where}`);
       return result;
     } catch (dbError) {
       // Database connection error
@@ -109,7 +113,7 @@ module.exports = {
     console.log("exec getBooks");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all("SELECT * FROM books WHERE quantity > 0");
+      let result = await db.all("SELECT * FROM books WHERE quantity > 0 ORDER BY name");
       return result;
     } catch (dbError) {
       // Database connection error
@@ -154,12 +158,37 @@ module.exports = {
     }
   },
   
+  // Create a Rent in the database
+  duplicateRent: async(id_user, name) => {
+    console.log("exec duplicateRent");
+    // We use a try catch block in case of db errors
+    try {
+      let result = await db.all(`SELECT 'b.name' FROM rents r JOIN books b ON r.isbn = b.isbn WHERE r.fk_user = ${id_user} AND b.name = '${name}'`);
+      return result;
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
+  // Create a Rent in the database
+  deleteRent: async(id_user, isbn) => {
+    console.log("exec endRent");
+    // We use a try catch block in case of db errors
+    try {
+      await db.run(`DELETE FROM rents WHERE fk_user = ${id_user} AND isbn = ${isbn}`);
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
   // Get all Rents from User in the database
   getUserRents: async(id_user) => {
     console.log("exec getUserRents");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all(`SELECT * FROM rents WHERE fk_user = ${id_user}`);
+      let result = await db.all(`SELECT b.name, r.isbn, STRFTIME('%d/%m/%Y', r.end_date) as end_date FROM rents r JOIN books b ON r.isbn = b.isbn WHERE r.fk_user = ${id_user} ORDER BY end_date`);
       return result;
     } catch (dbError) {
       // Database connection error

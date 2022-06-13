@@ -49,6 +49,15 @@ module.exports = {
     // id from user
       let result  = await db.getUser(user);
       let id_user = result[0].id; 
+    // Validate Duplication of rent
+      result = await db.duplicateRent(id_user, book);
+      if( result.length != 0 ){
+        console.error("Duplicated Rent")
+        params.error = "Usuário já fez o aluguel desse livro";
+        params.books = await db.getBooks();
+        reply.view("/src/pages/rent.hbs", params);
+        return;
+      }
     // isbn and quantity of book
       result   = await db.getBook(book);
       let isbn = result[0].isbn;

@@ -5,14 +5,14 @@ const cookie = require("../validateCookie.js");
 module.exports = {
   
   listen: async(servidor) => {
-    // GET on /home
-    servidor.get("/home", module.exports.viewHome);
-    // POST on /home
-    servidor.post("/home", module.exports.viewHome);
+    // GET on /rent/end
+    servidor.get("/rent/end", module.exports.endRent);
+    // POST on /rent/end
+    //servidor.post("/rent/end", module.exports.endRent);
   },
   
-  viewHome: async(request, reply) => {
-    console.log("exec viewHome");
+  endRent: async(request, reply) => {
+    console.log("exec endRent");
     // params
       let params = request.query.raw ? {} : { seo: seo };
     // Validate Authentication Cookie
@@ -23,16 +23,25 @@ module.exports = {
         return;
       }
     
+    // Query Parameter
+      let isbn = request.query.isbn;
     // is Admin ?
       let user = request.cookies.Authentication.split(":")[0];
       user == "Admin" ? params.admin = "Admin": {};
     // User id
       let result  = await db.getUser(user);
       let id_user = result[0].id;
-    // User's Rents
+    // End Rent
+      await db.deleteRent(id_user, isbn);
+    // Update Books
+      result = await db.getBook(parseInt(isbn));
+      let quantity = result[0].quantity + 1;
+      await db.updateBook(isbn, quantity);
+    // New user's Rents
       params.rents = await db.getUserRents(id_user);
     // Success
+      console.log(`User: ${request.cookies.Authentication.split(":")[0]} returned a book`);
       reply.view("/src/pages/home.hbs", params);
-  },
-
+  }
+  
 }
