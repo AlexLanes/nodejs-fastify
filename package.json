@@ -21,7 +21,7 @@
     "node": "12.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/hello-sqlite"
+    "url": "https://github.com/AlexLanes/nodejs-fastify"
   },
   "license": "MIT",
   "keywords": [
