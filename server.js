@@ -52,7 +52,7 @@
   for( let handlebar of process.env.HANDLEBARS.split(",") ){
     let directory = `${__dirname}/src/pages/handlebars/${handlebar}.hbs`;
     hbs.registerPartial( handlebar, fs.readFileSync(directory, 'utf8') );
-    console.log(`HANDLEBAR injected: ${directory}`);
+    console.log(`HANDLEBAR injected:  ${directory}`);
   }
 
 // .env CONTROLLERS Dependency Injection

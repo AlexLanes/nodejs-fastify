@@ -22,7 +22,8 @@
     box-shadow:0px 0px 50px 75px rgba(230,229,217,0.24);
     text-align:center;
     width:250px;
-    height:300px;
+    max-height:333px;
+    min-height:300px;
   }
   .form_login form label{
     display: block;
@@ -69,6 +70,11 @@
     color:#ffffff;
     background-color:transparent;
   }
+  .form_login form i{
+    position:absolute;
+  }
+
+
 
 /* topnav */
   .topnav {
@@ -133,6 +139,8 @@
     top: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
+    min-width:500px;
+    max-width:555px;
   }
   .books header h1{
     font-style:italic;
