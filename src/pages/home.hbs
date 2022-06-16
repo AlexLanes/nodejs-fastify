@@ -23,37 +23,23 @@
   </head>
 
   <body>
+    <!-- Top Navigation Bar -->
     <div class="topnav">
-      <a class="active" href="/books">Livros</a>
+      <a href="/books">Livros</a>
       <a href="/rent">Aluguel</a>
-      <a href="/home">Minha Área</a>
+      <a class="active" href="/home">Minha Área</a>
       <a class="sair" href="/">Sair</a>
     </div>
-    <div class="books">
-      <header>
-        <h1>Livros no Estoque</h1>
-      </header>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>ISBN</th>
-            <th>Nome</th>
-            <th>Autor</th>
-            <th>Estoque</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each books}}
-            <tr>
-              <td>{{isbn}}</td>
-              <td>{{name}}</td>
-              <td>{{author}}</td>
-              <td class="quantity">{{quantity}}</td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
+    
+    <!-- Admin View -->
+    {{#if admin}}
+      {{> admin_home}}
+    
+    <!-- User View -->
+    {{else}}
+      {{> user_home}}
+    
+    {{/if}}
   </body>
 
 </html>

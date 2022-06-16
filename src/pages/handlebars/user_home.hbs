@@ -1,0 +1,23 @@
+<header>
+  <h1>Meus Aluguéis</h1>
+</header>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ISBN</th>
+      <th>Nome</th>
+      <th>Entrega</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each rents}}
+      <tr>
+        <td>{{isbn}}</td>
+        <td>{{name}}</td>
+        <td>{{end_date}}</td>
+        <td><a href="/rent/end?isbn={{isbn}}">X</a></td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

@@ -1,7 +1,6 @@
-const seo    = require("../seo.json");
-const db     = require("../sqlite.js");
-const cookie = require("../validateCookie.js");
-var servidor = null
+const seo      = require("../json/seo.json");
+const db       = require("../javascript/sqlite.js");
+const validate = require("../javascript/validate.js");
 
 module.exports = {
   
@@ -17,15 +16,16 @@ module.exports = {
     // params
       let params = request.query.raw ? {} : { seo: seo };
     // Validate Authentication Cookie
-      let isValid = await cookie.isValid(request.cookies.Authentication);
+      let isValid = await validate.cookie(request.cookies.Authentication);
       if( !isValid ){
         params.error = "Usuário deve se autenticar";
         reply.view("/src/pages/login.hbs", params);
         return;
       }
+    
     // Acessing book's table
       params.books = await db.getBooks();
-    // Show books.hbs
+    // Success
       reply.view("/src/pages/books.hbs", params);
   }
   

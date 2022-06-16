@@ -1,0 +1,52 @@
+<header>
+  <h1>Espaço Admin</h1>
+</header>
+<div class="admin_alugueis">
+  <header>
+    <h1>Todos os Aluguéis</h1>
+  </header>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ISBN</th>
+        <th>Nome</th>
+        <th>Entrega</th>
+        <th>Usuário</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each rents}}
+        <tr>
+          <td>{{isbn}}</td>
+          <td>{{name}}</td>
+          <td>{{end_date}}</td>
+          <td>{{user}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+<div class="admin_cadastrar">
+  <form method="post" action="/home">
+    <h1>Cadastrar Novo Livro</h1>
+    <!-- ISBN -->
+      <label>ISBN</label><br/>
+      <input type="number" id="isbn" name="isbn" required /><br/>
+    <!-- Name -->
+      <label>Nome</label><br/>
+      <input type="text" id="name" name="name" minlength="1" maxlength="40" required /><br/>
+    <!-- Author -->
+      <label>Autor</label><br/>
+      <input type="text" id="author" name="author" minlength="1" maxlength="40" required /><br/>
+    <!-- Quantity -->
+      <label>Quantidade</label><br/>
+      <input type="number" id="quantity" name="quantity" min="1" required /><br/><br/>
+    <!-- Create Error label if exists -->
+      {{#if error}}
+        <label>Erro: {{error}}</label>
+        <br/><br/>
+      {{/if}}
+    <!-- Input Button -->
+      <button type="submit">Cadastrar</button><br/>
+  </form>
+</div>
