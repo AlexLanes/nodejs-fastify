@@ -1,5 +1,5 @@
 {
-  "name": "hello-sqlite",
+  "name": "faeterj-library",
   "version": "0.0.1",
   "description": "A Node app with SQLite database, instantly up and running.",
   "main": "server.js",

@@ -1,5 +1,5 @@
-const seo    = require("../seo.json");
-const db     = require("../sqlite.js");
+const seo    = require("../json/seo.json");
+const db     = require("../javascript/sqlite.js");
 const crypto = require("crypto-js");
 
 module.exports = {

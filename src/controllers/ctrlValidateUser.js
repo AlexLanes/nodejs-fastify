@@ -1,5 +1,5 @@
-const seo    = require("../seo.json");
-const db     = require("../sqlite.js");
+const seo    = require("../json/seo.json");
+const db     = require("../javascript/sqlite.js");
 const ctrl   = require("./ctrlViewBooks.js");
 const crypto = require("crypto-js");
 
@@ -17,7 +17,14 @@ module.exports = {
     // params
       let params = { seo: seo };
     // Show login.hbs
-      reply.view("/src/pages/login.hbs", params);
+      reply.view("/src/pages/login.hbs", params).
+            clearCookie('Authentication', {
+              domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
+              path: '/',
+              secure: true,
+              sameSite: 'lax',
+              httpOnly: true
+            });
   },
   
   validateLogin: async(request, reply) => {
@@ -29,8 +36,6 @@ module.exports = {
       let user     = request.body.user;
       let password = request.body.password;
       let result   = await db.getUser(user);
-      //let encrypted = crypto.AES.encrypt(request.body.password, process.env.AES_Salt).toString();
-      //let decrypted = crypto.AES.decrypt(password, process.env.AES_Salt).toString(crypto.enc.Utf8);
       
       // Find if user exists
         result = await db.getUser(user);

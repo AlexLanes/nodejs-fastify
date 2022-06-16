@@ -58,6 +58,7 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
         //console.log( await db.all("SELECT * FROM books") )
         //console.log( await db.all("SELECT * FROM rents") )
       }
+      
     } catch (dbError) {
       console.error(dbError);
     } 
@@ -73,6 +74,7 @@ module.exports = {
     try {
       let result = db.all(`SELECT * FROM users WHERE user="${user}"`);
       return result;
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -85,6 +87,7 @@ module.exports = {
     // We use a try catch block in case of db errors
     try {
       await db.run(`INSERT INTO users (user, password) VALUES ("${user}", "${password}")`);
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -98,10 +101,11 @@ module.exports = {
     try {
       let where;
       typeof(parameter) == "string"
-        ? where = `name="${parameter}"`
+        ? where = `lower(name)=lower("${parameter}")`
         : where = `isbn=${parameter}`
       let result = await db.all(`SELECT * FROM books WHERE ${where}`);
       return result;
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -115,6 +119,7 @@ module.exports = {
     try {
       let result = await db.all("SELECT * FROM books WHERE quantity > 0 ORDER BY name");
       return result;
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -127,6 +132,20 @@ module.exports = {
     // We use a try catch block in case of db errors
     try {
       await db.run(`UPDATE books SET quantity=${quantity} WHERE isbn=${isbn}`);
+      
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
+  // Update book quantity in the database
+  createBook: async(isbn, name, author, quantity) => {
+    console.log("exec updateBook");
+    // We use a try catch block in case of db errors
+    try {
+      await db.run(`INSERT INTO books (isbn, name, author, quantity) VALUES (${isbn}, ${name}, ${author}, ${quantity})`);
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -140,6 +159,7 @@ module.exports = {
     try {
       let result = await db.all("SELECT * FROM rents");
       return result;
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -152,6 +172,7 @@ module.exports = {
     // We use a try catch block in case of db errors
     try {
       await db.run(`INSERT INTO rents (fk_user, isbn, end_date) VALUES (${id_user}, ${isbn}, date('now', '+${days} day'))`);
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -165,6 +186,7 @@ module.exports = {
     try {
       let result = await db.all(`SELECT 'b.name' FROM rents r JOIN books b ON r.isbn = b.isbn WHERE r.fk_user = ${id_user} AND b.name = '${name}'`);
       return result;
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -177,6 +199,7 @@ module.exports = {
     // We use a try catch block in case of db errors
     try {
       await db.run(`DELETE FROM rents WHERE fk_user = ${id_user} AND isbn = ${isbn}`);
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -188,8 +211,12 @@ module.exports = {
     console.log("exec getUserRents");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all(`SELECT b.name, r.isbn, STRFTIME('%d/%m/%Y', r.end_date) as end_date FROM rents r JOIN books b ON r.isbn = b.isbn WHERE r.fk_user = ${id_user} ORDER BY end_date`);
+      let result;
+      id_user != 1
+        ? result = await db.all(`SELECT b.name, r.isbn, STRFTIME('%d/%m/%Y', r.end_date) as end_date, u.user FROM rents r JOIN books b ON r.isbn = b.isbn JOIN users u on r.fk_user = u.id WHERE r.fk_user = ${id_user} ORDER BY end_date`)
+        : result = await db.all(`SELECT b.name, r.isbn, STRFTIME('%d/%m/%Y', r.end_date) as end_date, u.user FROM rents r JOIN books b ON r.isbn = b.isbn JOIN users u on r.fk_user = u.id ORDER BY end_date`);
       return result;
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
