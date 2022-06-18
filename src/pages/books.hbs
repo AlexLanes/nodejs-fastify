@@ -20,20 +20,27 @@
 
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
+    <style> body{ background-image:linear-gradient(to right, #283c86 0%, #45a247 100%);} </style>
   </head>
 
   <body>
+    <!-- Top Navigation Bar -->
     <div class="topnav">
       <a class="active" href="/books">Livros</a>
       <a href="/rent">Aluguel</a>
       <a href="/home">Minha Área</a>
       <a class="sair" href="/">Sair</a>
     </div>
+    
+    <!-- Book View -->
     <div class="books">
+      
+      <!-- Title -->
       <header>
         <h1>Livros no Estoque</h1>
       </header>
-      <table class="table">
+      <!-- Table -->
+      <table class="books_table">
         <thead>
           <tr>
             <th>ISBN</th>
@@ -53,6 +60,7 @@
           {{/each}}
         </tbody>
       </table>
+      
     </div>
   </body>
 

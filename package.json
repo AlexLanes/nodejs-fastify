@@ -15,7 +15,8 @@
     "sqlite": "^4.1.1",
     "sqlite3": "^5.0.8",
     "fastify-cookie": "^5.7.0",
-    "crypto-js": "^4.1.1"
+    "crypto-js": "^4.1.1",
+    "random": "^3.0.6"
   },
   "engines": {
     "node": "12.x"

@@ -11,6 +11,8 @@ const exists    = fs.existsSync(dbFile);
 const sqlite3   = require("sqlite3").verbose();
 const dbWrapper = require("sqlite");
 const crypto    = require("crypto-js");
+const random    = require('random');
+const data_set  = require('./data_set.json');
 let db;
 
 /* 
@@ -26,42 +28,53 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
       // Database doesn't exist yet
       if (!exists) {
         // Create users table
-          console.log("Creating Table users");
+          console.log("Creating table users");
           await db.run(
             "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, user VARCHAR[20], password VARCHAR[222])"
           );
-          // Add default Admin user to the table
+        // Add default Admin user to the table
           await db.run(
             `INSERT INTO users (user, password) VALUES ("Admin", "${crypto.AES.encrypt(process.env.ADMIN_PASSWORD, process.env.AES_Salt).toString()}")`
           );
         
         // Create books table
-          console.log("Creating Table books");
+          console.log("Creating table books");
           await db.run(
-            "CREATE TABLE books (isbn INTEGER PRIMARY KEY, name VARCHAR[40], author VARCHAR[40], quantity INTEGER)"
-          );
-          // Add default books to the table
-          await db.run(
-            "INSERT INTO books (isbn, name, author, quantity) VALUES (8532530788, 'Harry Potter e a Pedra Filosofal', 'J.K. Rowling', 1), (8556510787, 'A Guerra dos Tronos', 'GEORGE R. R. MARTIN', 11), (8599296361, 'A Cabana', 'William Paul Young', 5)"
-          );
-        
+            `CREATE TABLE books (
+              isbn     TEXT    NOT NULL UNIQUE CHECK (length(isbn) = 10),
+              name     TEXT    NOT NULL UNIQUE                          , 
+              author   TEXT    NOT NULL                                 , 
+              pages    INTEGER NOT NULL        CHECK (pages        >= 1),
+              quantity INTEGER NOT NULL        CHECK (quantity     >= 0) 
+            )`
+          ); 
+        // Add books from data_set to the table
+          for( let book of data_set ){
+            try{
+              await db.run(`INSERT INTO books VALUES ("${book.isbn}", "${book.title}", "${book.authors.join(';')}", ${book.pageCount}, ${random.int(1, 22)})`);
+            } catch(e) {}
+          }
+          let result = await db.all("SELECT COUNT(*) as counter FROM books");
+          console.log(`${result[0].counter} books inserted`);
+                  
         // Create rents table
-          console.log("Creating Table rents");
+          console.log("Creating table rents");
           await db.run(
             "CREATE TABLE rents (fk_user INTEGER, isbn INTEGER, end_date DATE)"
           );
 
-        // We have a database already - log for info
+      // We have a database already - log for info
       } else {
         console.log("Database already exists");
-        //console.log( await db.all("SELECT * FROM users") )
-        //console.log( await db.all("SELECT * FROM books") )
-        //console.log( await db.all("SELECT * FROM rents") )
+        //console.log( await db.all("SELECT * FROM users") );
+        //console.log( await db.all("SELECT * FROM books") );
+        //console.log( await db.all("SELECT * FROM rents") );
       }
       
     } catch (dbError) {
       console.error(dbError);
     } 
+  
   });
 
 // Our server script will call these methods to connect to the db

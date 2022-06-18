@@ -1,7 +1,7 @@
 <header>
   <h1>Meus Aluguéis</h1>
 </header>
-<table class="table">
+<table>
   <thead>
     <tr>
       <th>ISBN</th>
@@ -16,7 +16,11 @@
         <td>{{isbn}}</td>
         <td>{{name}}</td>
         <td>{{end_date}}</td>
-        <td><a href="/rent/end?isbn={{isbn}}">X</a></td>
+        <td>
+          <a class="remove" href="/rent/end?isbn={{isbn}}">
+            <i class="fa-solid fa-xmark"></i>
+          </a>
+        </td>
       </tr>
     {{/each}}
   </tbody>

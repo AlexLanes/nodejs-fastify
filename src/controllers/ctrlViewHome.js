@@ -1,14 +1,14 @@
-const seo      = require("../json/seo.json");
-const db       = require("../javascript/sqlite.js");
-const validate = require("../javascript/validate.js");
+const seo      = require("../util/seo.json");
+const db       = require("../database/sqlite.js");
+const validate = require("../database/validate.js");
 
 module.exports = {
   
-  listen: async(servidor) => {
+  listen: async(app) => {
     // GET on /home
-    servidor.get("/home", module.exports.viewHome);
+    app.get("/home", module.exports.viewHome);
     // POST on /home
-    servidor.post("/home", module.exports.createBook);
+    app.post("/home", module.exports.createBook);
   },
   
   viewHome: async(request, reply) => {

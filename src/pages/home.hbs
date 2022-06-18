@@ -20,6 +20,8 @@
 
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
+    <style> body{ background-image:linear-gradient(to right, #283c86 0%, #45a247 100%);} </style>
+    <script src="https://kit.fontawesome.com/edfaca1bfa.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
@@ -37,7 +39,9 @@
     
     <!-- User View -->
     {{else}}
-      {{> user_home}}
+      <div class="user_home">
+        {{> user_home}}
+      </div>
     
     {{/if}}
   </body>

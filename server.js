@@ -36,14 +36,14 @@
   });
 
 // Load and parse SEO data
-  const seo = require("./src/json/seo.json");
+  const seo = require("./src/util/seo.json");
   if (seo.url === "glitch-default") {
     seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
   }
 
 // We use a module for handling database operations in /src
-  const data = require("./src/json/data.json");
-  const db   = require("./src/javascript/" + data.database);
+  const data = require("./src/util/data.json");
+  const db   = require("./src/database/" + data.database);
 
 // File System Dependency
   const fs = require("fs"); 
