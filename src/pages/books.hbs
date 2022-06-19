@@ -24,13 +24,8 @@
     <style> body{ background-image:linear-gradient(to right, #283c86 0%, #45a247 100%);} </style>
     <!-- Icons -->
     <script src="https://kit.fontawesome.com/edfaca1bfa.js" crossorigin="anonymous"></script>
-    <!-- Active top navigation bar -->
-    <script>
-      window.onload = function(){
-        let a = document.getElementById("topnav_books");
-        a.setAttribute("class", "active");
-      }
-    </script>
+    <!-- Script -->
+    <script src="/script.js"></script>
   </head>
 
   <body>
@@ -42,7 +37,7 @@
     {{/if}}
     
     <!-- View book -->
-    <div class="books">
+    <div class="books" id="current_state" state_name="books">
       <!-- Title -->
       <header>
         <h1>Livros no Estoque</h1>

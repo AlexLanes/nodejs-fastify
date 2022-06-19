@@ -1,22 +1,27 @@
-// Current root
-const root  = `${window.location.protocol}://${window.location.hostname}`;
-// Returns the path and filename of the current page
-const path  = window.location.pathname;
+// Globals
+  var root = `${window.location.protocol}://${window.location.hostname}`;
 
+// Functions
+  function replaceState(state){
+    // Current view state
+    window.history.replaceState({}, "", `/${state}`);
+  };
+  function activeTopNav(id){
+    // Active top nav
+    let topnav = document.getElementById(id);
+    topnav != null && topnav != undefined
+      ? topnav.setAttribute("class", "active")
+      : {};
+  };
+
+// After page load
 window.onload = function() {
-  // Globals
   const state = document.getElementById("current_state").getAttribute('state_name');
   
-  replaceState(state);
-  activeTopNav(state);
+  // Change state
+    replaceState(state);
+  
+  // Change active top nav
+    let id = `topnav_${state}`;
+    activeTopNav(id);
 }
-
-function replaceState(state){
-  // Current view state
-  window.history.replaceState({}, "", state);
-};
-
-function activeTopNav(state){
-  // Current view state
-  console.log(state);
-};

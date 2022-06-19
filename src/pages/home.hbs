@@ -24,25 +24,13 @@
     <style> body{ background-image:linear-gradient(to right, #283c86 0%, #45a247 100%);} </style>
     <!-- Icons -->
     <script src="https://kit.fontawesome.com/edfaca1bfa.js" crossorigin="anonymous"></script>
-    <!-- Active top navigation bar -->
-    <script>
-      window.onload = function(){
-        let a = document.getElementById("topnav_home");
-        a.setAttribute("class", "active");
-      }
-    </script>
+    <!-- Script -->
+    <script src="/script.js"></script>
   </head>
 
   <body>
     <!-- Top Navigation Bar -->
-    <div class="topnav">
-      <a href="/books">Livros</a>
-      <a href="/rent">Aluguel</a>
-      <a class="active" href="/home">Minha Área</a>
-      <a class="sair" href="/">
-        <i class="fa-solid fa-person-walking-arrow-right"></i>
-      </a>
-    </div>
+    {{> topnav}}
     <!-- Error -->
     {{#if error}}
       {{> error}}
@@ -50,11 +38,13 @@
     
     <!-- View admin home -->
     {{#if admin}}
-      {{> admin_home}}
+      <div class="admin_home" id="current_state" state_name="home">
+        {{> admin_home}}
+      </div>
     
     <!-- View user home -->
     {{else}}
-      <div class="user_home">
+      <div class="user_home" id="current_state" state_name="home">
         {{> user_home}}
       </div>
     
