@@ -1,6 +1,7 @@
 const crypto = require("crypto-js");
 const seo    = require("../util/seo.json");
 const db     = require("../database/sqlite.js");
+var params   = { seo: seo };
 
 module.exports = {
   
@@ -10,8 +11,6 @@ module.exports = {
   
   createRegistration: async(request, reply) => {
     console.log("exec createRegistration");
-    // Parameters
-      let params = { seo: seo };
     
     // Variables
       let user     = request.body.user;

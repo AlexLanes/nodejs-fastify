@@ -1,19 +1,16 @@
 const crypto = require("crypto-js");
 const seo    = require("../util/seo.json");
 const db     = require("../database/sqlite.js");
+var params   = { seo: seo };
 
 module.exports = {
   
   listen: async(fastify) => {
-    fastify.head("/", module.exports.validateCookie);
+    fastify.head("/validate/cookie", module.exports.validateCookie);
   },
   
-  // Validate authentication cookie
   validateCookie: async(request, reply) => {
     console.log("exec validateCookie");
-    // Parameters
-      let params = { seo: seo };  
-    
     // Cookie to authenticate
       let Authentication = request.cookies.Authentication;
     

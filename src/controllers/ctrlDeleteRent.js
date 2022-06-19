@@ -11,16 +11,18 @@ module.exports = {
   
   deleteRent: async(request, reply) => {
     console.log("exec deleteRent");
-      let user   = request.cookies.Authentication.split(":")[0];
-      user == "Admin" 
-        ? params.admin = "Admin"
-        : {};
     // Validate authentication cookie
       await ctrl.validateCookie(request, reply);
     
     // Variables
-      let isbn    = request.query.isbn;
+      let [user, password] = request.cookies.Authentication.split(":");
+      let isbn = request.query.isbn;
       let result, id_user, name, quantity;
+    
+    // Admin parameter
+      user == "Admin" 
+        ? params.admin = "Admin"
+        : {};
     
     // Validation
       // Find if user has rents

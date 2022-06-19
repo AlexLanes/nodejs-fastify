@@ -1,17 +1,16 @@
 const ctrl = require("./ctrlCookie.js");
 const seo  = require("../util/seo.json");
 const db   = require("../database/sqlite.js");
+var params = { seo: seo };
 
 module.exports = {
   
   listen: async(fastify) => {
-    fastify.post("/rent", module.exports.createRent);
+    fastify.post("/create/rent", module.exports.createRent);
   },
   
   createRent: async(request, reply) => {
     console.log("exec createRent");
-    // Parameters
-      let params = { seo: seo };
     // Validate authentication cookie
       await ctrl.validateCookie(request, reply);
     

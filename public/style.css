@@ -309,6 +309,9 @@
     background-color: #81bbcf;
     text-align: left;
   }
+  .user_home table thead tr .th_remove {
+    text-align: center;
+  }
   .user_home table tr th {
     color:#000000;
   }

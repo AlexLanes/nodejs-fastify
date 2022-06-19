@@ -13,7 +13,7 @@ const dbWrapper = require("sqlite");
 const crypto    = require("crypto-js");
 const random    = require('random');
 const data_set  = require('./data_set.json');
-let db;
+var db, dynamic, result;
 
 /* 
 We're using the sqlite wrapper so that we can make async / await connections
@@ -69,7 +69,7 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
               `);
             } catch(e) {}
           }
-          let result = await db.all("SELECT COUNT(*) as counter FROM books");
+          result = await db.all("SELECT COUNT(*) as counter FROM books");
           console.log(`${result[0].counter} books inserted`);
                   
         // Create rents table
@@ -104,7 +104,7 @@ module.exports = {
     console.log("exec db getUser");
     // We use a try catch block in case of db errors
     try {
-      let result = db.all(`
+      result = db.all(`
         SELECT * 
         FROM users 
         WHERE user="${user}"
@@ -139,7 +139,7 @@ module.exports = {
     console.log("exec db getBook");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all(`
+      result = await db.all(`
         SELECT * 
         FROM books 
         WHERE isbn="${isbn}"
@@ -157,7 +157,7 @@ module.exports = {
     console.log("exec db getBookName");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all(`
+      result = await db.all(`
         SELECT * 
         FROM books 
         WHERE lower(name)=lower("${name}")
@@ -175,7 +175,7 @@ module.exports = {
     console.log("exec db getBooks");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all(`
+      result = await db.all(`
         SELECT * 
         FROM books 
         WHERE quantity > 0 
@@ -252,7 +252,7 @@ module.exports = {
     console.log("exec db duplicatedRent");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all(`
+      result = await db.all(`
         SELECT * 
         FROM rents r 
         JOIN users u ON 
@@ -292,10 +292,9 @@ module.exports = {
     console.log("exec db getUserRents");
     // We use a try catch block in case of db errors
     try {
-      let dynamic, result;
       id_user >= 2
-        ? dynamic = `WHERE r.fk_user = ${id_user} ORDER BY end_date`
-        : dynamic = "ORDER BY end_date";
+        ? dynamic = `WHERE r.fk_user = ${id_user} ORDER BY end_date`  // User  = User rents
+        : dynamic = "ORDER BY end_date";                              // Admin = All rents
       result = await db.all(`
         SELECT 
           b.name, 
