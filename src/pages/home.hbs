@@ -20,24 +20,33 @@
 
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
+    <!-- Background color -->
+    <style> body{ background-image:linear-gradient(to right, #283c86 0%, #45a247 100%);} </style>
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/edfaca1bfa.js" crossorigin="anonymous"></script>
+    <!-- Script -->
+    <script src="/script.js"></script>
   </head>
 
   <body>
     <!-- Top Navigation Bar -->
-    <div class="topnav">
-      <a href="/books">Livros</a>
-      <a href="/rent">Aluguel</a>
-      <a class="active" href="/home">Minha Área</a>
-      <a class="sair" href="/">Sair</a>
-    </div>
+    {{> topnav}}
+    <!-- Message -->
+    {{#if message}}
+      {{> message}}
+    {{/if}}
     
-    <!-- Admin View -->
+    <!-- View admin home -->
     {{#if admin}}
-      {{> admin_home}}
+      <div class="admin_home" id="current_state" state_name="home">
+        {{> admin_home}}
+      </div>
     
-    <!-- User View -->
+    <!-- View user home -->
     {{else}}
-      {{> user_home}}
+      <div class="user_home" id="current_state" state_name="home">
+        {{> user_home}}
+      </div>
     
     {{/if}}
   </body>

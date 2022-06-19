@@ -20,20 +20,30 @@
 
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
+    <!-- Background color -->
+    <style> body{ background-image:linear-gradient(to right, #283c86 0%, #45a247 100%);} </style>
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/edfaca1bfa.js" crossorigin="anonymous"></script>
+    <!-- Script -->
+    <script src="/script.js"></script>
   </head>
 
   <body>
-    <div class="topnav">
-      <a class="active" href="/books">Livros</a>
-      <a href="/rent">Aluguel</a>
-      <a href="/home">Minha Área</a>
-      <a class="sair" href="/">Sair</a>
-    </div>
-    <div class="books">
+    <!-- Top Navigation Bar -->
+    {{> topnav}}
+    <!-- Message -->
+    {{#if message}}
+      {{> message}}
+    {{/if}}
+    
+    <!-- View book -->
+    <div class="books" id="current_state" state_name="books">
+      <!-- Title -->
       <header>
         <h1>Livros no Estoque</h1>
       </header>
-      <table class="table">
+      <!-- Table -->
+      <table class="books_table">
         <thead>
           <tr>
             <th>ISBN</th>

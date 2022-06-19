@@ -36,14 +36,14 @@
   });
 
 // Load and parse SEO data
-  const seo = require("./src/json/seo.json");
+  const seo = require("./src/util/seo.json");
   if (seo.url === "glitch-default") {
     seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
   }
 
 // We use a module for handling database operations in /src
-  const data = require("./src/json/data.json");
-  const db   = require("./src/javascript/" + data.database);
+  const data = require("./src/util/data.json");
+  const db   = require("./src/database/" + data.database);
 
 // File System Dependency
   const fs = require("fs"); 
@@ -57,10 +57,10 @@
 
 // .env CONTROLLERS Dependency Injection
   for( let ctrl of process.env.CONTROLLERS.split(",") ){
-    let directory  = `./src/controllers/${ctrl}.js`;
+    let directory  = `${__dirname}/src/controllers/${ctrl}.js`;
     let controller = require(directory);
     controller.listen(fastify);
-    console.log(`CONTROLLER injected: ${__dirname + directory.substring(1)}`);
+    console.log(`CONTROLLER injected: ${directory}`);
   }
 
 /*

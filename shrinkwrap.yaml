@@ -6,6 +6,7 @@ dependencies:
   fastify-static: 4.7.0
   handlebars: 4.7.7
   point-of-view: 5.3.0
+  random: 3.0.6
   sqlite: 4.1.1
   sqlite3: 5.0.8
 packages:
@@ -550,7 +551,7 @@ packages:
       node: '>=0.4.7'
     hasBin: true
     optionalDependencies:
-      uglify-js: 3.16.0
+      uglify-js: 3.16.1
     resolution:
       integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==
   /has-unicode/2.0.1:
@@ -1013,6 +1014,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==
+  /random/3.0.6:
+    dependencies:
+      seedrandom: 3.0.5
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-B53pp/8eFBxULg6sfQgjjmy3vZ2CWVt0Nk4OgkSpvmAf3VXfcEUgGASbNWbXiTiExWe8hCIf5HlddNHzrte9jg==
   /range-parser/1.2.1:
     dev: false
     engines:
@@ -1085,6 +1094,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Q5Z/97nbON5t/L/sH6mY2EacfjVGwrCcSi5D3btRO2GZ8pf1K1UN7Z9H5J57hjVU2Qzxr1xO+FmBhOvEkzCMmg==
+  /seedrandom/3.0.5:
+    dev: false
+    resolution:
+      integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==
   /semver-store/0.3.0:
     dev: false
     resolution:
@@ -1269,14 +1282,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
-  /uglify-js/3.16.0:
+  /uglify-js/3.16.1:
     dev: false
     engines:
       node: '>=0.8.0'
     hasBin: true
     optional: true
     resolution:
-      integrity: sha512-FEikl6bR30n0T3amyBh3LoiBdqHRy/f4H80+My34HOesOKyHfOsxAPAxOoqC0JUnC1amnO0IwkYC3sko51caSw==
+      integrity: sha512-X5BGTIDH8U6IQ1TIRP62YC36k+ULAa1d59BxlWvPUJ1NkW5L3FwcGfEzuVvGmhJFBu0YJ5Ge25tmRISqCmLiRQ==
   /unique-filename/1.1.1:
     dependencies:
       unique-slug: 2.0.2
@@ -1357,5 +1370,6 @@ specifiers:
   fastify-static: ^4.6.1
   handlebars: ^4.7.7
   point-of-view: ^5.2.0
+  random: ^3.0.6
   sqlite: ^4.1.1
   sqlite3: ^5.0.8

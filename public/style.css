@@ -1,8 +1,34 @@
 /* Import Google Fonts */
 @import url("//fonts.googleapis.com/css2?family=Bungee+Shade:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 @import url("//fonts.googleapis.com/css2?family=Butterfly+Kids:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("//fonts.googleapis.com/css2?family=Adamina:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 
-/* form */
+/* message */
+  .message {
+    position:fixed;
+    z-index:1122;
+    right:1%;
+    margin-left:0px;
+    bottom:80%;
+    width:auto !important;
+    height:auto !important;
+    top:auto;
+    left:auto;
+    font-family:'Trebuchet MS','Lucida Grande','Lucida Sans Unicode','Lucida Sans',Tahoma,sans-serif;
+    font-size:22px;
+    color:#f20707;
+    font-weight:600;
+    text-align:center;
+    box-shadow:none;
+    animation: 7s ease 0s normal forwards 1 hide_message;
+  }
+  @keyframes hide_message{
+    0%   { opacity:1; }
+    66%  { opacity:1; }
+    100% { opacity:0; }
+  }
+
+/* form_login */
   .form_login form{
     left: 50%;
     top: 50%;
@@ -74,12 +100,17 @@
     position:absolute;
   }
 
-
-
 /* topnav */
   .topnav {
     background-color: #333333;
     overflow: hidden;
+    position: fixed;
+    z-index: 1122;
+    width:99%;
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
   }
   .topnav a {
     float: left;
@@ -90,20 +121,25 @@
     font-size: 17px;
     padding-left:55px;
     padding-right:55px;
+    font-family:'Courier New',Courier,'Lucida Sans Typewriter','Lucida Typewriter',monospace;
+    letter-spacing:1px;
   }
   .topnav a:hover {
     background-color: #dddddd;
     color: black;
+    transition-duration: 1.0s;
   }
   .topnav .active {
     background-color: #04AA6D;
   }
   .topnav .sair {
     float:right;
+    color:#f20707;
+    font-weight:600;
   }
 
-/* Table */
-  .table {
+/* books_table */
+  .books_table {
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
@@ -111,26 +147,35 @@
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   }
-  .table thead tr {
-    background-color: #009879;
-    color: #ffffff;
+  .books_table thead tr {
+    background-color: #81bbcf;
     text-align: left;
   }
-  .table th,
-  .table td {
-    padding: 12px 15px;
+  .books_table tr th {
+    color:#000000;
   }
-  .table tbody tr {
+  .books_table th,
+  .books_table td {
+    padding: 12px 15px;
+    color:#ecf0f1;
+    font-family:'Adamina', serif;
+    font-size:12px;
+    text-decoration:none;
+  }
+  .books_table tbody tr {
     border-bottom: 1px solid #dddddd;
   }
-  .table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+  .books_table tbody tr:nth-of-type(even) {
+    background-color:rgba(137,179,235,0.19);
   }
-  .table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+  .books_table tbody tr:last-of-type {
+    border-bottom: 2px solid #81bbcf;
   }
-  .table tr .quantity{
+  .books_table tr .quantity{
     text-align:center;
+  }
+  .books_table tr a{
+    font-size:17px;
   }
 
 /* Books */
@@ -138,7 +183,7 @@
     left: 50%;
     top: 50%;
     position: absolute;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -55px);
     min-width:500px;
     max-width:555px;
   }
@@ -152,4 +197,148 @@
     letter-spacing:2.2px;
     word-spacing:2.2px;
     margin-top:-50px;
+    transform: translatey(-33px);
+  }
+
+/* rent */
+  .rent {
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    min-width:500px;
+    max-width:555px;
+  }
+  .rent header h1{
+    font-style:italic;
+    font-size:44px;
+    font-family:'Courier New',Courier,'Lucida Sans Typewriter','Lucida Typewriter',monospace;
+    text-align:center;
+    font-weight:400;
+    line-height:11px;
+    letter-spacing:2.2px;
+    word-spacing:2.2px;
+    margin-top:-50px;
+    transform: translatey(-22px);
+  }
+  .rent form{
+    text-align:center;
+  }
+  .rent form label{
+    display: block;
+    text-align: center;
+    font-family:'Courier New',Courier,'Lucida Sans Typewriter','Lucida Typewriter',monospace;
+    font-style:normal;
+    color:#add6e0;
+    margin-bottom:4px;
+  }
+  .rent form input{
+    margin-bottom:11px;
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
+    text-align: center;
+    background: transparent;
+    outline: none;
+    width:55px;
+    font-family:'Adamina', serif;
+    padding-left:16px;
+    color:#f4d71a;
+    font-weight:600;
+  }
+  .rent form select{
+    background-color:rgba(63,105,87,0.57);
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
+    text-align:center;
+    border: none;
+    color:#f4d71a;
+  }
+  .rent form button{
+    background-color:transparent;
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
+  }
+  .rent form button:hover{
+    background-color: #6398d8;
+    transition-duration: 0.4s;
+    transform: scale(1.5) perspective(1px)
+  }
+  .rent form i{
+    background-color:transparent;
+  }
+
+/* user_home */
+  .user_home {
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -11px);
+    min-width:500px;
+    max-width:700px;
+  }
+  .user_home header h1{
+    font-style:italic;
+    font-size:44px;
+    font-family:'Courier New',Courier,'Lucida Sans Typewriter','Lucida Typewriter',monospace;
+    text-align:center;
+    font-weight:400;
+    line-height:11px;
+    letter-spacing:2.2px;
+    word-spacing:2.2px;
+    margin-top:-50px;
+    transform: translatey(-80px);
+  }
+  .user_home table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width:500px;
+    max-width:700px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    top:-44px;
+    position:relative;
+  }
+  .user_home table thead tr {
+    background-color: #81bbcf;
+    text-align: left;
+  }
+  .user_home table thead tr .th_remove {
+    text-align: center;
+  }
+  .user_home table tr th {
+    color:#000000;
+  }
+  .user_home table th,
+  .user_home table td {
+    padding: 12px 15px;
+    color:#ecf0f1;
+    font-family:'Adamina', serif;
+    font-size:12px;
+    text-decoration:none;
+  }
+  .user_home table tbody tr {
+    border-bottom: 1px solid #dddddd;
+  }
+  .user_home table tbody tr:nth-of-type(even) {
+    background-color:rgba(137,179,235,0.19);
+  }
+  .user_home table tbody tr:last-of-type {
+    border-bottom: 2px solid #81bbcf;
+  }
+  .user_home table tr .remove{
+    font-size:17px;
+    display:block;
+    color:#d10000;
+    text-align:center;
+  }
+  .user_home table tr:hover .remove{
+    transition-duration: 0.7s;
+    transform: scale(2.2) perspective(1px)
   }

@@ -6,19 +6,18 @@ var params = { seo: seo };
 module.exports = {
   
   listen: async(fastify) => {
-    fastify.get("/books", module.exports.viewBooks);
+    fastify.get("/rent", module.exports.viewRent);
   },
   
-  viewBooks: async(request, reply) => {
-    console.log("exec viewBooks");
+  viewRent: async(request, reply) => {
+    console.log("exec viewRent");
     // Validate authentication cookie
       await ctrl.validateCookie(request, reply);
     
-    // Success
+    // Sucess
       // Parameters
         params.books = await db.getBooks();
       // Reply
-        reply.view("/src/pages/books.hbs", params);
+        reply.view("/src/pages/rent.hbs", params);
   }
-  
 }
