@@ -152,6 +152,24 @@ module.exports = {
     }
   },
   
+  // Get a book by name in the database
+  getBookName: async(name) => {
+    console.log("exec db getBookName");
+    // We use a try catch block in case of db errors
+    try {
+      let result = await db.all(`
+        SELECT * 
+        FROM books 
+        WHERE lower(name)=lower("${name}")
+      `);
+      return result;
+      
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
   // Get all books in the database
   getBooks: async() => {
     console.log("exec db getBooks");

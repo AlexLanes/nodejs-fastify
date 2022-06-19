@@ -20,7 +20,7 @@ module.exports = {
     // Cookie don't exists
       if( Authentication == null || Authentication == undefined || Authentication == "" ) {
         console.error("User not Authenticated");
-        params.error = "Usuário deve se autenticar";
+        params.message = { error: "Usuário deve se autenticar" };
         reply.view("/src/pages/login.hbs", params);
         return;
       }
@@ -29,8 +29,8 @@ module.exports = {
       let [user, password] = Authentication.split(":");
       let result = await db.getUser(user);
       if( result.length == 0 || crypto.AES.decrypt(result[0].password, process.env.AES_Salt).toString(crypto.enc.Utf8) != crypto.AES.decrypt(password, process.env.AES_Salt).toString(crypto.enc.Utf8) ){
-        console.error("Wrong Cookie Value");
-        params.error = "Usuário deve se autenticar";
+        console.error("Cookie validation");
+        params.message = { error: "Usuário deve se autenticar" };
         reply.view("/src/pages/login.hbs", params);
         return;
       }

@@ -13,31 +13,31 @@ module.exports = {
     // Parameters
       let params = { seo: seo };
     
-    // Validation
+    // Variables
       let user     = request.body.user;
       let password = request.body.password;
+      let result;
     
+    // Validation
       // Length
         if( password.length <= 3 || user.length <= 3 ){
-          console.error("Mininum length required")
-          params.error = "Mínimo de 4 caracteres";
+          console.error("Create registration validation ");
+          params.message = { error: "Mínimo de 4 caracteres" };
           reply.view("/src/pages/registration.hbs", params);
           return;
         }
-    
       // Special caracter
         if( user.includes(":") || password.includes(":") ){
-          console.error("Special character not allowed")
-          params.error = "Caracter especial não permitido";
+          console.error("Create registration validation ");
+          params.message = { error: "Caracter especial não permitido" };
           reply.view("/src/pages/registration.hbs", params);
           return;
         }
-      
       // Find if user exists
-        let result = await db.getUser(user);
+        result = await db.getUser(user);
         if( result.length != 0 ){
-          console.error("User already exists")
-          params.error = "Usuário já existente";
+          console.error("Create registration validation ");
+          params.message = { error: "Usuário já existente" };
           reply.view("/src/pages/registration.hbs", params);
           return;
         }
@@ -49,8 +49,11 @@ module.exports = {
         await db.createUser(user, password);
     
     // Success
-      console.log(`User: ${user} successfully created`);
-      reply.view("/src/pages/login.hbs", params);
+      // Parameters
+        params.message = { success: "Usuário criado com sucesso" };
+      // Reply
+        console.log(`User: ${user} successfully created`);
+        reply.view("/src/pages/login.hbs", params);
   }
   
 };

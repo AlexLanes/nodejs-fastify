@@ -3,8 +3,8 @@
 @import url("//fonts.googleapis.com/css2?family=Butterfly+Kids:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 @import url("//fonts.googleapis.com/css2?family=Adamina:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 
-/* Error */
-  .error {
+/* message */
+  .message {
     position:fixed;
     z-index:1122;
     right:1%;
@@ -20,9 +20,9 @@
     font-weight:600;
     text-align:center;
     box-shadow:none;
-    animation: 7s ease 0s normal forwards 1 hide_error;
+    animation: 7s ease 0s normal forwards 1 hide_message;
   }
-  @keyframes hide_error{
+  @keyframes hide_message{
     0%   { opacity:1; }
     66%  { opacity:1; }
     100% { opacity:0; }

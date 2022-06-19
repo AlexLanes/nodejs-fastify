@@ -1,4 +1,5 @@
-const seo = require("../util/seo.json");
+const seo  = require("../util/seo.json");
+var params = { seo: seo };
 
 module.exports = {
   
@@ -9,18 +10,16 @@ module.exports = {
   
   viewLogin: async(request, reply) => {
     console.log("exec viewLogin");
-    // Parameters
-      let params = { seo: seo };
-    
-    // View login.hbs
-      reply.view("/src/pages/login.hbs", params)
-           .clearCookie('Authentication', {
-              domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
-              path: '/',
-              secure: true,
-              sameSite: 'lax',
-              httpOnly: true
-            });
+    // Success
+      // Reply
+        reply.view("/src/pages/login.hbs", params)
+             .clearCookie('Authentication', {
+                domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
+                path: '/',
+                secure: true,
+                sameSite: 'lax',
+                httpOnly: true
+              });
   }
   
 };

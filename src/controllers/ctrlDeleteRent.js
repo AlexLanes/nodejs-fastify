@@ -1,6 +1,7 @@
 const ctrl = require("./ctrlCookie.js");
 const seo  = require("../util/seo.json");
 const db   = require("../database/sqlite.js");
+var params = { seo: seo };
 
 module.exports = {
   
@@ -10,8 +11,6 @@ module.exports = {
   
   deleteRent: async(request, reply) => {
     console.log("exec deleteRent");
-    // Parameters
-      let params = { seo: seo };
       let user   = request.cookies.Authentication.split(":")[0];
       user == "Admin" 
         ? params.admin = "Admin"
@@ -19,26 +18,27 @@ module.exports = {
     // Validate authentication cookie
       await ctrl.validateCookie(request, reply);
     
-    // Validation
+    // Variables
       let isbn    = request.query.isbn;
-      let result  = await db.getUser(user);
-      let id_user = result[0].id;
-      let rents   = await db.getUserRents(id_user);
-      
+      let result, id_user, name, quantity;
+    
+    // Validation
       // Find if user has rents
-        if( rents.length == 0 ){
-          console.error("User doesn't have rent");
-          params.error = "Usuário não possui aluguel";
-          params.rents = rents;
+        result  = await db.getUser(user);
+        id_user = result[0].id;
+        result  = await db.getUserRents(id_user);
+        if( result.length == 0 ){
+          console.error("Delete rent validation");
+          params.message = { error: "Usuário não possui aluguel" };
+          params.rents   = result;
           reply.view("/src/pages/home.hbs", params);
           return;
         }
-    
       // Find if user rented this book
-        if( !rents.map( function(rent){return rent.isbn == isbn;} ).filter(Boolean)[0] ){
-          console.error("User didn't rent this book");
-          params.error = "Usuário não alugou esse livro";
-          params.rents = rents;
+        if( !result.map( function(rent){return rent.isbn == isbn;} ).filter(Boolean)[0] ){
+          console.error("Delete rent validation");
+          params.message = { error: "Usuário não alugou esse livro" };
+          params.rents   = result;
           reply.view("/src/pages/home.hbs", params);
           return;
         }
@@ -47,16 +47,18 @@ module.exports = {
       // Delete rent
         await db.deleteRent(id_user, isbn);
       // Update Books
-        result = await db.getBook(isbn);
-        let name     = result[0].name;
-        let quantity = result[0].quantity + 1;
+        result   = await db.getBook(isbn);
+        name     = result[0].name;
+        quantity = result[0].quantity + 1;
         await db.updateBook(isbn, quantity);
     
-    // GET user rents
-      params.rents = await db.getUserRents(id_user);
     // Success
-      console.log(`User: ${user} returned book: ${name}`);
-      reply.view("/src/pages/home.hbs", params);
+      // Parameters
+        params.rents   = await db.getUserRents(id_user);
+        params.message = { success: "Livro devolvido com sucesso" };
+      // Reply
+        console.log(`User: ${user} returned book: ${name}`);
+        reply.view("/src/pages/home.hbs", params);
   }
   
 }

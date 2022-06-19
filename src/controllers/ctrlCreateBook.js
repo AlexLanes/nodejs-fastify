@@ -16,55 +16,88 @@ module.exports = {
       await ctrl.validateCookie(request, reply);
     
     // Variables
-      const isbn     = request.body.isbn;
-      const name     = request.body.name;
-      const author   = request.body.author;
-      const quantity = request.body.quantity;
+      let [user, password] = request.cookies.Authentication.split(":");
+      let isbn     = request.body.isbn;
+      let name     = request.body.name;
+      let author   = request.body.author;
+      let quantity = request.body.quantity;
+      let result, id_user;
     
-    // Validate ISBN
-      // Length
+    // User
+      // ID
+        result  = await db.getUser(user);
+        id_user = result[0].id; 
+      // Rents
+        params.rents = await db.getUserRents(id_user);
+      // is Admin ?
+      user == "Admin" 
+        ? params.admin = "Admin"
+        : {};
+    
+    // Validation
+      // is Admin ?
+        if( user != "Admin" ){
+          console.error("Create book validation");
+          params.message = { error: "Apenas Admin pode criar livro" };
+          reply.view("/src/pages/home.hbs", params);
+          return;
+        }
+      // ISBN length
         if( isbn.length != 10 ){
-          params.error = "ISBN deve possuir 10 caracteres";
+          console.error("Create book validation");
+          params.message = { error: "ISBN deve possuir 10 caracteres" };
           reply.view("/src/pages/home.hbs", params);
           return;
         }
-      
-      // Value
+      // ISBN value
     
-      // Duplication
-        var result = db.getBook(isbn);
+      // ISBN duplication
+        result = db.getBook(isbn);
         if( result.length != 0 ){
-          params.error = "ISBN Duplicado";
+          console.error("Create book validation");
+          params.message = { error: "ISBN Duplicado" };
           reply.view("/src/pages/home.hbs", params);
           return;
         }
-    
-    // Validate Name
-      // Length
-        if( name.length < 1 || name.length > 20 ){
-          params.error = "Nome deve possuir entre 1 e 20 caracteres";
+      // Name length
+        if( name.length < 1 ){
+          console.error("Create book validation");
+          params.message = { error: "Nome não pode ser vazio" };
           reply.view("/src/pages/home.hbs", params);
           return;
         }
-      // Duplication
-        result = db.getBook(name);
+      // Name duplication
+        result = db.getBookName(name);
         if( result.length != 0 ){
-          params.error = "Livro já existente";
+          console.error("Create book validation");
+          params.message = { error: "Nome duplicado" };
+          reply.view("/src/pages/home.hbs", params);
+          return;
+        }
+      // Author length
+        if( author.length < 1 ){
+          console.error("Create book validation");
+          params.message = { error: "Autor não pode ser vazio" };
+          reply.view("/src/pages/home.hbs", params);
+          return;
+        }
+      // Quantity length
+        if( quantity < 1 ){
+          console.error("Create book validation");
+          params.message = { error: "Quantidade não pode ser menor que 1" };
           reply.view("/src/pages/home.hbs", params);
           return;
         }
     
-    // Validate Author
-      if( author.length < 1 || author.length > 20 ){
-        params.error = "Autor deve possuir entre 1 e 20 caracteres";
-        reply.view("/src/pages/home.hbs", params);
-        return;
-      }
+    // Creation
+      await db.createBook(isbn, name, author, quantity);
     
     // Success
-      params.rents = await db.getUserRents(1)
-      await db.createBook(isbn, name, author, quantity);
-      reply.view("/src/pages/home.hbs", params);
+      // Parameters
+        params.message = { success: "Livro criado com sucesso" };
+      // Reply
+        console.log(`Book: ${name} successfully created`);
+        reply.view("/src/pages/home.hbs", params);
   }
 
 }

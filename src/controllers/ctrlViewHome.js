@@ -1,6 +1,7 @@
 const ctrl = require("./ctrlCookie.js");
 const seo  = require("../util/seo.json");
 const db   = require("../database/sqlite.js");
+var params = { seo: seo };
 
 module.exports = {
   
@@ -10,23 +11,28 @@ module.exports = {
   
   viewHome: async(request, reply) => {
     console.log("exec viewHome");
-    // Parameters
-      let params = { seo: seo };
     // Validate authentication cookie
       await ctrl.validateCookie(request, reply);
 
-    // User id
-      let user    = request.cookies.Authentication.split(":")[0];
-      let result  = await db.getUser(user);
-      let user_id = result[0].id;
-    // User's Rents
-      params.rents = await db.getUserRents(user_id);
+    // Variables
+      let [user, password] = request.cookies.Authentication.split(":");
+      let result, user_id;
+    
+    // User 
+      // ID
+        result  = await db.getUser(user);
+        user_id = result[0].id;
+      // Rents
+        result  = await db.getUserRents(user_id);
 
     // Success
-      user == "Admin" 
-        ? params.admin = "Admin"
-        : {};
-      reply.view("/src/pages/home.hbs", params);
+      // Parameters
+        user == "Admin" 
+          ? params.admin = "Admin"
+          : {};
+        params.rents = result;
+      // Reply
+        reply.view("/src/pages/home.hbs", params);
   }
   
 }
