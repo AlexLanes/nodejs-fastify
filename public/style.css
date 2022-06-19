@@ -3,6 +3,31 @@
 @import url("//fonts.googleapis.com/css2?family=Butterfly+Kids:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 @import url("//fonts.googleapis.com/css2?family=Adamina:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 
+/* Error */
+  .error {
+    position:fixed;
+    z-index:1122;
+    right:1%;
+    margin-left:0px;
+    bottom:80%;
+    width:auto !important;
+    height:auto !important;
+    top:auto;
+    left:auto;
+    font-family:'Trebuchet MS','Lucida Grande','Lucida Sans Unicode','Lucida Sans',Tahoma,sans-serif;
+    font-size:22px;
+    color:#f20707;
+    font-weight:600;
+    text-align:center;
+    box-shadow:none;
+    animation: 7s ease 0s normal forwards 1 hide_error;
+  }
+  @keyframes hide_error{
+    0%   { opacity:1; }
+    66%  { opacity:1; }
+    100% { opacity:0; }
+  }
+
 /* form_login */
   .form_login form{
     left: 50%;
@@ -79,6 +104,13 @@
   .topnav {
     background-color: #333333;
     overflow: hidden;
+    position: fixed;
+    z-index: 1122;
+    width:99%;
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
   }
   .topnav a {
     float: left;
@@ -89,16 +121,21 @@
     font-size: 17px;
     padding-left:55px;
     padding-right:55px;
+    font-family:'Courier New',Courier,'Lucida Sans Typewriter','Lucida Typewriter',monospace;
+    letter-spacing:1px;
   }
   .topnav a:hover {
     background-color: #dddddd;
     color: black;
+    transition-duration: 1.0s;
   }
   .topnav .active {
     background-color: #04AA6D;
   }
   .topnav .sair {
     float:right;
+    color:#f20707;
+    font-weight:600;
   }
 
 /* books_table */
@@ -146,7 +183,7 @@
     left: 50%;
     top: 50%;
     position: absolute;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -55px);
     min-width:500px;
     max-width:555px;
   }
@@ -160,7 +197,7 @@
     letter-spacing:2.2px;
     word-spacing:2.2px;
     margin-top:-50px;
-    transform: translatey(-22px);
+    transform: translatey(-33px);
   }
 
 /* rent */
@@ -204,8 +241,11 @@
     text-align: center;
     background: transparent;
     outline: none;
-    width:36px;
+    width:55px;
     font-family:'Adamina', serif;
+    padding-left:16px;
+    color:#f4d71a;
+    font-weight:600;
   }
   .rent form select{
     background-color:rgba(63,105,87,0.57);
@@ -214,8 +254,8 @@
     border-bottom-left-radius:50px;
     border-bottom-right-radius:50px;
     text-align:center;
-    font-family:'Adamina', serif;
     border: none;
+    color:#f4d71a;
   }
   .rent form button{
     background-color:transparent;
@@ -238,7 +278,7 @@
     left: 50%;
     top: 50%;
     position: absolute;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -11px);
     min-width:500px;
     max-width:700px;
   }
@@ -252,13 +292,9 @@
     letter-spacing:2.2px;
     word-spacing:2.2px;
     margin-top:-50px;
-    transform: translatey(-55px);
+    transform: translatey(-80px);
   }
   .user_home table {
-    left: 50%;
-    top: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
@@ -266,6 +302,8 @@
     min-width:500px;
     max-width:700px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    top:-44px;
+    position:relative;
   }
   .user_home table thead tr {
     background-color: #81bbcf;
@@ -291,12 +329,13 @@
   .user_home table tbody tr:last-of-type {
     border-bottom: 2px solid #81bbcf;
   }
-  .user_home table tr a{
+  .user_home table tr .remove{
     font-size:17px;
     display:block;
     color:#d10000;
+    text-align:center;
   }
-  .user_home table tr a:hover{
-    transition-duration: 0.4s;
-    transform: scale(1.6) perspective(1px)
+  .user_home table tr:hover .remove{
+    transition-duration: 0.7s;
+    transform: scale(2.2) perspective(1px)
   }

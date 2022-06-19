@@ -25,28 +25,30 @@
   </head>
 
   <body>
-    <div class="form_login">
+    <!-- Error -->
+    {{#if error}}
+      {{> error}}
+    {{/if}}
+    
+    <!-- View registration -->
+    <div class="form_login" id="registration">
+      <!-- Form -->
       <form method="post" action="/registration">
+        <!-- Return to login button -->
         <a href="/" class="back-icon">
           <i class="fa-solid fa-circle-arrow-left"></i>
         </a>
         <!-- Header -->
-          <h1>Cadastro</h1>
+        <h1>Cadastro</h1>
         <!-- User -->
-          <label>Usuario</label>
-          <input type="text" id="user" name="user" required />
+        <label>Usuario</label>
+        <input type="text" id="user" name="user" required />
         <!-- Password -->
-          <label>Senha</label>
-          <input type="password" id="password" name="password" required /><br/>
-        <!-- Create Error label if exists -->
-          {{#if error}}
-            <label>Erro: {{error}}</label>
-            <br/>
-          {{/if}}
-        <!-- Input Button -->
-          <button type="submit">Criar</button>
+        <label>Senha</label>
+        <input type="password" id="password" name="password" required /><br/>
+        <!-- Input button -->
+        <button type="submit">Criar</button>
       </form>
-
     </div>
   </body>
 

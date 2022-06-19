@@ -3,6 +3,7 @@ const seo = require("../util/seo.json");
 module.exports = {
   
   listen: async(fastify) => {
+    fastify.get("/login", module.exports.viewLogin);
     fastify.get("/", module.exports.viewLogin);
   },
   

@@ -20,8 +20,17 @@
 
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
+    <!-- Background color -->
     <style> body{ background-image:linear-gradient(to right, #283c86 0%, #45a247 100%);} </style>
+    <!-- Icons -->
     <script src="https://kit.fontawesome.com/edfaca1bfa.js" crossorigin="anonymous"></script>
+    <!-- Active top navigation bar -->
+    <script>
+      window.onload = function(){
+        let a = document.getElementById("topnav_rent");
+        a.setAttribute("class", "active");
+      }
+    </script>
   </head>
 
   <body>
@@ -30,12 +39,17 @@
       <a href="/books">Livros</a>
       <a class="active" href="/rent">Aluguel</a>
       <a href="/home">Minha Área</a>
-      <a class="sair" href="/">Sair</a>
+      <a class="sair" href="/">
+        <i class="fa-solid fa-person-walking-arrow-right"></i>
+      </a>
     </div>
+    <!-- Error -->
+    {{#if error}}
+      {{> error}}
+    {{/if}}
     
-    <!-- View Rent -->
+    <!-- View rent -->
     <div class="rent">
-      
       <!-- Title -->
       <header>
         <h1>Aluguel de Livro</h1>
@@ -43,21 +57,21 @@
       <!-- Form -->
       <form method="post" action="/rent">
         <!-- Duration -->
-          <label>Duração em Dias</label>
-          <input type="number" id="days" name="days" min="1" required />
+        <label>Duração em Dias</label>
+        <input type="number" id="days" name="days" min="1" required />
         <!-- Book -->
-          <label>Escolha um Livro</label>
-          <select id="book" name="book">
-            {{#each books}}
-              <option value="{{name}}">{{name}}</option>
-            {{/each}}
-          </select><br/><br/>
+        <label>Escolha um Livro</label>
+        <select id="book" name="book" required>
+          <option value=""></option>
+          {{#each books}}
+            <option value="{{isbn}}">{{name}}</option>
+          {{/each}}
+        </select><p/>
         <!-- Submit -->
-          <button type="submit">
-            <i class="fa-solid fa-book"></i>
-          </button>  
+        <button type="submit">
+          <i class="fa-solid fa-book"></i>
+        </button>  
       </form>
-      
     </div>
   </body>
 

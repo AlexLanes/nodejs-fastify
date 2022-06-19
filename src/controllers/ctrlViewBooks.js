@@ -4,8 +4,8 @@ const db   = require("../database/sqlite.js");
 
 module.exports = {
   
-  listen: async(app) => {
-    app.get("/books", module.exports.viewBooks);
+  listen: async(fastify) => {
+    fastify.get("/books", module.exports.viewBooks);
   },
   
   viewBooks: async(request, reply) => {

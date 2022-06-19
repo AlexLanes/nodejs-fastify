@@ -14,20 +14,13 @@ module.exports = {
       let params = { seo: seo };
     
     // Validation
-      // User
-        let user = request.body.user;
-        if( user.length < 1 || user.length > 20 ){
-          console.error("User must have between 1 and 20 character")
-          params.error = "Usuário deve possuir entre 1 e 20 Caracteres";
-          reply.view("/src/pages/registration.hbs", params);
-          return;
-        }
+      let user     = request.body.user;
+      let password = request.body.password;
     
-      // Password
-        let password = request.body.password;
-        if( password.length < 1 || password.length > 20 ){
-          console.error("Password must have between 1 and 20 character")
-          params.error = "Senha deve possuir entre 1 e 20 Caracteres";
+      // Length
+        if( password.length <= 3 || user.length <= 3 ){
+          console.error("Mininum length required")
+          params.error = "Mínimo de 4 caracteres";
           reply.view("/src/pages/registration.hbs", params);
           return;
         }

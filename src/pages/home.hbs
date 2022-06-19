@@ -20,8 +20,17 @@
 
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
+    <!-- Background color -->
     <style> body{ background-image:linear-gradient(to right, #283c86 0%, #45a247 100%);} </style>
+    <!-- Icons -->
     <script src="https://kit.fontawesome.com/edfaca1bfa.js" crossorigin="anonymous"></script>
+    <!-- Active top navigation bar -->
+    <script>
+      window.onload = function(){
+        let a = document.getElementById("topnav_home");
+        a.setAttribute("class", "active");
+      }
+    </script>
   </head>
 
   <body>
@@ -30,14 +39,20 @@
       <a href="/books">Livros</a>
       <a href="/rent">Aluguel</a>
       <a class="active" href="/home">Minha Área</a>
-      <a class="sair" href="/">Sair</a>
+      <a class="sair" href="/">
+        <i class="fa-solid fa-person-walking-arrow-right"></i>
+      </a>
     </div>
+    <!-- Error -->
+    {{#if error}}
+      {{> error}}
+    {{/if}}
     
-    <!-- Admin View -->
+    <!-- View admin home -->
     {{#if admin}}
       {{> admin_home}}
     
-    <!-- User View -->
+    <!-- View user home -->
     {{else}}
       <div class="user_home">
         {{> user_home}}

@@ -57,10 +57,10 @@
 
 // .env CONTROLLERS Dependency Injection
   for( let ctrl of process.env.CONTROLLERS.split(",") ){
-    let directory  = `./src/controllers/${ctrl}.js`;
+    let directory  = `${__dirname}/src/controllers/${ctrl}.js`;
     let controller = require(directory);
     controller.listen(fastify);
-    console.log(`CONTROLLER injected: ${__dirname + directory.substring(1)}`);
+    console.log(`CONTROLLER injected: ${directory}`);
   }
 
 /*

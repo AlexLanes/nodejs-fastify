@@ -6,7 +6,7 @@
 
 // Utilities we need
 const fs        = require("fs");
-const dbFile    = "./.data/library.db";
+const dbFile    = "./.data/library.db";          // cd .data    rm library.db    ls
 const exists    = fs.existsSync(dbFile);
 const sqlite3   = require("sqlite3").verbose();
 const dbWrapper = require("sqlite");
@@ -29,29 +29,44 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
       if (!exists) {
         // Create users table
           console.log("Creating table users");
-          await db.run(
-            "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, user VARCHAR[20], password VARCHAR[222])"
-          );
+          await db.run(`
+            CREATE TABLE users (
+              id       INTEGER PRIMARY KEY AUTOINCREMENT, 
+              user     TEXT NOT NULL UNIQUE CHECK (length(user) >= 4), 
+              password TEXT NOT NULL        CHECK (length(password) >= 4)
+            )
+          `);
         // Add default Admin user to the table
-          await db.run(
-            `INSERT INTO users (user, password) VALUES ("Admin", "${crypto.AES.encrypt(process.env.ADMIN_PASSWORD, process.env.AES_Salt).toString()}")`
-          );
+          await db.run(`
+            INSERT INTO 
+            users (user, password) 
+            VALUES ("Admin", "${crypto.AES.encrypt(process.env.ADMIN_PASSWORD, process.env.AES_Salt).toString()}")
+          `);
         
         // Create books table
           console.log("Creating table books");
-          await db.run(
-            `CREATE TABLE books (
+          await db.run(`
+            CREATE TABLE books (
               isbn     TEXT    NOT NULL UNIQUE CHECK (length(isbn) = 10),
-              name     TEXT    NOT NULL UNIQUE                          , 
-              author   TEXT    NOT NULL                                 , 
-              pages    INTEGER NOT NULL        CHECK (pages        >= 1),
-              quantity INTEGER NOT NULL        CHECK (quantity     >= 0) 
-            )`
-          ); 
+              name     TEXT    NOT NULL UNIQUE, 
+              author   TEXT    NOT NULL, 
+              pages    INTEGER NOT NULL        CHECK (pages >= 1),
+              quantity INTEGER NOT NULL        CHECK (quantity >= 0) 
+            )
+          `); 
         // Add books from data_set to the table
           for( let book of data_set ){
             try{
-              await db.run(`INSERT INTO books VALUES ("${book.isbn}", "${book.title}", "${book.authors.join(';')}", ${book.pageCount}, ${random.int(1, 22)})`);
+              await db.run(`
+                INSERT INTO books 
+                VALUES (
+                  "${book.isbn}", 
+                  "${book.title}", 
+                  "${book.authors.filter(Boolean).join(" && ")}", 
+                  ${book.pageCount}, 
+                  ${random.int(1, 22)}
+                )
+              `);
             } catch(e) {}
           }
           let result = await db.all("SELECT COUNT(*) as counter FROM books");
@@ -59,9 +74,13 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
                   
         // Create rents table
           console.log("Creating table rents");
-          await db.run(
-            "CREATE TABLE rents (fk_user INTEGER, isbn INTEGER, end_date DATE)"
-          );
+          await db.run(`
+            CREATE TABLE rents (
+              fk_user  INTEGER NOT NULL CHECK (fk_user > 1),
+              isbn     TEXT    NOT NULL CHECK (length(isbn) = 10),
+              end_date DATE    NOT NULL
+            )
+          `);
 
       // We have a database already - log for info
       } else {
@@ -82,10 +101,14 @@ module.exports = {
   
   // Find user in the database
   getUser: async(user) => {
-    console.log("exec getUser");
+    console.log("exec db getUser");
     // We use a try catch block in case of db errors
     try {
-      let result = db.all(`SELECT * FROM users WHERE user="${user}"`);
+      let result = db.all(`
+        SELECT * 
+        FROM users 
+        WHERE user="${user}"
+      `);
       return result;
       
     } catch (dbError) {
@@ -96,10 +119,14 @@ module.exports = {
   
   // Create a new user in the database
   createUser: async(user, password) => {
-    console.log("exec getPassword");
+    console.log("exec db createUser");
     // We use a try catch block in case of db errors
     try {
-      await db.run(`INSERT INTO users (user, password) VALUES ("${user}", "${password}")`);
+      await db.run(`
+        INSERT INTO 
+        users (user, password) 
+        VALUES ("${user}", "${password}")
+      `);
       
     } catch (dbError) {
       // Database connection error
@@ -108,15 +135,15 @@ module.exports = {
   },
   
   // Get a book in the database
-  getBook: async(parameter) => {
-    console.log("exec getBook");
+  getBook: async(isbn) => {
+    console.log("exec db getBook");
     // We use a try catch block in case of db errors
     try {
-      let where;
-      typeof(parameter) == "string"
-        ? where = `lower(name)=lower("${parameter}")`
-        : where = `isbn=${parameter}`
-      let result = await db.all(`SELECT * FROM books WHERE ${where}`);
+      let result = await db.all(`
+        SELECT * 
+        FROM books 
+        WHERE isbn="${isbn}"
+      `);
       return result;
       
     } catch (dbError) {
@@ -127,10 +154,15 @@ module.exports = {
   
   // Get all books in the database
   getBooks: async() => {
-    console.log("exec getBooks");
+    console.log("exec db getBooks");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all("SELECT * FROM books WHERE quantity > 0 ORDER BY name");
+      let result = await db.all(`
+        SELECT * 
+        FROM books 
+        WHERE quantity > 0 
+        ORDER BY name
+      `);
       return result;
       
     } catch (dbError) {
@@ -141,10 +173,14 @@ module.exports = {
   
   // Update book quantity in the database
   updateBook: async(isbn, quantity) => {
-    console.log("exec updateBook");
+    console.log("exec db updateBook");
     // We use a try catch block in case of db errors
     try {
-      await db.run(`UPDATE books SET quantity=${quantity} WHERE isbn=${isbn}`);
+      await db.run(`
+        UPDATE books 
+        SET quantity=${quantity} 
+        WHERE isbn="${isbn}"
+      `);
       
     } catch (dbError) {
       // Database connection error
@@ -152,12 +188,20 @@ module.exports = {
     }
   },
   
-  // Update book quantity in the database
+  // Create book in the database
   createBook: async(isbn, name, author, quantity) => {
-    console.log("exec updateBook");
+    console.log("exec db createBook");
     // We use a try catch block in case of db errors
     try {
-      await db.run(`INSERT INTO books (isbn, name, author, quantity) VALUES (${isbn}, ${name}, ${author}, ${quantity})`);
+      await db.run(`
+        INSERT INTO books 
+        VALUES (
+          "${isbn}", 
+          "${name}", 
+          "${author}", 
+          ${quantity}
+        )
+      `);
       
     } catch (dbError) {
       // Database connection error
@@ -165,26 +209,19 @@ module.exports = {
     }
   },
   
-  // Get all Rents in the database
-  getRents: async() => {
-    console.log("exec getRents");
-    // We use a try catch block in case of db errors
-    try {
-      let result = await db.all("SELECT * FROM rents");
-      return result;
-      
-    } catch (dbError) {
-      // Database connection error
-      console.error(dbError);
-    }
-  },
-  
-  // Create a Rent in the database
+  // Create a rent in the database
   createRent: async(id_user, isbn, days) => {
-    console.log("exec createRent");
+    console.log("exec db createRent");
     // We use a try catch block in case of db errors
     try {
-      await db.run(`INSERT INTO rents (fk_user, isbn, end_date) VALUES (${id_user}, ${isbn}, date('now', '+${days} day'))`);
+      await db.run(`
+        INSERT INTO rents 
+        VALUES (
+          ${id_user}, 
+          "${isbn}", 
+          date('now', '+${days} day')
+        )
+      `);
       
     } catch (dbError) {
       // Database connection error
@@ -192,12 +229,20 @@ module.exports = {
     }
   },
   
-  // Create a Rent in the database
-  duplicateRent: async(id_user, name) => {
-    console.log("exec duplicateRent");
+  // Find duplicate rent in the database
+  duplicatedRent: async(user, isbn) => {
+    console.log("exec db duplicatedRent");
     // We use a try catch block in case of db errors
     try {
-      let result = await db.all(`SELECT 'b.name' FROM rents r JOIN books b ON r.isbn = b.isbn WHERE r.fk_user = ${id_user} AND b.name = '${name}'`);
+      let result = await db.all(`
+        SELECT * 
+        FROM rents r 
+        JOIN users u ON 
+          r.fk_user = u.id
+        WHERE 
+          u.user = "${user}" AND 
+          r.isbn = "${isbn}"
+      `);
       return result;
       
     } catch (dbError) {
@@ -206,12 +251,17 @@ module.exports = {
     }
   },
   
-  // Create a Rent in the database
+  // Delete a rent in the database
   deleteRent: async(id_user, isbn) => {
-    console.log("exec endRent");
+    console.log("exec db deleteRent");
     // We use a try catch block in case of db errors
     try {
-      await db.run(`DELETE FROM rents WHERE fk_user = ${id_user} AND isbn = ${isbn}`);
+      await db.run(`
+        DELETE FROM rents 
+        WHERE 
+          fk_user = ${id_user} AND 
+          isbn = "${isbn}"
+      `);
       
     } catch (dbError) {
       // Database connection error
@@ -219,15 +269,28 @@ module.exports = {
     }
   },
   
-  // Get all Rents from User in the database
+  // Get all rents from user in the database
   getUserRents: async(id_user) => {
-    console.log("exec getUserRents");
+    console.log("exec db getUserRents");
     // We use a try catch block in case of db errors
     try {
-      let result;
-      id_user != 1
-        ? result = await db.all(`SELECT b.name, r.isbn, STRFTIME('%d/%m/%Y', r.end_date) as end_date, u.user FROM rents r JOIN books b ON r.isbn = b.isbn JOIN users u on r.fk_user = u.id WHERE r.fk_user = ${id_user} ORDER BY end_date`)
-        : result = await db.all(`SELECT b.name, r.isbn, STRFTIME('%d/%m/%Y', r.end_date) as end_date, u.user FROM rents r JOIN books b ON r.isbn = b.isbn JOIN users u on r.fk_user = u.id ORDER BY end_date`);
+      let dynamic, result;
+      id_user >= 2
+        ? dynamic = `WHERE r.fk_user = ${id_user} ORDER BY end_date`
+        : dynamic = "ORDER BY end_date";
+      result = await db.all(`
+        SELECT 
+          b.name, 
+          r.isbn, 
+          STRFTIME('%d/%m/%Y', r.end_date) as end_date, 
+          u.user 
+        FROM rents r 
+        JOIN books b ON 
+          r.isbn = b.isbn 
+        JOIN users u ON 
+          r.fk_user = u.id
+        ${dynamic}
+      `);
       return result;
       
     } catch (dbError) {
