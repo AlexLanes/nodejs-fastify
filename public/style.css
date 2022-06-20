@@ -339,7 +339,7 @@
   .user_home table tbody tr:last-of-type {
     border-bottom: 2px solid #81bbcf;
   }
-  .user_home table tr .remove {
+  .user_home table tr .delete_rent {
     font-size:17px;
     display:block;
     color:#d10000;
@@ -353,7 +353,7 @@
   .user_home table tr form {
     display:grid;
   }
-  .user_home table tr:hover .remove {
+  .user_home table tr:hover .delete_rent {
     transition-duration: 0.7s;
     transform: scale(2.0) perspective(1px)
   }
