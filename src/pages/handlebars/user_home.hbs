@@ -21,9 +21,12 @@
         <td>{{name}}</td>
         <td>{{end_date}}</td>
         <td>
-          <a class="remove" href="/delete/rent?isbn={{isbn}}">
-            <i class="fa-solid fa-xmark"></i>
-          </a>
+          <form method="post" action="/delete/rent" >
+            <input type="hidden" id="isbn" name="isbn" value="{{isbn}}"/>
+            <button type="submit" class="remove">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </form>
         </td>
       </tr>
     {{/each}}

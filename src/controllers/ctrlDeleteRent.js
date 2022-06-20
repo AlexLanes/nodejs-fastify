@@ -6,7 +6,7 @@ var params = { seo: seo };
 module.exports = {
   
   listen: async(fastify) => {
-    fastify.get("/delete/rent", module.exports.deleteRent);
+    fastify.post("/delete/rent", module.exports.deleteRent);
   },
   
   deleteRent: async(request, reply) => {
@@ -16,7 +16,7 @@ module.exports = {
     
     // Variables
       let [user, password] = request.cookies.Authentication.split(":");
-      let isbn = request.query.isbn;
+      let isbn = request.body.isbn;
       let result, id_user, name, quantity;
     
     // Admin parameter
