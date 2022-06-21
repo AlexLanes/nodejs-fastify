@@ -27,9 +27,10 @@ module.exports = {
 
     // Success
       // Parameters
-        user == "Admin" 
-          ? params.admin = "Admin"
-          : {};
+        if( user == "Admin" ){
+          params.admin = "Admin";
+          params.users = await db.getUsers();
+        };
         params.rents = result;
       // Reply
         reply.view("/src/pages/home.hbs", params);

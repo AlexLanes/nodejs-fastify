@@ -3,9 +3,9 @@
 </header>
 <div class="admin_home_float_left">
   
-  <div class="admin_home_alugueis">
+  <div class="admin_home_rents">
     <header>
-      <h1>Todos os Aluguéis</h1>
+      <h1>Aluguéis Realizados</h1>
     </header>
     <table>
       <thead>
@@ -28,11 +28,32 @@
       </tbody>
     </table>
   </div>
+  <div class="admin_home_users">
+    <header>
+      <h1>Usuários Cadastrados</h1>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+          <tr>
+            <td>{{id}}</td>
+            <td>{{user}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
   
 </div>
 <div class="admin_home_float_rigth">
   
-  <div class="cadastrar_livro">
+  <div class="create_book">
     <form method="post" action="/create/book">
       <h1>Cadastrar Livro</h1>
       <!-- ISBN -->
@@ -54,7 +75,7 @@
         <button type="submit">Cadastrar</button><br/>
     </form>
   </div>
-  <div class="alterar_livro">
+  <div class="update_book">
     <form method="post" action="/update/book">
       <h1>Alterar Livro</h1>
       <!-- ISBN -->
