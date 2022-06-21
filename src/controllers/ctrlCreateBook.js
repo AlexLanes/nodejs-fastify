@@ -20,17 +20,13 @@ module.exports = {
       let author   = request.body.author;
       let pages    = request.body.pages;
       let quantity = request.body.quantity;
-      let result, id_user, params;
-    
-    // User id
-      result  = await db.getUser(user);
-      id_user = result[0].id; 
+      let result, params;
     
     // Validation
       // parameters
         params = await home.parameters(request);
       // is Admin ?
-        if( user == "Admin" ){
+        if( user != "Admin" ){
           console.error("Create book validation");
           params.message = { error: "Apenas Admin pode criar livro" };
           return reply.view("/src/pages/home.hbs", params);
@@ -103,7 +99,7 @@ module.exports = {
     
     // Creation
       try {
-        await db.createBook(isbn, name, author,pages, quantity);
+        await db.createBook(isbn, name, author, pages, quantity);
         
       } catch {
         // Error
