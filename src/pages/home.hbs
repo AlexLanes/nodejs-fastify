@@ -16,10 +16,18 @@
       {{> message}}
     {{/if}}
     
-    <!-- View user home -->
-    <div class="user_home" id="current_state" state_name="home">
-      {{> user_home}}
-    </div>
+    {{#if admin}}
+      <!-- View admin home -->
+      <div class="admin_home" id="current_state" state_name="home">
+        {{> admin_home}}
+      </div>
+    {{else}}
+      <!-- View user home -->
+      <div class="user_home" id="current_state" state_name="home">
+        {{> user_home}}
+      </div>
+    {{/if}}
+    
     
   </body>
 

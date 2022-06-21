@@ -62,6 +62,7 @@ module.exports = {
         // Error
           // Parameters
             params.message = { error: "Erro interno, veja o log para detalhes" };
+            params.books   = await db.getBooks();
           // Reply
             console.error(`Create rent internal error`);
             return reply.view("/src/pages/rent.hbs", params);
