@@ -11,7 +11,7 @@ module.exports = {
     console.log("exec viewRegistration");
     // Success
       // Reply
-        reply.view("/src/pages/registration.hbs", params);
+        return reply.view("/src/pages/registration.hbs", params);
   }
   
 };

@@ -22,37 +22,44 @@ module.exports = {
         if( password.length <= 3 || user.length <= 3 ){
           console.error("Create registration validation ");
           params.message = { error: "Mínimo de 4 caracteres" };
-          reply.view("/src/pages/registration.hbs", params);
-          return;
+          return reply.view("/src/pages/registration.hbs", params);
         }
       // Special caracter
         if( user.includes(":") || password.includes(":") ){
           console.error("Create registration validation ");
           params.message = { error: "Caracter especial não permitido" };
-          reply.view("/src/pages/registration.hbs", params);
-          return;
+          return reply.view("/src/pages/registration.hbs", params);
         }
       // Find if user exists
         result = await db.getUser(user);
         if( result.length != 0 ){
-          console.error("Create registration validation ");
+          console.error("Create registration validation");
           params.message = { error: "Usuário já existente" };
-          reply.view("/src/pages/registration.hbs", params);
-          return;
+          return reply.view("/src/pages/registration.hbs", params);
         }
       
     // Creation
+      try {
       // Encrypt password
         password = crypto.AES.encrypt(password, process.env.AES_Salt).toString();
       // Insert user and password in the database
         await db.createUser(user, password);
+        
+      } catch {
+        // Error
+          // Parameters
+            params.message = { error: "Erro interno, veja o log para detalhes" };
+          // Reply
+            console.error(`Create registration internal error`);
+            return reply.view("/src/pages/registration.hbs", params);
+      }
     
     // Success
       // Parameters
         params.message = { success: "Usuário criado com sucesso" };
       // Reply
         console.log(`User: ${user} successfully created`);
-        reply.view("/src/pages/login.hbs", params);
+        return reply.view("/src/pages/login.hbs", params);
   }
   
 };

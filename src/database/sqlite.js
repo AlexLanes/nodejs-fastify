@@ -148,6 +148,7 @@ module.exports = {
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
+      throw(dbError);
     }
   },
   
@@ -206,6 +207,25 @@ module.exports = {
     }
   },
   
+  // Get all books with no inventory in the database
+  getBooks0: async() => {
+    console.log("exec db getBooks0");
+    // We use a try catch block in case of db errors
+    try {
+      result = await db.all(`
+        SELECT * 
+        FROM books 
+        WHERE quantity = 0 
+        ORDER BY name
+      `);
+      return result;
+      
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
   // Update book quantity in the database
   updateBook: async(isbn, quantity) => {
     console.log("exec db updateBook");
@@ -220,6 +240,7 @@ module.exports = {
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
+      throw(dbError);
     }
   },
   
@@ -263,6 +284,7 @@ module.exports = {
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
+      throw(dbError);
     }
   },
   
@@ -303,6 +325,7 @@ module.exports = {
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
+      throw(dbError);
     }
   },
   

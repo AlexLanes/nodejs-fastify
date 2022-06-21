@@ -18,6 +18,6 @@ module.exports = {
       // Parameters
         params.books = await db.getBooks();
       // Reply
-        reply.view("/src/pages/rent.hbs", params);
+        return reply.view("/src/pages/rent.hbs", params);
   }
 }

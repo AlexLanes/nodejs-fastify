@@ -41,15 +41,15 @@ module.exports = {
       // Reply
         console.log(`User: ${user} successfully logged in`);
         password = crypto.AES.encrypt(password, process.env.AES_Salt).toString();
-        reply.view("/src/pages/books.hbs", params)
-             .setCookie('Authentication', `${user}:${password}`, {
-                domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
-                path: '/',
-                maxAge: 60 * 222, // 222 minutes
-                secure: true,
-                sameSite: 'lax',
-                httpOnly: true
-              });
+        return reply.view("/src/pages/books.hbs", params)
+                    .setCookie('Authentication', `${user}:${password}`, {
+                      domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
+                      path: '/',
+                      maxAge: 60 * 222, // 222 minutes
+                      secure: true,
+                      sameSite: 'lax',
+                      httpOnly: true
+                    });
   }
   
 };

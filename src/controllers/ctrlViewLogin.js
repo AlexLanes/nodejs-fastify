@@ -12,14 +12,14 @@ module.exports = {
     console.log("exec viewLogin");
     // Success
       // Reply
-        reply.view("/src/pages/login.hbs", params)
-             .clearCookie('Authentication', {
-                domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
-                path: '/',
-                secure: true,
-                sameSite: 'lax',
-                httpOnly: true
-              });
+        return reply.view("/src/pages/login.hbs", params)
+                    .clearCookie('Authentication', {
+                      domain: `${process.env.PROJECT_DOMAIN}.glitch.me`,
+                      path: '/',
+                      secure: true,
+                      sameSite: 'lax',
+                      httpOnly: true
+                    });
   }
   
 };

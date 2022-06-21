@@ -29,8 +29,7 @@ module.exports = {
           console.error("Create rent validation");
           params.message = { error: "Livro não encontrado" };
           params.books = await db.getBooks();
-          reply.view("/src/pages/rent.hbs", params);
-          return;
+          return reply.view("/src/pages/rent.hbs", params);
         }
       // Find duplication of rent
         result = await db.duplicatedRent(user, isbn);
@@ -38,26 +37,35 @@ module.exports = {
           console.error("Create rent validation");
           params.message = { error: "Usuário já fez o aluguel desse livro" };
           params.books = await db.getBooks();
-          reply.view("/src/pages/rent.hbs", params);
-          return;
+          return reply.view("/src/pages/rent.hbs", params);
+         
         }
       // Admin can't rent books
         if( user == "Admin" ){
           console.error("Create rent validation");
           params.message = { error: "Admin não pode realizar aluguéis" };
           params.books = await db.getBooks();
-          reply.view("/src/pages/rent.hbs", params);
-          return;
+          return reply.view("/src/pages/rent.hbs", params);
         }
     
     // Creation
-      // ID of user
-        result = await db.getUser(user);
-        let id_user = result[0].id; 
-      // Create rent
-        await db.createRent(id_user, isbn, days);      
-      // Update book
-        await db.updateBook(isbn, quantity - 1);
+      try {
+        // ID of user
+          result = await db.getUser(user);
+          let id_user = result[0].id; 
+        // Create rent
+          await db.createRent(id_user, isbn, days);      
+        // Update book
+          await db.updateBook(isbn, quantity - 1);
+        
+      } catch {
+        // Error
+          // Parameters
+            params.message = { error: "Erro interno, veja o log para detalhes" };
+          // Reply
+            console.error(`Create rent internal error`);
+            return reply.view("/src/pages/rent.hbs", params);
+      }
     
     // Success
       // Parameters
@@ -65,7 +73,7 @@ module.exports = {
         params.message = { success: "Livro alugado com sucesso" };
       // Reply
         console.log(`User: ${user} has rent book: ${name}`);
-        reply.view("/src/pages/books.hbs", params);
+        return reply.view("/src/pages/books.hbs", params);
   }
 
 }

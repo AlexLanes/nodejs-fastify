@@ -18,8 +18,7 @@ module.exports = {
       if( Authentication == null || Authentication == undefined || Authentication == "" ) {
         console.error("User not Authenticated");
         params.message = { error: "Usuário deve se autenticar" };
-        reply.view("/src/pages/login.hbs", params);
-        return;
+        return reply.view("/src/pages/login.hbs", params);
       }
     
     // Cookie not valid
@@ -28,8 +27,7 @@ module.exports = {
       if( result.length == 0 || crypto.AES.decrypt(result[0].password, process.env.AES_Salt).toString(crypto.enc.Utf8) != crypto.AES.decrypt(password, process.env.AES_Salt).toString(crypto.enc.Utf8) ){
         console.error("Cookie validation");
         params.message = { error: "Usuário deve se autenticar" };
-        reply.view("/src/pages/login.hbs", params);
-        return;
+        return reply.view("/src/pages/login.hbs", params);
       }
     
     // Success

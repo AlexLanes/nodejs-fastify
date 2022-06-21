@@ -28,6 +28,31 @@
       </tbody>
     </table>
   </div>
+  <div class="admin_home_books0">
+    <header>
+      <h1>Livros sem Estoque</h1>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>ISBN</th>
+          <th>Nome</th>
+          <th>Autor</th>
+          <th>Páginas</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each books0}}
+          <tr>
+            <td>{{isbn}}</td>
+            <td>{{name}}</td>
+            <td>{{author}}</td>
+            <td>{{pages}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
   <div class="admin_home_users">
     <header>
       <h1>Usuários Cadastrados</h1>

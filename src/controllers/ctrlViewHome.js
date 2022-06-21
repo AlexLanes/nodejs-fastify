@@ -13,7 +13,7 @@ module.exports = {
     console.log("exec viewHome");
     // Validate authentication cookie
       await ctrl.validateCookie(request, reply);
-
+    
     // Variables
       let [user, password] = request.cookies.Authentication.split(":");
       let result, user_id;
@@ -28,12 +28,14 @@ module.exports = {
     // Success
       // Parameters
         if( user == "Admin" ){
-          params.admin = "Admin";
-          params.users = await db.getUsers();
+          params.admin  = "Admin";
+          params.users  = await db.getUsers();
+          params.books0 = await db.getBooks0();
         };
         params.rents = result;
       // Reply
-        reply.view("/src/pages/home.hbs", params);
+        console.log(params);
+        return reply.view("/src/pages/home.hbs", params);
   }
   
 }
