@@ -26,16 +26,23 @@ module.exports = {
         result  = await db.getUserRents(user_id);
 
     // Success
-      // Parameters
+      console.log(`User: ${user}, Cookie: ${request.cookies.Authentication.split(":")[0]}`)
+      // Parameters Admin && User 
+        params.rents  = result;
+      
+      // Admin view
         if( user == "Admin" ){
-          params.admin  = "Admin";
-          params.users  = await db.getUsers();
-          params.books0 = await db.getBooks0();
-        };
-        params.rents = result;
-      // Reply
-        console.log(params);
-        return reply.view("/src/pages/home.hbs", params);
+          // Parameters
+            params.users  = await db.getUsers();
+            params.books0 = await db.getBooks0();
+          // Reply
+            return reply.view("/src/pages/admin_home.hbs", params);
+        
+      // User view
+        } else {
+          // Reply
+            return reply.view("/src/pages/home.hbs", params);
+        }
   }
   
 }

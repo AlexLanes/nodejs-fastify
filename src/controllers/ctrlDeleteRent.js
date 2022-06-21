@@ -22,7 +22,6 @@ module.exports = {
     
     // is Admin ?
       if( user == "Admin" ){
-        params.admin  = "Admin";
         user = request.body.user;
         // Parameters for validation reply
           params.users  = await db.getUsers();
@@ -72,13 +71,13 @@ module.exports = {
         params.rents = await db.getUserRents(id_user);
       
       // Admin reply
-        if( params.admin ){
+        if( request.cookies.Authentication.split(":")[0] == "Admin" ){
           // Parameters
             params.books0 = await db.getBooks0();
             params.message = { success: "Livro devolvido com sucesso" };
           // Reply
             console.log(`Admin returned Book: ${name}`);
-            return reply.view("/src/pages/home.hbs", params);
+            return reply.view("/src/pages/admin_home.hbs", params);
       
       // User reply
         } else {
