@@ -1,8 +1,6 @@
 const ctrl  = require("./ctrlCookie.js");
-const seo   = require("../util/seo.json");
-const view  = require("./ctrlViewHome.js");
+const home  = require("./ctrlViewHome.js");
 const db    = require("../database/sqlite.js");
-var params  = { seo: seo };
 
 module.exports = {
   
@@ -18,7 +16,7 @@ module.exports = {
     // Variables
       let [user, password] = request.cookies.Authentication.split(":");
       let isbn = request.body.isbn;
-      let result, id_user, name, quantity;
+      let result, id_user, name, quantity, params;
     
     // is Admin ?
       if( user == "Admin" ){
@@ -26,62 +24,27 @@ module.exports = {
       }
     
     // Validation
+      result = await db.getUserRents(user)
       // Find if user has rents
-        result  = await db.getUser(user);
-        id_user = result[0].id;
-        result  = await db.getUserRents(id_user);
         if( result.length == 0 ){
           console.error("Delete rent validation");
-          // Parameters
-            // Admin parameters
-              if( user == "Admin" ){
-                params = { 
-                  seo:     seo,
-                  admin:   "Admin",
-                  rents:   result,
-                  users:   await db.getUsers(),
-                  books0:  await db.getBooks0(),
-                  message: { error: "Usuário não possui aluguel" }
-                }
-            // User parameters
-              } else {
-                params = { 
-                  seo:     seo,
-                  rents:   result,
-                  message: { error: "Usuário não possui aluguel" }
-                }
-              }
-          // Reply
-            return reply.view("/src/pages/home.hbs", params);
+          params = await home.parameters(request);
+          params.message = { error: "Usuário não possui Aluguéis" };
+          return reply.view("/src/pages/home.hbs", params);
         }
       // Find if user rented this book
         if( !result.map( function(rent){return rent.isbn == isbn;} ).filter(Boolean)[0] ){
           console.error("Delete rent validation");
-          // Parameters
-            // Admin parameters
-              if( user == "Admin" ){
-                params = { 
-                  seo:     seo,
-                  admin:   "Admin",
-                  rents:   result,
-                  users:   await db.getUsers(),
-                  books0:  await db.getBooks0(),
-                  message: { error: "Usuário não alugou esse livro" }
-                }
-            // User parameters
-              } else {
-                params = { 
-                  seo:     seo,
-                  rents:   result,
-                  message: { error: "Usuário não alugou esse livro" }
-                }
-              }
-          // Reply
-            return reply.view("/src/pages/home.hbs", params);
+          params = await home.parameters(request);
+          params.message = { error: "Usuário não alugou esse livro" };
+          return reply.view("/src/pages/home.hbs", params);
         }
     
     // Deletion
       try {
+        // User id
+          result  = await db.getUser(user);
+          id_user = result[0].id;
         // Delete rent
           await db.deleteRent(id_user, isbn);
         // Update Books
@@ -93,6 +56,7 @@ module.exports = {
       } catch {
         // Error
           // Parameters
+            params = await home.parameters(request);
             params.message = { error: "Erro interno, veja o log para detalhes" };
           // Reply
             console.error(`Delete rent internal error`);
@@ -100,33 +64,12 @@ module.exports = {
       }
     
     // Success
-      // Admin reply
-        if( request.cookies.Authentication.split(":")[0] = "Admin" ){
-          // Parameters
-            params = { 
-              seo:     seo,
-              admin:   "Admin",
-              rents:   result,
-              users:   await db.getUsers(),
-              books0:  await db.getBooks0(),
-              message: { success: "Livro devolvido com sucesso" }
-            }
-          // Reply
-            console.log(`Admin returned Book: ${name}`);
-            return reply.view("/src/pages/home.hbs", params);
-      
-      // User reply
-        } else {
-          // Parameters
-            params = { 
-              seo:     seo,
-              rents:   result,
-              message: { success: "Livro devolvido com sucesso" }
-            }
-          // Reply
-            console.log(`User: ${user} returned book: ${name}`);
-            return reply.view("/src/pages/home.hbs", params);
-        }
+      // Parameters
+        params = await home.parameters(request);
+        params.message = { success: "Livro devolvido com sucesso" };
+      // Reply
+        console.log(`User: ${user} returned book: ${name}`);
+        return reply.view("/src/pages/home.hbs", params);
   }
   
 }

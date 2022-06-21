@@ -1,12 +1,12 @@
 const crypto = require("crypto-js");
 const seo    = require("../util/seo.json");
 const db     = require("../database/sqlite.js");
-var params   = { seo: seo };
+const regist = require("./ctrlViewRegistration.js");
 
 module.exports = {
   
   listen: async(fastify) => {
-    fastify.post("/registration", module.exports.createRegistration);
+    fastify.post("/create/registration", module.exports.createRegistration);
   },
   
   createRegistration: async(request, reply) => {
@@ -15,18 +15,20 @@ module.exports = {
     // Variables
       let user     = request.body.user;
       let password = request.body.password;
-      let result;
+      let result, params;
     
     // Validation
       // Length
         if( password.length <= 3 || user.length <= 3 ){
           console.error("Create registration validation ");
+          params = await regist.parameters();
           params.message = { error: "Mínimo de 4 caracteres" };
           return reply.view("/src/pages/registration.hbs", params);
         }
       // Special caracter
         if( user.includes(":") || password.includes(":") ){
           console.error("Create registration validation ");
+          params = await regist.parameters();
           params.message = { error: "Caracter especial não permitido" };
           return reply.view("/src/pages/registration.hbs", params);
         }
@@ -34,6 +36,7 @@ module.exports = {
         result = await db.getUser(user);
         if( result.length != 0 ){
           console.error("Create registration validation");
+          params = await regist.parameters();
           params.message = { error: "Usuário já existente" };
           return reply.view("/src/pages/registration.hbs", params);
         }
@@ -48,6 +51,7 @@ module.exports = {
       } catch {
         // Error
           // Parameters
+            params = await regist.parameters();  
             params.message = { error: "Erro interno, veja o log para detalhes" };
           // Reply
             console.error(`Create registration internal error`);
@@ -56,6 +60,7 @@ module.exports = {
     
     // Success
       // Parameters
+        params = await regist.parameters();
         params.message = { success: "Usuário criado com sucesso" };
       // Reply
         console.log(`User: ${user} successfully created`);

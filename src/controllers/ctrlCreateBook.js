@@ -1,7 +1,6 @@
-const ctrl = require("./ctrlCookie.js");
-const seo  = require("../util/seo.json");
-const db   = require("../database/sqlite.js");
-var params = { seo: seo };
+const ctrl  = require("./ctrlCookie.js");
+const home  = require("./ctrlViewHome.js");
+const db    = require("../database/sqlite.js");
 
 module.exports = {
   
@@ -21,22 +20,17 @@ module.exports = {
       let author   = request.body.author;
       let pages    = request.body.pages;
       let quantity = request.body.quantity;
-      let result, id_user;
+      let result, id_user, params;
     
-    // User
-      // ID
-        result  = await db.getUser(user);
-        id_user = result[0].id; 
-      // Rents
-        params.rents = await db.getUserRents(id_user);
-      // is Admin ?
-      user == "Admin" 
-        ? params.admin = "Admin"
-        : {};
+    // User id
+      result  = await db.getUser(user);
+      id_user = result[0].id; 
     
     // Validation
+      // parameters
+        params = await home.parameters(request);
       // is Admin ?
-        if( user != "Admin" ){
+        if( user == "Admin" ){
           console.error("Create book validation");
           params.message = { error: "Apenas Admin pode criar livro" };
           return reply.view("/src/pages/home.hbs", params);
@@ -122,6 +116,7 @@ module.exports = {
     
     // Success
       // Parameters
+        params = await home.parameters(request);
         params.message = { success: "Livro criado com sucesso" };
       // Reply
         console.log(`Book: ${name} successfully created`);

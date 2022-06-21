@@ -1,7 +1,7 @@
 const crypto = require("crypto-js");
-const seo    = require("../util/seo.json");
+const login  = require("./ctrlViewLogin.js");
+const books  = require("./ctrlViewBooks.js");
 const db     = require("../database/sqlite.js");
-var params   = { seo: seo };
 
 module.exports = {
   
@@ -15,13 +15,14 @@ module.exports = {
     // Variables
       let user     = request.body.user;
       let password = request.body.password;
-      let result;
+      let result, params;
       
     // Validation
       // User exists
         result = await db.getUser(user);
         if( result.length == 0 ){
           console.error("Login validation");
+          params = login.parameters();
           params.message = { error: "Usuário inexistente" };
           reply.view("/src/pages/login.hbs", params);
           return;
@@ -29,6 +30,7 @@ module.exports = {
       // Password is correct
         if( crypto.AES.decrypt(result[0].password, process.env.AES_Salt).toString(crypto.enc.Utf8) != password ){
           console.error("Login validation");
+          params = login.parameters();
           params.message = { error: "Senha incorreta" };
           reply.view("/src/pages/login.hbs", params);
           return;
@@ -36,7 +38,7 @@ module.exports = {
     
     // Success
       // Parameters
-        params.books   = await db.getBooks();
+        params = books.parameters();
         params.message = { success: "Seja bem-vindo" };
       // Reply
         console.log(`User: ${user} successfully logged in`);

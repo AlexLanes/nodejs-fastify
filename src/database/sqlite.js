@@ -330,12 +330,12 @@ module.exports = {
   },
   
   // Get all rents from user in the database
-  getUserRents: async(id_user) => {
+  getUserRents: async(user) => {
     console.log("exec db getUserRents");
     // We use a try catch block in case of db errors
     try {
-      id_user >= 2
-        ? dynamic = `WHERE r.fk_user = ${id_user} ORDER BY end_date`  // User  = User rents
+      user != "Admin"
+        ? dynamic = `WHERE u.user = "${user}" ORDER BY end_date`      // User  = User rents
         : dynamic = "ORDER BY end_date";                              // Admin = All rents
       result = await db.all(`
         SELECT 

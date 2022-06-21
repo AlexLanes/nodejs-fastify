@@ -1,5 +1,4 @@
 const seo  = require("../util/seo.json");
-var params = { seo: seo };
 
 module.exports = {
   
@@ -11,6 +10,8 @@ module.exports = {
   viewLogin: async(request, reply) => {
     console.log("exec viewLogin");
     // Success
+      // Parameters
+        let params = await module.exports.parameters();
       // Reply
         return reply.view("/src/pages/login.hbs", params)
                     .clearCookie('Authentication', {
@@ -20,6 +21,12 @@ module.exports = {
                       sameSite: 'lax',
                       httpOnly: true
                     });
+  },
+  
+  parameters: async function(){
+    return { 
+      seo: seo
+    }
   }
   
 };

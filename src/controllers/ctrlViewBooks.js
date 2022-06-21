@@ -1,8 +1,6 @@
 const ctrl = require("./ctrlCookie.js");
 const seo  = require("../util/seo.json");
 const db   = require("../database/sqlite.js");
-var params = { seo: seo };
-
 module.exports = {
   
   listen: async(fastify) => {
@@ -16,9 +14,16 @@ module.exports = {
     
     // Success
       // Parameters
-        params.books = await db.getBooks();
+        let params = await module.exports.parameters();
       // Reply
         return reply.view("/src/pages/books.hbs", params);
+  },
+  
+  parameters: async function(){
+    return { 
+      seo:   seo,
+      books: await db.getBooks()
+    }
   }
   
 }
