@@ -24,21 +24,19 @@ module.exports = {
           console.error("Login validation");
           params = login.parameters();
           params.message = { error: "Usuário inexistente" };
-          reply.view("/src/pages/login.hbs", params);
-          return;
+          return reply.view("/src/pages/login.hbs", params);
         }
       // Password is correct
         if( crypto.AES.decrypt(result[0].password, process.env.AES_Salt).toString(crypto.enc.Utf8) != password ){
           console.error("Login validation");
           params = login.parameters();
           params.message = { error: "Senha incorreta" };
-          reply.view("/src/pages/login.hbs", params);
-          return;
+          return reply.view("/src/pages/login.hbs", params);
         }
     
     // Success
       // Parameters
-        params = books.parameters();
+        params = await books.parameters();
         params.message = { success: "Seja bem-vindo" };
       // Reply
         console.log(`User: ${user} successfully logged in`);
