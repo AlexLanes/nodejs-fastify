@@ -7,7 +7,7 @@
       <th>ISBN</th>
       <th>Nome</th>
       <th>Entrega</th>
-      <th class="th_remove">
+      <th class="th_delete_rent">
         <a>
           <i class="fa-regular fa-trash-can"></i>
         </a>
@@ -21,9 +21,9 @@
         <td>{{name}}</td>
         <td>{{end_date}}</td>
         <td>
-          <form method="post" action="/delete/rent" >
-            <input type="hidden" id="isbn" name="isbn" value="{{isbn}}"/>
-            <button type="submit" class="delete_rent">
+          <form method="post" action="/delete/rent" id="form_delete_rent">
+            <input type="hidden" id="isbn" name="isbn" value="{{isbn}}" book_name="{{name}}"/>
+            <button type="submit" id="delete_rent">
               <i class="fa-solid fa-xmark"></i>
             </button>
           </form>

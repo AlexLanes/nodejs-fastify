@@ -316,7 +316,7 @@
     background-color: #81bbcf;
     text-align: left;
   }
-  .user_home table thead tr .th_remove {
+  .user_home table thead tr .th_delete_rent {
     text-align: center;
   }
   .user_home table tr th {
@@ -339,7 +339,7 @@
   .user_home table tbody tr:last-of-type {
     border-bottom: 2px solid #81bbcf;
   }
-  .user_home table tr .delete_rent {
+  .user_home table tr #delete_rent {
     font-size:17px;
     display:block;
     color:#d10000;
@@ -353,7 +353,83 @@
   .user_home table tr form {
     display:grid;
   }
-  .user_home table tr:hover .delete_rent {
+  .user_home table tr:hover #delete_rent {
     transition-duration: 0.7s;
     transform: scale(2.0) perspective(1px)
   }
+
+/* admin_home */
+  .admin_home {
+    top:10%;
+    padding-top:5% !important;
+  }
+  .admin_home .admin_home_header h1 {
+    text-align:center;
+    font-family:'Courier New',Courier,'Lucida Sans Typewriter','Lucida Typewriter',monospace;
+    letter-spacing:2.2px;
+    word-spacing:2.2px;
+    font-style:italic;
+    font-size:44px;
+    font-weight:400;
+  }
+  .admin_home .admin_home_float_rigth,
+  .admin_home .admin_home_float_left {
+    display: inline-block;
+  }
+  .admin_home .admin_home_float_left {
+    width: 60%;
+    float: left;
+  }
+  .admin_home .admin_home_float_rigth {
+    width: 40%;
+    float: right;
+  }
+  
+  /* rigth */
+  .admin_home .admin_home_float_rigth form {
+    text-align:center;
+    border-color:rgba(52,152,219,0.28);
+    border-style:solid;
+    border-width:2px;
+    border-top-left-radius:22px;
+    border-top-right-radius:22px;
+    border-bottom-left-radius:22px;
+    border-bottom-right-radius:22px;
+      
+  }
+  .admin_home .admin_home_float_rigth .cadastrar_livro {
+    display: none;
+  }
+
+
+/*
+  .admin_home {
+    position:fixed;
+    top:10%;
+    left:4%;
+    width:auto;
+    min-width:92%;
+    height:auto !important;
+    min-height:68%;
+  }
+  .admin_home .admin_home_header h1 {
+    text-align:center;
+    font-family:'Courier New',Courier,'Lucida Sans Typewriter','Lucida Typewriter',monospace;
+    letter-spacing:2.2px;
+    word-spacing:2.2px;
+    font-style:italic;
+    font-size:44px;
+    font-weight:400;
+  }
+
+  .admin_home .admin_home_alugueis {
+    max-width:50%;
+  }
+  .admin_home_alugueis header h1 {
+    text-align:center;
+  }
+  .admin_home_cadastrar form h1 {
+    text-align:center;
+  }
+
+*/

@@ -23,7 +23,7 @@
         <h1>Aluguel de Livro</h1>
       </header>
       <!-- Form -->
-      <form method="post" action="/create/rent">
+      <form method="post" action="/create/rent" id="form_create_rent">
         <!-- Duration -->
         <label>Duração em Dias</label>
         <input type="number" id="days" name="days" min="1" required />
@@ -32,7 +32,7 @@
         <select id="book" name="book" required>
           <option value=""></option>
           {{#each books}}
-            <option value="{{isbn}}">{{name}}</option>
+            <option value="{{isbn}}" descricao="" link="">{{name}}</option>
           {{/each}}
         </select><p/>
         <!-- Submit -->

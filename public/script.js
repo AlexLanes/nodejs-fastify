@@ -18,7 +18,29 @@
     input_password.setAttribute("type", toogle_type);
     // Toggle the eye slash icon
     eye.classList.toggle("fa-eye-slash");
-  }
+  };
+  function addDays(date, days) {
+    var result = new Date(date);
+    days = parseInt(days);
+    result.setDate(result.getDate() + days);
+    // Return date + days
+    return result;
+  };
+  function parseDate(date) {
+    let day = date.getDate().toString().padStart(2, "0");
+    let mon = (date.getMonth() + 1).toString().padStart(2, "0");
+    // Parse date to string dd/mm/yyyy
+    return `${day}/${mon}/${date.getFullYear()}`;
+  };
+  function confirmRentCreation(book_name, days){
+    let date = addDays(new Date(), days);
+    let confirm = window.confirm(`Irei devolver o livro "${book_name}" até ${parseDate(date)} !`);
+    return confirm;
+  };
+  function confirmRentDeletion(book_name){
+    let confirm = window.confirm(`Está pronto para devolver o livro "${book_name}"?`);
+    return confirm;
+  };
 
 // After page load
 window.onload = function() {
@@ -35,6 +57,19 @@ window.onload = function() {
       var eye_listener = document.getElementById("eye");
       eye_listener != null && eye_listener != undefined
         ? eye_listener.onclick = function(){ togglePassword(this); }
+        : {};
+    // Create rent confirmation
+      var create_rent_listener = document.getElementById("form_create_rent");
+      create_rent_listener != null && create_rent_listener != undefined
+        ? create_rent_listener.onsubmit = function(){ 
+            let select = this.childNodes[0].parentNode[1];
+            return confirmRentCreation( select.options[select.selectedIndex].text, this.childNodes[0].parentNode[0].value ); 
+          }
+        : {};
+    // Delete rent confirmation
+      var delete_rent_listener = document.getElementById("form_delete_rent");
+      delete_rent_listener != null && delete_rent_listener != undefined
+        ? delete_rent_listener.onsubmit = function(){ return confirmRentDeletion(this.childNodes[0].parentNode[0].getAttribute("book_name")); }
         : {};
     
 }

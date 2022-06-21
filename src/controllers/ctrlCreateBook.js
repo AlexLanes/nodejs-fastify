@@ -19,6 +19,7 @@ module.exports = {
       let isbn     = request.body.isbn;
       let name     = request.body.name;
       let author   = request.body.author;
+      let pages    = request.body.pages;
       let quantity = request.body.quantity;
       let result, id_user;
     
@@ -49,9 +50,27 @@ module.exports = {
           return;
         }
       // ISBN value
-    
+        function validateISBN(isbn){ 
+          if( typeof(isbn) != "string" || isbn.length  != 10 ){ 
+            return false 
+          };
+          isbn = isbn.split("").map( function(char){ 
+            return parseInt( char.replace(/X/i, "10") );
+          });
+          let sum = 0;
+          isbn.forEach( (number, index) => 
+            sum += number * (10 - index) 
+          );
+          return sum % 11 == 0;
+        };
+        if( !validateISBN(isbn) ){
+          console.error("Create book validation");
+          params.message = { error: "ISBN inválido" };
+          reply.view("/src/pages/home.hbs", params);
+          return;
+        }      
       // ISBN duplication
-        result = db.getBook(isbn);
+        result = await db.getBook(isbn);
         if( result.length != 0 ){
           console.error("Create book validation");
           params.message = { error: "ISBN Duplicado" };
@@ -66,7 +85,7 @@ module.exports = {
           return;
         }
       // Name duplication
-        result = db.getBookName(name);
+        result = await db.getBookName(name);
         if( result.length != 0 ){
           console.error("Create book validation");
           params.message = { error: "Nome duplicado" };
@@ -80,7 +99,14 @@ module.exports = {
           reply.view("/src/pages/home.hbs", params);
           return;
         }
-      // Quantity length
+      // Pages
+        if( pages < 1 ){
+          console.error("Create book validation");
+          params.message = { error: "Pagina não pode ser menor que 1" };
+          reply.view("/src/pages/home.hbs", params);
+          return;
+        }
+      // Quantity
         if( quantity < 1 ){
           console.error("Create book validation");
           params.message = { error: "Quantidade não pode ser menor que 1" };
@@ -89,7 +115,17 @@ module.exports = {
         }
     
     // Creation
-      await db.createBook(isbn, name, author, quantity);
+      try {
+        await db.createBook(isbn, name, author,pages, quantity);
+        
+      } catch {
+        // Error
+          // Parameters
+            params.message = { error: "Erro interno, veja o log para detalhes" };
+          // Reply
+            console.error(`Create book internal error`);
+            reply.view("/src/pages/home.hbs", params);
+      }
     
     // Success
       // Parameters
