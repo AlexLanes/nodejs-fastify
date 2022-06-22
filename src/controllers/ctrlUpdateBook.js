@@ -5,7 +5,7 @@ const db   = require("../database/sqlite.js");
 module.exports = {
   
   listen: async(fastify) => {
-    fastify.post("/create/book", module.exports.createBook);
+    fastify.post("/update/book", module.exports.updateBook);
   },
   
   createBook: async(request, reply) => {

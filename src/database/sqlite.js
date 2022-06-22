@@ -267,6 +267,25 @@ module.exports = {
     }
   },
   
+  // Delete a book in the database
+  deleteBook: async(isbn, name) => {
+    console.log("exec db deleteRent");
+    // We use a try catch block in case of db errors
+    try {
+      await db.run(`
+        DELETE FROM books 
+        WHERE 
+          isbn = ${isbn} AND 
+          name = "${name}"
+      `);
+      
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+      throw(dbError);
+    }
+  },
+  
   // Create a rent in the database
   createRent: async(id_user, isbn, days) => {
     console.log("exec db createRent");

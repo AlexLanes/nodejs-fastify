@@ -29,7 +29,8 @@ module.exports = {
           rents:  await db.getUserRents(user),
           admin:  "Admin",
           users:  await db.getUsers(),
-          books0: await db.getBooks0()
+          books0: await db.getBooks0(),
+          books:  await db.getBooks(),
         }
     // User parameters
       } else {

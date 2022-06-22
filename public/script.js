@@ -32,6 +32,9 @@
     // Parse date to string dd/mm/yyyy
     return `${day}/${mon}/${date.getFullYear()}`;
   };
+  function getSelectText(select){
+    return select.options[select.selectedIndex].text;
+  };
   function confirmRentCreation(book_name, days){
     let date = addDays(new Date(), days);
     let confirm = window.confirm(`Irei devolver o livro "${book_name}" até ${parseDate(date)} !`);
@@ -52,6 +55,14 @@
     let div = document.getElementById(div_id);
     // Hide the div
     return div.style.display = "none";
+  };
+  function changeDeleteBookValue(value, element){
+    // Change pair select
+    return element.value = value;
+  };
+  function confirmBookDeletion(book_name){
+    let confirm = window.confirm(`Tem certeza que deseja apagar o livro "${book_name}" do banco de dados ?`);
+    return confirm;
   };
 
 // After page load
@@ -75,7 +86,7 @@ window.onload = function() {
       create_rent_listener != null && create_rent_listener != undefined
         ? create_rent_listener.onsubmit = function(){ 
             let select = this.childNodes[0].parentNode[1];
-            return confirmRentCreation( select.options[select.selectedIndex].text, this.childNodes[0].parentNode[0].value ); 
+            return confirmRentCreation( getSelectText(select), this.childNodes[0].parentNode[0].value ); 
           }
         : {};
     // Delete rent confirmation
@@ -99,6 +110,34 @@ window.onload = function() {
             previous_action = this.value;
             return; 
           }
-      }
+      };
+    // Delete book select change
+      var delete_book_listener = document.getElementById("delete_book");
+      if(delete_book_listener != null && delete_book_listener != undefined){
+        // Select isbn change
+          var delete_book_select_isbn = document.getElementById("delete_book_select_isbn");
+          delete_book_select_isbn.onchange = function(){ 
+            // Change name to this.isbn
+            changeDeleteBookValue(this.value, delete_book_select_name); 
+            // Change name_hidden to this.isbn
+            changeDeleteBookValue( getSelectText(delete_book_select_name), delete_book_select_name_hidden );
+          }
+        // Select name change
+          var delete_book_select_name = document.getElementById("delete_book_select_name");
+          delete_book_select_name.onchange = function(){ 
+            // Change isbn to this.name
+            changeDeleteBookValue(this.value, delete_book_select_isbn);
+            // Change name_hidden to this.name
+            changeDeleteBookValue( getSelectText(this), delete_book_select_name_hidden );
+          }
+        // On load, add value to name_hidden
+          var delete_book_select_name_hidden = document.getElementById("delete_book_select_name_hidden");
+          changeDeleteBookValue( getSelectText(delete_book_select_name), delete_book_select_name_hidden );
+        // Delete confirmation
+          delete_book_listener.onsubmit = function(){ 
+            return confirmBookDeletion( getSelectText(delete_book_select_name) );
+          }
+      };
+  
 
 }

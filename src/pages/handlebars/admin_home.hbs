@@ -136,19 +136,21 @@
       <h1>Apagar Livro</h1>
       <!-- ISBN -->
         <label>ISBN</label><br/>
-        <input type="text" id="isbn" name="isbn" readonly /><br/>
+        <select id="delete_book_select_isbn" name="isbn">
+          <option disabled>Selecione um ISBN</option>
+          {{#each books}}
+            <option value="{{isbn}}">{{isbn}}</option>
+          {{/each}}
+        </select><br/>
       <!-- Name -->
         <label>Nome</label><br/>
-        <input type="text" id="name" name="name" readonly /><br/>
-      <!-- Author -->
-        <label>Autor</label><br/>
-        <input type="text" id="author" name="author" readonly /><br/>
-      <!-- Pages -->
-        <label>Páginas</label><br/>
-        <input type="number" id="pages" name="pages" readonly /><br/>
-      <!-- Quantity -->
-        <label>Quantidade</label><br/>
-        <input type="number" id="quantity" name="quantity" readonly /><br/><br/>
+        <select id="delete_book_select_name">
+          <option disabled>Selecione um Nome</option>
+          {{#each books}}
+            <option value="{{isbn}}">{{name}}</option>
+          {{/each}}
+        </select><br/><br/>
+        <input id="delete_book_select_name_hidden" name="name" style="display: none;" value="" readonly/>
       <!-- Input Button -->
         <button type="submit">Apagar</button><br/>
     </form>

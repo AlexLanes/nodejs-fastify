@@ -1,6 +1,6 @@
-const ctrl  = require("./ctrlCookie.js");
-const home  = require("./ctrlViewHome.js");
-const db    = require("../database/sqlite.js");
+const ctrl = require("./ctrlCookie.js");
+const home = require("./ctrlViewHome.js");
+const db   = require("../database/sqlite.js");
 
 module.exports = {
   
@@ -48,10 +48,13 @@ module.exports = {
         // Delete rent
           await db.deleteRent(id_user, isbn);
         // Update Books
-          result   = await db.getBook(isbn);
-          name     = result[0].name;
-          quantity = result[0].quantity + 1;
-          await db.updateBook(isbn, quantity);
+          result = await db.getBook(isbn);
+          // Book has not been deleted
+          if(result.length != 0){
+            name     = result[0].name;
+            quantity = result[0].quantity + 1;
+            await db.updateBook(isbn, quantity);
+          }
         
       } catch {
         // Error
