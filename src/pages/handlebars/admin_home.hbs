@@ -147,18 +147,17 @@
         <select id="delete_book_select_isbn" name="isbn">
           <option disabled>Selecione um ISBN</option>
           {{#each books}}
-            <option value="{{isbn}}">{{isbn}}</option>
+            <option value="{{isbn}}" name="{{name}}">{{isbn}}</option>
           {{/each}}
         </select><br/>
       <!-- Name -->
         <label>Nome</label><br/>
-        <select id="delete_book_select_name">
+        <select id="delete_book_select_name" name="name">
           <option disabled>Selecione um Nome</option>
           {{#each books}}
-            <option value="{{isbn}}">{{name}}</option>
+            <option value="{{name}}" isbn="{{isbn}}">{{name}}</option>
           {{/each}}
         </select><br/><br/>
-        <input id="delete_book_select_name_hidden" name="name" style="display: none;" value="" readonly/>
       <!-- Input Button -->
         <button type="submit">Apagar</button><br/>
     </form>
