@@ -10,12 +10,11 @@
       ? topnav.setAttribute("class", "active")
       : {};
   };
-  function togglePassword(eye){
-    let input_password = document.getElementById("password"); 
-    let toogle_type = input_password.getAttribute("type") == "password"
+  function togglePassword(eye, element){
+    let toogle_type = element.getAttribute("type") == "password"
       ? "text" 
       : "password";
-    input_password.setAttribute("type", toogle_type);
+    element.setAttribute("type", toogle_type);
     // Toggle the eye slash icon
     eye.classList.toggle("fa-eye-slash");
   };
@@ -107,7 +106,11 @@ window.onload = function() {
     // Toogle password listener
       var eye_listener = document.getElementById("eye");
       eye_listener != null && eye_listener != undefined
-        ? eye_listener.onclick = function(){ togglePassword(this); }
+        ? eye_listener.onclick = function(){
+            let password = document.getElementById("password");
+            togglePassword(this, password); 
+            return;
+          }
         : {};
     // Create rent listener
       var create_rent_listener = document.getElementById("form_create_rent");
@@ -177,10 +180,6 @@ window.onload = function() {
             return confirmBookDeletion( getSelectText(delete_book_select_name) );
           }
       };
-  
-  
-  
-  
     // Update password listener
       var update_password_listener = document.getElementById("update_password");
       if(update_password_listener != null && update_password_listener != undefined){
@@ -194,13 +193,14 @@ window.onload = function() {
         // On load, add value to id
           let user_id = getSelectAttribute(update_password_select_user, "user_id");
           changeElementValue(user_id, update_password_input_id);
+        // Toogle eye password
+          var eye_listener = document.getElementById("update_password_eye");
+          eye_listener.onclick = function(){ 
+            let password = document.getElementById("update_password_input_password");
+            togglePassword(this, password); 
+            return;
+          };
       };
-  //   
-  
-  
-  
-  
-  
     // Delete user listener
       var delete_registration_listener = document.getElementById("delete_registration");
       if(delete_registration_listener != null && delete_registration_listener != undefined){
