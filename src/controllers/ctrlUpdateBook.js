@@ -8,8 +8,8 @@ module.exports = {
     fastify.post("/update/book", module.exports.updateBook);
   },
   
-  createBook: async(request, reply) => {
-    console.log("exec createBook");
+  updateBook: async(request, reply) => {
+    console.log("exec updateBook");
     // Validate authentication cookie
       await ctrl.validateCookie(request, reply);
     
@@ -27,8 +27,8 @@ module.exports = {
         params = await home.parameters(request);
       // is Admin ?
         if( user != "Admin" ){
-          console.error("Create book validation");
-          params.message = { error: "Apenas Admin pode criar livro" };
+          console.error("Update book validation");
+          params.message = { error: "Apenas Admin pode atualizar livro" };
           return reply.view("/src/pages/home.hbs", params);
         }
       // ISBN length

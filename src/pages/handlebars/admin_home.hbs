@@ -114,10 +114,17 @@
       <h1>Alterar Livro</h1>
       <!-- ISBN -->
         <label>ISBN</label><br/>
-        <input type="text" id="isbn" name="isbn" readonly /><br/>
+        <input type="text" id="isbn" name="isbn" required readonly /><br/>
       <!-- Name -->
-        <label>Nome</label><br/>
-        <input type="text" id="name" name="name" minlength="1" required /><br/>
+        <label>Nome</label>
+        <i id="update_book_edit_icon" class="fa-regular fa-pen-to-square"></i><br/>
+        <select id="update_book_select_name">
+          <option disabled>Selecione um Nome</option>
+          {{#each books}}
+            <option value="{{isbn}}">{{name}}</option>
+          {{/each}}
+        </select><br/>
+        <input id="update_book_select_name_hidden" name="name" style="display: none;" value="" readonly/>
       <!-- Author -->
         <label>Autor</label><br/>
         <input type="text" id="author" name="author" minlength="1" required /><br/>
@@ -126,7 +133,7 @@
         <input type="number" id="pages" name="pages" min="1" required /><br/>
       <!-- Quantity -->
         <label>Quantidade</label><br/>
-        <input type="number" id="quantity" name="quantity" min="1" required /><br/><br/>
+        <input type="number" id="quantity" name="quantity" min="0" required /><br/><br/>
       <!-- Input Button -->
         <button type="submit">Alterar</button><br/>
     </form>

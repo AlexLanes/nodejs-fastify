@@ -276,7 +276,7 @@
   .rent form button:hover {
     background-color: #6398d8;
     transition-duration: 0.4s;
-    transform: scale(1.5) perspective(1px)
+    transform: scale(1.5) perspective(1px);
   }
   .rent form i {
     background-color:transparent;
@@ -357,7 +357,7 @@
   }
   .user_home table tr:hover #delete_rent {
     transition-duration: 0.7s;
-    transform: scale(2.0) perspective(1px)
+    transform: scale(2.0) perspective(1px);
   }
 
 /* admin_home */
@@ -508,5 +508,10 @@
       color:#ffffff;
       display: block;
       margin: 0 auto;
+      cursor:pointer;
+    }
+    .admin_home .admin_home_float_rigth .update_book form i:hover {
+      transition-duration: 0.4s;
+      transform: scale(1.5) perspective(1px);
       cursor:pointer;
     }
