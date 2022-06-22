@@ -515,3 +515,6 @@
       transform: scale(1.5) perspective(1px);
       cursor:pointer;
     }
+    .admin_home .admin_home_float_rigth .update_book #update_book_input_name {
+      display: none;
+    }

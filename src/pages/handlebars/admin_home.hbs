@@ -118,13 +118,13 @@
       <!-- Name -->
         <label>Nome</label>
         <i id="update_book_edit_icon" class="fa-regular fa-pen-to-square"></i><br/>
-        <select id="update_book_select_name">
+        <select id="update_book_select_name" name="name">
           <option disabled>Selecione um Nome</option>
           {{#each books}}
-            <option value="{{isbn}}">{{name}}</option>
+            <option isbn="{{isbn}}" value="{{name}}" author="{{author}}" pages="{{pages}}" quantity="{{quantity}}">{{name}}</option>
           {{/each}}
-        </select><br/>
-        <input id="update_book_select_name_hidden" name="name" style="display: none;" value="" readonly/>
+        </select>
+        <input id="update_book_input_name" name="name" required disabled/><br/>
       <!-- Author -->
         <label>Autor</label><br/>
         <input type="text" id="author" name="author" minlength="1" required /><br/>

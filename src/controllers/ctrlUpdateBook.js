@@ -16,12 +16,12 @@ module.exports = {
     // Variables
       let [user, password] = request.cookies.Authentication.split(":");
       let isbn     = request.body.isbn;
-      let name     = request.body.name;
+      let name     = request.body.name
       let author   = request.body.author;
       let pages    = request.body.pages;
       let quantity = request.body.quantity;
       let result, params;
-    
+      
     // Validation
       // Parameters
         params = await home.parameters(request);
@@ -33,7 +33,7 @@ module.exports = {
         }
       // ISBN length
         if( isbn.length != 10 ){
-          console.error("Create book validation");
+          console.error("Update book validation");
           params.message = { error: "ISBN deve possuir 10 caracteres" };
           return reply.view("/src/pages/home.hbs", params);
         }
@@ -55,68 +55,68 @@ module.exports = {
           return sum % 11 == 0;
         };
         if( !validateISBN(isbn) ){
-          console.error("Create book validation");
+          console.error("Update book validation");
           params.message = { error: "ISBN inválido" };
           return reply.view("/src/pages/home.hbs", params);
         }      
-      // ISBN duplication
+      // ISBN exists
         result = await db.getBook(isbn);
-        if( result.length != 0 ){
-          console.error("Create book validation");
-          params.message = { error: "ISBN Duplicado" };
+        if( result.length == 0 ){
+          console.error("Update book validation");
+          params.message = { error: "ISBN inexistente" };
           return reply.view("/src/pages/home.hbs", params);
         }
       // Name length
         if( name.length < 1 ){
-          console.error("Create book validation");
+          console.error("Update book validation");
           params.message = { error: "Nome não pode ser vazio" };
           return reply.view("/src/pages/home.hbs", params);
         }
       // Name duplication
         result = await db.getBookName(name);
         if( result.length != 0 ){
-          console.error("Create book validation");
+          console.error("Update book validation");
           params.message = { error: "Nome duplicado" };
           return reply.view("/src/pages/home.hbs", params);
         }
       // Author length
         if( author.length < 1 ){
-          console.error("Create book validation");
+          console.error("Update book validation");
           params.message = { error: "Autor não pode ser vazio" };
           return reply.view("/src/pages/home.hbs", params);
         }
       // Pages
         if( pages < 1 ){
-          console.error("Create book validation");
+          console.error("Update book validation");
           params.message = { error: "Pagina não pode ser menor que 1" };
           return reply.view("/src/pages/home.hbs", params);
         }
       // Quantity
         if( quantity < 1 ){
-          console.error("Create book validation");
+          console.error("Update book validation");
           params.message = { error: "Quantidade não pode ser menor que 1" };
           return reply.view("/src/pages/home.hbs", params);
         }
     
     // Creation
       try {
-        await db.createBook(isbn, name, author, pages, quantity);
+        await db.updateBook(isbn, name, author, pages, quantity);
         
       } catch {
         // Error
           // Parameters
             params.message = { error: "Erro interno, veja o log para detalhes" };
           // Reply
-            console.error(`Create book internal error`);
+            console.error(`Update book internal error`);
             return reply.view("/src/pages/home.hbs", params);
       }
     
     // Success
       // Parameters
         params = await home.parameters(request);
-        params.message = { success: "Livro criado com sucesso" };
+        params.message = { success: "Livro alterado com sucesso" };
       // Reply
-        console.log(`Book: ${name} successfully created`);
+        console.log(`Book: ${name} successfully updated`);
         return reply.view("/src/pages/home.hbs", params);
   }
 

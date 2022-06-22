@@ -33,7 +33,12 @@
     return `${day}/${mon}/${date.getFullYear()}`;
   };
   function getSelectText(select){
+    // return text from selected option
     return select.options[select.selectedIndex].text;
+  };
+  function getSelectAttribute(select, attribute){
+    // return attribute from selected option
+    return select.options[select.selectedIndex].getAttribute(attribute);
   };
   function confirmRentCreation(book_name, days){
     let date = addDays(new Date(), days);
@@ -56,6 +61,29 @@
     // Hide the div
     return div.style.display = "none";
   };
+  function changeUpdateBookValues(select, form){
+    form.querySelector("#isbn").value                   = getSelectAttribute(select, "isbn");
+    form.querySelector("#update_book_input_name").value = getSelectAttribute(select, "value");
+    form.querySelector("#author").value                 = getSelectAttribute(select, "author");
+    form.querySelector("#pages").value                  = getSelectAttribute(select, "pages");
+    form.querySelector("#quantity").value               = getSelectAttribute(select, "quantity");
+    return;
+  };
+  function toogleUpdateBookEditName(input, select){
+    if( select.style.display == "none" && input.style.display == "inline" ){
+      select.style.display = "inline";
+      select.disabled      = false;
+      input.style.display  = "none";
+      input.disabled       = true;
+      return;
+    } else {
+      select.style.display = "none";
+      select.disabled      = true;
+      input.style.display  = "inline";
+      input.disabled       = false;
+      return;
+    }
+  };
   function changeDeleteBookValue(value, element){
     // Change pair select
     return element.value = value;
@@ -76,12 +104,12 @@ window.onload = function() {
     activeTopNav(`topnav_${state}`);
   
   // Events listener
-    // Toogle password
+    // Toogle password listener
       var eye_listener = document.getElementById("eye");
       eye_listener != null && eye_listener != undefined
         ? eye_listener.onclick = function(){ togglePassword(this); }
         : {};
-    // Create rent confirmation
+    // Create rent listener
       var create_rent_listener = document.getElementById("form_create_rent");
       create_rent_listener != null && create_rent_listener != undefined
         ? create_rent_listener.onsubmit = function(){ 
@@ -89,12 +117,12 @@ window.onload = function() {
             return confirmRentCreation( getSelectText(select), this.childNodes[0].parentNode[0].value ); 
           }
         : {};
-    // Delete rent confirmation
+    // Delete rent listener
       var delete_rent_listener = document.getElementById("form_delete_rent");
       delete_rent_listener != null && delete_rent_listener != undefined
         ? delete_rent_listener.onsubmit = function(){ return confirmRentDeletion(this.childNodes[0].parentNode[0].getAttribute("book_name")); }
         : {};
-    // Admin action change
+    // Admin action listener
       var admin_action_listener = document.getElementById("admin_action");
       if( admin_action_listener != null && admin_action_listener != undefined ){
         // On page load, show first action
@@ -111,6 +139,31 @@ window.onload = function() {
             return; 
           }
       };
+  
+  
+  
+  
+    // Update book listener
+      var update_book_listener = document.getElementById("update_book");
+      if(update_book_listener != null && update_book_listener != undefined){
+        // Select name change
+          // On load
+            var update_book_select_name = document.getElementById("update_book_select_name");
+            changeUpdateBookValues(update_book_select_name, update_book_listener);
+          // On change
+            update_book_select_name.onchange = function(){ 
+              changeUpdateBookValues(update_book_select_name, update_book_listener);
+            }
+        // Edit name icon
+          var update_book_edit_icon  = document.getElementById("update_book_edit_icon");
+          var update_book_input_name = document.getElementById("update_book_input_name");
+          update_book_edit_icon.onclick = function(){ 
+            toogleUpdateBookEditName(update_book_input_name, update_book_select_name)
+          }
+      };
+  
+  
+  
     // Delete book select change
       var delete_book_listener = document.getElementById("delete_book");
       if(delete_book_listener != null && delete_book_listener != undefined){

@@ -227,13 +227,17 @@ module.exports = {
   },
   
   // Update book quantity in the database
-  updateBook: async(isbn, quantity) => {
+  updateBook: async(isbn, name, author, pages, quantity) => {
     console.log("exec db updateBook");
     // We use a try catch block in case of db errors
     try {
       await db.run(`
         UPDATE books 
-        SET quantity=${quantity} 
+        SET 
+          name="${name}",
+          author="${author}",
+          pages=${pages},
+          quantity=${quantity}
         WHERE isbn="${isbn}"
       `);
       
