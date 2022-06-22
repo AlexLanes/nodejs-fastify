@@ -2,30 +2,10 @@
 <html lang="en">
 
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="https://glitch.com/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>{{seo.title}}</title>
-
-    <!-- Meta tags for SEO and social sharing -->
-    <link rel="canonical" href="{{seo.url}}">
-    <meta name="description" content="{{seo.description}}">
-    <meta property="og:title" content="{{seo.title}}">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{seo.url}}">
-    <meta property="og:description" content="{{seo.description}}">
-    <meta property="og:image" content="{{seo.image}}">
-    <meta name="twitter:card" content="summary">
-
-    <!-- Import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css" />
+    <!-- Common head view -->
+    {{> head}}   
     <!-- Background color -->
     <style> body{ background-image:linear-gradient(to right, #283c86 0%, #45a247 100%);} </style>
-    <!-- Icons -->
-    <script src="https://kit.fontawesome.com/edfaca1bfa.js" crossorigin="anonymous"></script>
-    <!-- Script -->
-    <script src="/script.js"></script>
   </head>
 
   <body>
@@ -43,7 +23,7 @@
         <h1>Aluguel de Livro</h1>
       </header>
       <!-- Form -->
-      <form method="post" action="/create/rent">
+      <form method="post" action="/create/rent" id="form_create_rent">
         <!-- Duration -->
         <label>Duração em Dias</label>
         <input type="number" id="days" name="days" min="1" required />
@@ -52,7 +32,7 @@
         <select id="book" name="book" required>
           <option value=""></option>
           {{#each books}}
-            <option value="{{isbn}}">{{name}}</option>
+            <option value="{{isbn}}" descricao="" link="">{{name}}</option>
           {{/each}}
         </select><p/>
         <!-- Submit -->

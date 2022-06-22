@@ -67,7 +67,7 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
                   ${random.int(1, 22)}
                 )
               `);
-            } catch(e) {}
+            } catch(dbError) {}
           }
           result = await db.all("SELECT COUNT(*) as counter FROM books");
           console.log(`${result[0].counter} books inserted`);
@@ -117,6 +117,23 @@ module.exports = {
     }
   },
   
+  // Get all users in the database
+  getUsers: async() => {
+    console.log("exec db getUsers");
+    // We use a try catch block in case of db errors
+    try {
+      result = db.all(`
+        SELECT * 
+        FROM users 
+      `);
+      return result;
+      
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
   // Create a new user in the database
   createUser: async(user, password) => {
     console.log("exec db createUser");
@@ -131,10 +148,11 @@ module.exports = {
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
+      throw(dbError);
     }
   },
   
-  // Get a book in the database
+  // Get a book by isbn in the database
   getBook: async(isbn) => {
     console.log("exec db getBook");
     // We use a try catch block in case of db errors
@@ -189,6 +207,25 @@ module.exports = {
     }
   },
   
+  // Get all books with no inventory in the database
+  getBooks0: async() => {
+    console.log("exec db getBooks0");
+    // We use a try catch block in case of db errors
+    try {
+      result = await db.all(`
+        SELECT * 
+        FROM books 
+        WHERE quantity = 0 
+        ORDER BY name
+      `);
+      return result;
+      
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+    }
+  },
+  
   // Update book quantity in the database
   updateBook: async(isbn, quantity) => {
     console.log("exec db updateBook");
@@ -203,11 +240,12 @@ module.exports = {
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
+      throw(dbError);
     }
   },
   
   // Create book in the database
-  createBook: async(isbn, name, author, quantity) => {
+  createBook: async(isbn, name, author,pages, quantity) => {
     console.log("exec db createBook");
     // We use a try catch block in case of db errors
     try {
@@ -216,14 +254,16 @@ module.exports = {
         VALUES (
           "${isbn}", 
           "${name}", 
-          "${author}", 
+          "${author}",
+          ${pages},
           ${quantity}
         )
       `);
-      
+            
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
+      throw(dbError);
     }
   },
   
@@ -244,6 +284,7 @@ module.exports = {
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
+      throw(dbError);
     }
   },
   
@@ -284,16 +325,17 @@ module.exports = {
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
+      throw(dbError);
     }
   },
   
   // Get all rents from user in the database
-  getUserRents: async(id_user) => {
+  getUserRents: async(user) => {
     console.log("exec db getUserRents");
     // We use a try catch block in case of db errors
     try {
-      id_user >= 2
-        ? dynamic = `WHERE r.fk_user = ${id_user} ORDER BY end_date`  // User  = User rents
+      user != "Admin"
+        ? dynamic = `WHERE u.user = "${user}" ORDER BY end_date`      // User  = User rents
         : dynamic = "ORDER BY end_date";                              // Admin = All rents
       result = await db.all(`
         SELECT 

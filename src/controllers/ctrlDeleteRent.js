@@ -1,12 +1,11 @@
-const ctrl = require("./ctrlCookie.js");
-const seo  = require("../util/seo.json");
-const db   = require("../database/sqlite.js");
-var params = { seo: seo };
+const ctrl  = require("./ctrlCookie.js");
+const home  = require("./ctrlViewHome.js");
+const db    = require("../database/sqlite.js");
 
 module.exports = {
   
   listen: async(fastify) => {
-    fastify.get("/delete/rent", module.exports.deleteRent);
+    fastify.post("/delete/rent", module.exports.deleteRent);
   },
   
   deleteRent: async(request, reply) => {
@@ -16,51 +15,61 @@ module.exports = {
     
     // Variables
       let [user, password] = request.cookies.Authentication.split(":");
-      let isbn = request.query.isbn;
-      let result, id_user, name, quantity;
+      let isbn = request.body.isbn;
+      let result, id_user, name, quantity, params;
     
-    // Admin parameter
-      user == "Admin" 
-        ? params.admin = "Admin"
-        : {};
+    // is Admin ?
+      if( user == "Admin" ){
+        user = request.body.user;
+      }
     
     // Validation
+      result = await db.getUserRents(user)
       // Find if user has rents
-        result  = await db.getUser(user);
-        id_user = result[0].id;
-        result  = await db.getUserRents(id_user);
         if( result.length == 0 ){
           console.error("Delete rent validation");
-          params.message = { error: "Usuário não possui aluguel" };
-          params.rents   = result;
-          reply.view("/src/pages/home.hbs", params);
-          return;
+          params = await home.parameters(request);
+          params.message = { error: "Usuário não possui Aluguéis" };
+          return reply.view("/src/pages/home.hbs", params);
         }
       // Find if user rented this book
         if( !result.map( function(rent){return rent.isbn == isbn;} ).filter(Boolean)[0] ){
           console.error("Delete rent validation");
+          params = await home.parameters(request);
           params.message = { error: "Usuário não alugou esse livro" };
-          params.rents   = result;
-          reply.view("/src/pages/home.hbs", params);
-          return;
+          return reply.view("/src/pages/home.hbs", params);
         }
     
     // Deletion
-      // Delete rent
-        await db.deleteRent(id_user, isbn);
-      // Update Books
-        result   = await db.getBook(isbn);
-        name     = result[0].name;
-        quantity = result[0].quantity + 1;
-        await db.updateBook(isbn, quantity);
+      try {
+        // User id
+          result  = await db.getUser(user);
+          id_user = result[0].id;
+        // Delete rent
+          await db.deleteRent(id_user, isbn);
+        // Update Books
+          result   = await db.getBook(isbn);
+          name     = result[0].name;
+          quantity = result[0].quantity + 1;
+          await db.updateBook(isbn, quantity);
+        
+      } catch {
+        // Error
+          // Parameters
+            params = await home.parameters(request);
+            params.message = { error: "Erro interno, veja o log para detalhes" };
+          // Reply
+            console.error(`Delete rent internal error`);
+            return reply.view("/src/pages/home.hbs", params);
+      }
     
     // Success
       // Parameters
-        params.rents   = await db.getUserRents(id_user);
+        params = await home.parameters(request);
         params.message = { success: "Livro devolvido com sucesso" };
       // Reply
         console.log(`User: ${user} returned book: ${name}`);
-        reply.view("/src/pages/home.hbs", params);
+        return reply.view("/src/pages/home.hbs", params);
   }
   
 }

@@ -1,52 +1,157 @@
-<header>
+<header class="admin_home_header">
   <h1>Espaço Admin</h1>
 </header>
-<div class="admin_alugueis">
-  <header>
-    <h1>Todos os Aluguéis</h1>
-  </header>
-  <table>
-    <thead>
-      <tr>
-        <th>ISBN</th>
-        <th>Nome</th>
-        <th>Entrega</th>
-        <th>Usuário</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each rents}}
+<div class="admin_home_float_left">
+  
+  <div class="admin_home_rents">
+    <header>
+      <h1>Aluguéis Realizados</h1>
+    </header>
+    <table>
+      <thead>
         <tr>
-          <td>{{isbn}}</td>
-          <td>{{name}}</td>
-          <td>{{end_date}}</td>
-          <td>{{user}}</td>
+          <th>ISBN</th>
+          <th>Nome</th>
+          <th>Entrega</th>
+          <th>Usuário</th>
         </tr>
-      {{/each}}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {{#each rents}}
+          <tr>
+            <td>{{isbn}}</td>
+            <td>{{name}}</td>
+            <td>{{end_date}}</td>
+            <td>{{user}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="admin_home_books0">
+    <header>
+      <h1>Livros sem Estoque</h1>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>ISBN</th>
+          <th>Nome</th>
+          <th>Autor</th>
+          <th>Páginas</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each books0}}
+          <tr>
+            <td>{{isbn}}</td>
+            <td>{{name}}</td>
+            <td>{{author}}</td>
+            <td>{{pages}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="admin_home_users">
+    <header>
+      <h1>Usuários Cadastrados</h1>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+          <tr>
+            <td>{{id}}</td>
+            <td>{{user}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  
 </div>
-<div class="admin_cadastrar">
-  <form method="post" action="/create/book">
-    <h1>Cadastrar Novo Livro</h1>
-    <!-- ISBN -->
-      <label>ISBN</label><br/>
-      <input type="number" id="isbn" name="isbn" required /><br/>
-    <!-- Name -->
-      <label>Nome</label><br/>
-      <input type="text" id="name" name="name" minlength="1" maxlength="40" required /><br/>
-    <!-- Author -->
-      <label>Autor</label><br/>
-      <input type="text" id="author" name="author" minlength="1" maxlength="40" required /><br/>
-    <!-- Quantity -->
-      <label>Quantidade</label><br/>
-      <input type="number" id="quantity" name="quantity" min="1" required /><br/><br/>
-    <!-- Create Error label if exists -->
-      {{#if error}}
-        <label>Erro: {{error}}</label>
-        <br/><br/>
-      {{/if}}
-    <!-- Input Button -->
-      <button type="submit">Cadastrar</button><br/>
-  </form>
+<div class="admin_home_float_rigth">
+  
+  <div class="admin_action">
+    <label>Ações</label><br/>
+    <select id="admin_action">
+      <option disabled>Selecione uma Ação</option>
+      <option value="create_book">Criar Livro</option>
+      <option value="update_book">Alterar Livro</option>
+      <option value="delete_book">Apagar Livro</option>
+    </select>
+  </div>
+  <div class="create_book" id="create_book">
+    <form method="post" action="/create/book">
+      <h1>Criar Livro</h1>
+      <!-- ISBN -->
+        <label>ISBN</label><br/>
+        <input type="text" id="isbn" name="isbn" required /><br/>
+      <!-- Name -->
+        <label>Nome</label><br/>
+        <input type="text" id="name" name="name" minlength="1" required /><br/>
+      <!-- Author -->
+        <label>Autor</label><br/>
+        <input type="text" id="author" name="author" minlength="1" required /><br/>
+      <!-- Pages -->
+        <label>Páginas</label><br/>
+        <input type="number" id="pages" name="pages" min="1" required /><br/>
+      <!-- Quantity -->
+        <label>Quantidade</label><br/>
+        <input type="number" id="quantity" name="quantity" min="1" required /><br/><br/>
+      <!-- Input Button -->
+        <button type="submit">Cadastrar</button><br/>
+    </form>
+  </div>
+  <div class="update_book" id="update_book">
+    <form method="post" action="/update/book">
+      <h1>Alterar Livro</h1>
+      <!-- ISBN -->
+        <label>ISBN</label><br/>
+        <input type="text" id="isbn" name="isbn" readonly /><br/>
+      <!-- Name -->
+        <label>Nome</label><br/>
+        <input type="text" id="name" name="name" minlength="1" required /><br/>
+      <!-- Author -->
+        <label>Autor</label><br/>
+        <input type="text" id="author" name="author" minlength="1" required /><br/>
+      <!-- Pages -->
+        <label>Páginas</label><br/>
+        <input type="number" id="pages" name="pages" min="1" required /><br/>
+      <!-- Quantity -->
+        <label>Quantidade</label><br/>
+        <input type="number" id="quantity" name="quantity" min="1" required /><br/><br/>
+      <!-- Input Button -->
+        <button type="submit">Alterar</button><br/>
+    </form>
+  </div>
+  <div class="delete_book" id="delete_book">
+    <form method="post" action="/delete/book">
+      <h1>Apagar Livro</h1>
+      <!-- ISBN -->
+        <label>ISBN</label><br/>
+        <input type="text" id="isbn" name="isbn" readonly /><br/>
+      <!-- Name -->
+        <label>Nome</label><br/>
+        <input type="text" id="name" name="name" readonly /><br/>
+      <!-- Author -->
+        <label>Autor</label><br/>
+        <input type="text" id="author" name="author" readonly /><br/>
+      <!-- Pages -->
+        <label>Páginas</label><br/>
+        <input type="number" id="pages" name="pages" readonly /><br/>
+      <!-- Quantity -->
+        <label>Quantidade</label><br/>
+        <input type="number" id="quantity" name="quantity" readonly /><br/><br/>
+      <!-- Input Button -->
+        <button type="submit">Apagar</button><br/>
+    </form>
+  </div>
+  
 </div>

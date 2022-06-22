@@ -1,7 +1,7 @@
 const ctrl = require("./ctrlCookie.js");
-const seo  = require("../util/seo.json");
+const rent = require("./ctrlViewRent.js");
+const home = require("./ctrlViewHome.js");
 const db   = require("../database/sqlite.js");
-var params = { seo: seo };
 
 module.exports = {
   
@@ -18,54 +18,62 @@ module.exports = {
       let [user, password] = request.cookies.Authentication.split(":");
       let isbn = request.body.book; 
       let days = request.body.days;
-      let name, quantity, result;
+      let name, quantity, result, params;
     
     // Validation
+      result   = await db.getBook(isbn);
+      name     = result[0].name;
+      quantity = result[0].quantity;
+      // Admin can't rent books
+        if( user == "Admin" ){
+          console.error("Create rent validation");
+          params = await rent.parameters();
+          params.message = { error: "Admin não pode realizar aluguéis" };
+          return reply.view("/src/pages/rent.hbs", params);
+        }
       // Find if book exists
-        result   = await db.getBook(isbn);
-        name     = result[0].name;
-        quantity = result[0].quantity;
         if( result.length == 0 ){
           console.error("Create rent validation");
+          params = await rent.parameters();
           params.message = { error: "Livro não encontrado" };
-          params.books = await db.getBooks();
-          reply.view("/src/pages/rent.hbs", params);
-          return;
+          return reply.view("/src/pages/rent.hbs", params);
         }
       // Find duplication of rent
         result = await db.duplicatedRent(user, isbn);
         if( result.length >= 1 ){
           console.error("Create rent validation");
+          params = await rent.parameters();
           params.message = { error: "Usuário já fez o aluguel desse livro" };
-          params.books = await db.getBooks();
-          reply.view("/src/pages/rent.hbs", params);
-          return;
-        }
-      // Admin can't rent books
-        if( user == "Admin" ){
-          console.error("Create rent validation");
-          params.message = { error: "Admin não pode realizar aluguéis" };
-          params.books = await db.getBooks();
-          reply.view("/src/pages/rent.hbs", params);
-          return;
+          return reply.view("/src/pages/rent.hbs", params);
         }
     
     // Creation
-      // ID of user
-        result = await db.getUser(user);
-        let id_user = result[0].id; 
-      // Create rent
-        await db.createRent(id_user, isbn, days);      
-      // Update book
-        await db.updateBook(isbn, quantity - 1);
+      try {
+        // ID of user
+          result = await db.getUser(user);
+          let id_user = result[0].id; 
+        // Create rent
+          await db.createRent(id_user, isbn);      
+        // Update book
+          await db.updateBook(isbn, quantity - 1);
+        
+      } catch {
+        // Error
+          // Parameters
+            params = await rent.parameters();
+            params.message = { error: "Erro interno, veja o log para detalhes" };
+          // Reply
+            console.error(`Create rent internal error`);
+            return reply.view("/src/pages/rent.hbs", params);
+      }
     
     // Success
       // Parameters
-        params.books   = await db.getBooks();
+        params = await home.parameters(request);
         params.message = { success: "Livro alugado com sucesso" };
       // Reply
         console.log(`User: ${user} has rent book: ${name}`);
-        reply.view("/src/pages/books.hbs", params);
+        return reply.view("/src/pages/home.hbs", params);
   }
 
 }

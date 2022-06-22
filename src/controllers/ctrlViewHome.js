@@ -1,7 +1,6 @@
 const ctrl = require("./ctrlCookie.js");
 const seo  = require("../util/seo.json");
 const db   = require("../database/sqlite.js");
-var params = { seo: seo };
 
 module.exports = {
   
@@ -14,25 +13,31 @@ module.exports = {
     // Validate authentication cookie
       await ctrl.validateCookie(request, reply);
 
-    // Variables
-      let [user, password] = request.cookies.Authentication.split(":");
-      let result, user_id;
-    
-    // User 
-      // ID
-        result  = await db.getUser(user);
-        user_id = result[0].id;
-      // Rents
-        result  = await db.getUserRents(user_id);
-
     // Success
       // Parameters
-        user == "Admin" 
-          ? params.admin = "Admin"
-          : {};
-        params.rents = result;
+        let params = await module.exports.parameters(request);
       // Reply
-        reply.view("/src/pages/home.hbs", params);
+        return reply.view("/src/pages/home.hbs", params);
+  },
+  
+  parameters: async function(request){
+    let [user, password] = request.cookies.Authentication.split(":");
+    // Admin parameters
+      if( user == "Admin" ){
+        return { 
+          seo:    seo,
+          rents:  await db.getUserRents(user),
+          admin:  "Admin",
+          users:  await db.getUsers(),
+          books0: await db.getBooks0()
+        }
+    // User parameters
+      } else {
+        return { 
+          seo:   seo,
+          rents: await db.getUserRents(user)
+        };
+      }
   }
   
 }
