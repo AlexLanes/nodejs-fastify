@@ -79,15 +79,17 @@
 <div class="admin_home_float_rigth">
   
   <div class="admin_action">
-    <label for="admin_action">Ação: </label>
-    <select id="admin_action" name="admin_action">
-      <option value="create_book">Adicionar Livro</option>
-      <option value="update_book">Atualizar Livro</option>
+    <label>Ações</label><br/>
+    <select id="admin_action">
+      <option disabled>Selecione uma Ação</option>
+      <option value="create_book">Criar Livro</option>
+      <option value="update_book">Alterar Livro</option>
+      <option value="delete_book">Apagar Livro</option>
     </select>
   </div>
-  <div class="create_book">
+  <div class="create_book" id="create_book">
     <form method="post" action="/create/book">
-      <h1>Cadastrar Livro</h1>
+      <h1>Criar Livro</h1>
       <!-- ISBN -->
         <label>ISBN</label><br/>
         <input type="text" id="isbn" name="isbn" required /><br/>
@@ -107,7 +109,7 @@
         <button type="submit">Cadastrar</button><br/>
     </form>
   </div>
-  <div class="update_book">
+  <div class="update_book" id="update_book">
     <form method="post" action="/update/book">
       <h1>Alterar Livro</h1>
       <!-- ISBN -->
@@ -127,6 +129,28 @@
         <input type="number" id="quantity" name="quantity" min="1" required /><br/><br/>
       <!-- Input Button -->
         <button type="submit">Alterar</button><br/>
+    </form>
+  </div>
+  <div class="delete_book" id="delete_book">
+    <form method="post" action="/delete/book">
+      <h1>Apagar Livro</h1>
+      <!-- ISBN -->
+        <label>ISBN</label><br/>
+        <input type="text" id="isbn" name="isbn" readonly /><br/>
+      <!-- Name -->
+        <label>Nome</label><br/>
+        <input type="text" id="name" name="name" readonly /><br/>
+      <!-- Author -->
+        <label>Autor</label><br/>
+        <input type="text" id="author" name="author" readonly /><br/>
+      <!-- Pages -->
+        <label>Páginas</label><br/>
+        <input type="number" id="pages" name="pages" readonly /><br/>
+      <!-- Quantity -->
+        <label>Quantidade</label><br/>
+        <input type="number" id="quantity" name="quantity" readonly /><br/><br/>
+      <!-- Input Button -->
+        <button type="submit">Apagar</button><br/>
     </form>
   </div>
   

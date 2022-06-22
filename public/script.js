@@ -41,6 +41,18 @@
     let confirm = window.confirm(`Está pronto para devolver o livro "${book_name}"?`);
     return confirm;
   };
+  function showActionDiv(div_id){
+    // Get div from action
+    let div = document.getElementById(div_id);
+    // Show the div
+    return div.style.display = "block";
+  };
+  function hideActionDiv(div_id){
+    // Get div from action
+    let div = document.getElementById(div_id);
+    // Hide the div
+    return div.style.display = "none";
+  };
 
 // After page load
 window.onload = function() {
@@ -71,5 +83,22 @@ window.onload = function() {
       delete_rent_listener != null && delete_rent_listener != undefined
         ? delete_rent_listener.onsubmit = function(){ return confirmRentDeletion(this.childNodes[0].parentNode[0].getAttribute("book_name")); }
         : {};
-    
+    // Admin action change
+      var admin_action_listener = document.getElementById("admin_action");
+      if( admin_action_listener != null && admin_action_listener != undefined ){
+        // On page load, show first action
+          showActionDiv(admin_action_listener.value);
+          var previous_action = admin_action_listener.value;
+        // Change of <select> value
+          admin_action_listener.onchange = function(){
+            // Hide previous action
+            hideActionDiv(previous_action);
+            // Show current action
+            showActionDiv(this.value)
+            // Current Action = next previous_action
+            previous_action = this.value;
+            return; 
+          }
+      }
+
 }

@@ -427,6 +427,18 @@
       padding-top:5%;
       max-width:500px;
     }
+    .admin_home .admin_action {
+      text-align:center;
+      padding-top:5px;
+      padding-bottom:4%;
+    }
+    .admin_home .admin_action select {
+      text-align:center;
+      border-top-left-radius:50px;
+      border-top-right-radius:50px;
+      border-bottom-left-radius:50px;
+      border-bottom-right-radius:50px;
+    }
     .admin_home .admin_home_float_rigth form {
       text-align:center;
       border-color:rgba(52,152,219,0.28);
@@ -437,6 +449,8 @@
       border-bottom-left-radius:22px;
       border-bottom-right-radius:22px;
     }
-    .admin_home .admin_home_float_rigth .create_book {
+    .admin_home .admin_home_float_rigth .create_book, 
+    .admin_home .admin_home_float_rigth .update_book,
+    .admin_home .admin_home_float_rigth .delete_book {
       display: none;
     }

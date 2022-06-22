@@ -47,7 +47,7 @@
 
 // File System Dependency
   const fs = require("fs"); 
-
+ 
 // .env HANDLEBARS Dependency Injection
   for( let handlebar of process.env.HANDLEBARS.split(",") ){
     let directory = `${__dirname}/src/pages/handlebars/${handlebar}.hbs`;
