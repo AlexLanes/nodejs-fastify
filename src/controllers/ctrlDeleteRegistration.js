@@ -17,50 +17,46 @@ module.exports = {
       let [user, password] = request.cookies.Authentication.split(":");
       let body_id   = request.body.id;
       let body_user = request.body.user;
-      let body_pass = request.body.password;
       let result, params;
     
     // Validation
       // Parameters
         params = await home.parameters(request);
-      // Length
-        if( password.length <= 3 || user.length <= 3 ){
-          console.error("Create registration validation ");
-          params = await regist.parameters();
-          params.message = { error: "Mínimo de 4 caracteres" };
-          return reply.view("/src/pages/registration.hbs", params);
+      // is Admin ?
+        if( user != "Admin" ){
+          console.error("Delete registration validation");
+          params.message = { error: "Apenas Admin pode apagar usuários" };
+          return reply.view("/src/pages/home.hbs", params);
+        }
+      // User length
+        if( body_user <= 3 ){
+          console.error("Delete registration validation");
+          params.message = { error: "Usuários possuem o mínimo de 4 caracteres" };
+          return reply.view("/src/pages/home.hbs", params);
+        }
+      // ID
+        if( body_id <= 1 ){
+          console.error("Delete registration validation");
+          params.message = { error: "ID deve ser maior que 1" };
+          return reply.view("/src/pages/home.hbs", params);
         }
       // Special caracter
-        if( user.includes(":") || password.includes(":") ){
-          console.error("Create registration validation ");
-          params = await regist.parameters();
+        if( body_user.includes(":") ){
+          console.error("Delete registration validation ");
           params.message = { error: "Caracter especial não permitido" };
-          return reply.view("/src/pages/registration.hbs", params);
+          return reply.view("/src/pages/home.hbs", params);
         }
       // Find if user exists
-        result = await db.getUser(user);
-        if( result.length != 0 ){
-          console.error("Create registration validation");
-          params = await regist.parameters();
-          params.message = { error: "Usuário já existente" };
-          return reply.view("/src/pages/registration.hbs", params);
+        result = await db.getUser(body_user);
+        if( result.length == 0 || result[0].id != body_id ){
+          console.error("Delete registration validation");
+          params.message = { error: "Usuário inexistente" };
+          return reply.view("/src/pages/home.hbs", params);
         }
     
     // Deletion
       try {
-        // User id
-          result  = await db.getUser(user);
-          id_user = result[0].id;
-        // Delete rent
-          await db.deleteRent(id_user, isbn);
-        // Update Books
-          result = await db.getBook(isbn);
-          // Book has not been deleted
-          if(result.length != 0){
-            name     = result[0].name;
-            quantity = result[0].quantity + 1;
-            await db.updateBook(isbn, quantity);
-          }
+        await db.deleteUser(body_id, body_user);
         
       } catch {
         // Error
@@ -68,16 +64,16 @@ module.exports = {
             params = await home.parameters(request);
             params.message = { error: "Erro interno, veja o log para detalhes" };
           // Reply
-            console.error(`Delete rent internal error`);
+            console.error(`Delete registration internal error`);
             return reply.view("/src/pages/home.hbs", params);
       }
     
     // Success
       // Parameters
         params = await home.parameters(request);
-        params.message = { success: "Livro devolvido com sucesso" };
+        params.message = { success: "Usuario apagado com sucesso" };
       // Reply
-        console.log(`User: ${user} returned book: ${name}`);
+        console.log(`User: ${user} has been deleted`);
         return reply.view("/src/pages/home.hbs", params);
   }
   

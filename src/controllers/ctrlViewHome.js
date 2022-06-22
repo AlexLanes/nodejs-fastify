@@ -28,7 +28,7 @@ module.exports = {
           seo:    seo,
           rents:  await db.getUserRents(user),
           admin:  "Admin",
-          users:  await db.getUsers(),
+          users:  (await db.getUsers()).filter( function(object){ if(object.user != "Admin"){return true;} } ),
           books0: await db.getBooks0(),
           books:  await db.getBooks(),
         }

@@ -448,7 +448,8 @@
     }
     .admin_home .admin_home_float_rigth .create_book, 
     .admin_home .admin_home_float_rigth .update_book,
-    .admin_home .admin_home_float_rigth .delete_book {
+    .admin_home .admin_home_float_rigth .delete_book,
+    .admin_home .admin_home_float_rigth .delete_registration {
       display: none;
     }
     .admin_home .admin_home_float_rigth label {

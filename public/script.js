@@ -84,7 +84,7 @@
       return;
     }
   };
-  function changeDeleteBookValue(value, element){
+  function changeElementValue(value, element){
     // Change pair select
     return element.value = value;
   };
@@ -139,10 +139,6 @@ window.onload = function() {
             return; 
           }
       };
-  
-  
-  
-  
     // Update book listener
       var update_book_listener = document.getElementById("update_book");
       if(update_book_listener != null && update_book_listener != undefined){
@@ -161,36 +157,49 @@ window.onload = function() {
             toogleUpdateBookEditName(update_book_input_name, update_book_select_name)
           }
       };
-  
-  
-  
-    // Delete book select change
+    // Delete book select change listener
       var delete_book_listener = document.getElementById("delete_book");
       if(delete_book_listener != null && delete_book_listener != undefined){
         // Select isbn change
           var delete_book_select_isbn = document.getElementById("delete_book_select_isbn");
           delete_book_select_isbn.onchange = function(){ 
             // Change name to this.isbn
-            changeDeleteBookValue(this.value, delete_book_select_name); 
+            changeElementValue(this.value, delete_book_select_name); 
             // Change name_hidden to this.isbn
-            changeDeleteBookValue( getSelectText(delete_book_select_name), delete_book_select_name_hidden );
+            changeElementValue( getSelectText(delete_book_select_name), delete_book_select_name_hidden );
           }
         // Select name change
           var delete_book_select_name = document.getElementById("delete_book_select_name");
           delete_book_select_name.onchange = function(){ 
             // Change isbn to this.name
-            changeDeleteBookValue(this.value, delete_book_select_isbn);
+            changeElementValue(this.value, delete_book_select_isbn);
             // Change name_hidden to this.name
-            changeDeleteBookValue( getSelectText(this), delete_book_select_name_hidden );
+            changeElementValue( getSelectText(this), delete_book_select_name_hidden );
           }
         // On load, add value to name_hidden
           var delete_book_select_name_hidden = document.getElementById("delete_book_select_name_hidden");
-          changeDeleteBookValue( getSelectText(delete_book_select_name), delete_book_select_name_hidden );
+          changeElementValue( getSelectText(delete_book_select_name), delete_book_select_name_hidden );
         // Delete confirmation
           delete_book_listener.onsubmit = function(){ 
             return confirmBookDeletion( getSelectText(delete_book_select_name) );
           }
       };
+    // Delete user select name listener
+      var delete_registration_listener = document.getElementById("delete_registration");
+      if(delete_registration_listener != null && delete_registration_listener != undefined){
+        // Select name change
+          var delete_registration_select_user = document.getElementById("delete_registration_select_user");
+          var delete_registration_input_id    = document.getElementById("delete_registration_input_id");
+          delete_registration_select_user.onchange = function(){ 
+            let user_id = getSelectAttribute(delete_registration_select_user, "user_id");
+            changeElementValue(user_id, delete_registration_input_id);
+          }
+        // On load, add value to id
+          let user_id = getSelectAttribute(delete_registration_select_user, "user_id");
+          changeElementValue(user_id, delete_registration_input_id);
+      };
+  
+  //  delete_registration_select_user
   
 
 }
