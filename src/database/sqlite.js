@@ -152,6 +152,26 @@ module.exports = {
     }
   },
   
+  // Update password of user in the database
+  updatePassword: async(id, user, password) => {
+    console.log("exec db deleteUser");
+    // We use a try catch block in case of db errors
+    try {
+      await db.run(`
+        UPDATE users 
+        SET password="${password}"
+        WHERE 
+          id=${id} AND
+          user="${user}"
+      `);
+      
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+      throw(dbError);
+    }
+  },
+  
   // Delete a user in the database
   deleteUser: async(id, user) => {
     console.log("exec db deleteUser");

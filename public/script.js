@@ -157,19 +157,19 @@ window.onload = function() {
             toogleUpdateBookEditName(update_book_input_name, update_book_select_name)
           }
       };
-    // Delete book select change listener
+    // Delete book listener
       var delete_book_listener = document.getElementById("delete_book");
       if(delete_book_listener != null && delete_book_listener != undefined){
         // Select isbn change
           var delete_book_select_isbn = document.getElementById("delete_book_select_isbn");
           delete_book_select_isbn.onchange = function(){ 
-            // Change name to this.isbn
+            // Change select_name to this.isbn
             changeElementValue( getSelectAttribute(this, "name"), delete_book_select_name ); 
           }
         // Select name change
           var delete_book_select_name = document.getElementById("delete_book_select_name");
           delete_book_select_name.onchange = function(){ 
-            // Change isbn to this.name
+            // Change select_isbn to this.name
             changeElementValue( getSelectAttribute(this, "isbn"), delete_book_select_isbn );
           }
         // Delete confirmation
@@ -177,7 +177,31 @@ window.onload = function() {
             return confirmBookDeletion( getSelectText(delete_book_select_name) );
           }
       };
-    // Delete user select name listener
+  
+  
+  
+  
+    // Update password listener
+      var update_password_listener = document.getElementById("update_password");
+      if(update_password_listener != null && update_password_listener != undefined){
+        // Select user change
+          var update_password_select_user = document.getElementById("update_password_select_user");
+          var update_password_input_id    = document.getElementById("update_password_input_id");
+          update_password_select_user.onchange = function(){ 
+            let user_id = getSelectAttribute(update_password_select_user, "user_id");
+            changeElementValue(user_id, update_password_input_id);
+          }
+        // On load, add value to id
+          let user_id = getSelectAttribute(update_password_select_user, "user_id");
+          changeElementValue(user_id, update_password_input_id);
+      };
+  //   
+  
+  
+  
+  
+  
+    // Delete user listener
       var delete_registration_listener = document.getElementById("delete_registration");
       if(delete_registration_listener != null && delete_registration_listener != undefined){
         // Select name change

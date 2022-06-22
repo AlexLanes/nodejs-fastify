@@ -449,7 +449,8 @@
     .admin_home .admin_home_float_rigth .create_book, 
     .admin_home .admin_home_float_rigth .update_book,
     .admin_home .admin_home_float_rigth .delete_book,
-    .admin_home .admin_home_float_rigth .delete_registration {
+    .admin_home .admin_home_float_rigth .delete_registration, 
+    .admin_home .admin_home_float_rigth .update_password {
       display: none;
     }
     .admin_home .admin_home_float_rigth label {
@@ -518,4 +519,11 @@
     }
     .admin_home .admin_home_float_rigth .update_book #update_book_input_name {
       display: none;
+    }
+    .admin_home .admin_home_float_rigth .update_password #update_password_eye {
+      cursor:pointer;
+      position:relative;
+      bottom:20px;
+      left:71px;
+      top:-19px;
     }
