@@ -64,6 +64,14 @@
     // Hide the div
     return div.style.display = "none";
   };
+  function confirmBookCreation(){
+    let confirm = window.confirm("Está correto das informações inseridas ?");
+    return confirm;
+  };
+  function confirmBookUpdate(){
+    let confirm = window.confirm("Está correto das informações modificadas ?");
+    return confirm;
+  };
   function changeUpdateBookValues(select, form){
     form.querySelector("#isbn").value                   = getSelectAttribute(select, "isbn");
     form.querySelector("#update_book_input_name").value = getSelectAttribute(select, "value");
@@ -89,6 +97,14 @@
   };
   function confirmBookDeletion(book_name){
     let confirm = window.confirm(`Tem certeza que deseja apagar o livro "${book_name}" do banco de dados ?`);
+    return confirm;
+  };
+  function confirmUpdatePassword(user){
+    let confirm = window.confirm(`Tem certeza que deseja alterar a senha do usuário "${user}" ?`);
+    return confirm;
+  };
+  function confirmDeleteRegistration(user){
+    let confirm = window.confirm(`Tem certeza que deseja remover o usuário "${user}" do banco de dados ?`);
     return confirm;
   };
 
@@ -142,6 +158,11 @@ window.onload = function() {
             return; 
           }
       };
+    // Create book listener
+      var create_book_listener = document.getElementById("create_book");
+      create_book_listener != null && create_book_listener != undefined
+        ? create_book_listener.onsubmit = function(){ return confirmBookCreation(); }
+        : {};
     // Update book listener
       var update_book_listener = document.getElementById("update_book");
       if(update_book_listener != null && update_book_listener != undefined){
@@ -159,6 +180,8 @@ window.onload = function() {
           update_book_edit_icon.onclick = function(){ 
             toogleUpdateBookEditName(update_book_input_name, update_book_select_name)
           }
+        // Confirm message
+          update_book_listener.onsubmit = function(){ return confirmBookUpdate(); }
       };
     // Delete book listener
       var delete_book_listener = document.getElementById("delete_book");
@@ -200,8 +223,12 @@ window.onload = function() {
             togglePassword(this, password); 
             return;
           };
+        // Update confirmation
+          update_password_listener.onsubmit = function(){ 
+            return confirmUpdatePassword( getSelectText(update_password_select_user) );
+          }
       };
-    // Delete user listener
+    // Delete registration listener
       var delete_registration_listener = document.getElementById("delete_registration");
       if(delete_registration_listener != null && delete_registration_listener != undefined){
         // Select name change
@@ -214,6 +241,10 @@ window.onload = function() {
         // On load, add value to id
           let user_id = getSelectAttribute(delete_registration_select_user, "user_id");
           changeElementValue(user_id, delete_registration_input_id);
+        // Delete confirmation
+          delete_registration_listener.onsubmit = function(){ 
+            return confirmDeleteRegistration( getSelectText(delete_registration_select_user) );
+          }
       };
   
 }

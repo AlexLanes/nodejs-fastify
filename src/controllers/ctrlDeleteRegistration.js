@@ -73,7 +73,7 @@ module.exports = {
         params = await home.parameters(request);
         params.message = { success: "Usuario apagado com sucesso" };
       // Reply
-        console.log(`User: ${user} has been deleted`);
+        console.log(`User: ${body_user} has been deleted`);
         return reply.view("/src/pages/home.hbs", params);
   }
   

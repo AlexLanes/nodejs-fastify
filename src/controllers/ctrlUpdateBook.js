@@ -72,13 +72,6 @@ module.exports = {
           params.message = { error: "Nome não pode ser vazio" };
           return reply.view("/src/pages/home.hbs", params);
         }
-      // Name duplication
-        result = await db.getBookName(name);
-        if( result.length != 0 ){
-          console.error("Update book validation");
-          params.message = { error: "Nome duplicado" };
-          return reply.view("/src/pages/home.hbs", params);
-        }
       // Author length
         if( author.length < 1 ){
           console.error("Update book validation");
