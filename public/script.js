@@ -51,10 +51,6 @@
     // Change text value displayed
     return element.innerHTML = value;
   };
-
-
-
-  
   async function validateImage(link){
     try {
       let options = {
@@ -64,7 +60,6 @@
       }
       let data = await fetch(`https://${window.location.hostname}/validate/image`, options);
       let json = await data.json();
-      console.log(json);
       return json.link;
     } catch(e) {
       console.log(`Validate image resulted in Error: ${e}`);
@@ -76,16 +71,10 @@
     let description = getSelectAttribute(select, "description");
     // Change description
     changeElementInnerHTML(description, label);
-    // Change image url
-    setElementAttribute(src, "src", image);
-    // validate image link
-    console.log(await validateImage(image));
+    // Change image url, validate if current url is valide, else process.env.IMAGE_UNAVAILABLE
+    setElementAttribute( src, "src", await validateImage(image) );
     return;
   };
-  
-
-
-
   function confirmRentCreation(book_name, days){
     let date = addDays(new Date(), days);
     let confirm = window.confirm(`Irei devolver o livro "${book_name}" até ${parseDate(date)} !`);
@@ -142,6 +131,8 @@
     form.querySelector("#author").value                 = getSelectAttribute(select, "author");
     form.querySelector("#pages").value                  = getSelectAttribute(select, "pages");
     form.querySelector("#quantity").value               = getSelectAttribute(select, "quantity");
+    form.querySelector("#image").value                  = getSelectAttribute(select, "image");
+    form.querySelector("#description").value            = getSelectAttribute(select, "description");
     return;
   };
   function toogleUpdateBookEditName(input, select){

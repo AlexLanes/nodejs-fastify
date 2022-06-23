@@ -272,7 +272,7 @@ module.exports = {
   },
   
   // Update book quantity in the database
-  updateBook: async(isbn, name, author, pages, quantity) => {
+  updateBook: async(isbn, name, author, pages, quantity, image, description) => {
     console.log("exec db updateBook");
     // We use a try catch block in case of db errors
     try {
@@ -282,7 +282,9 @@ module.exports = {
           name="${name}",
           author="${author}",
           pages=${pages},
-          quantity=${quantity}
+          quantity=${quantity},
+          image="${image}",
+          description="${description}"
         WHERE isbn="${isbn}"
       `);
       
@@ -294,7 +296,7 @@ module.exports = {
   },
   
   // Create book in the database
-  createBook: async(isbn, name, author,pages, quantity) => {
+  createBook: async(isbn, name, author,pages, quantity, image, description) => {
     console.log("exec db createBook");
     // We use a try catch block in case of db errors
     try {
@@ -305,7 +307,9 @@ module.exports = {
           "${name}", 
           "${author}",
           ${pages},
-          ${quantity}
+          ${quantity},
+          "${image}",
+          "${description}"
         )
       `);
             

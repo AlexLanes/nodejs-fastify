@@ -15,11 +15,13 @@ module.exports = {
     
     // Variables
       let [user, password] = request.cookies.Authentication.split(":");
-      let isbn     = request.body.isbn;
-      let name     = request.body.name;
-      let author   = request.body.author;
-      let pages    = request.body.pages;
-      let quantity = request.body.quantity;
+      let isbn        = request.body.isbn;
+      let name        = request.body.name;
+      let author      = request.body.author;
+      let pages       = request.body.pages;
+      let quantity    = request.body.quantity;
+      let image       = request.body.image;
+      let description = request.body.description;
       let result, params;
     
     // Validation
@@ -100,7 +102,7 @@ module.exports = {
     
     // Creation
       try {
-        await db.createBook(isbn, name, author, pages, quantity);
+        await db.createBook(isbn, name, author, pages, quantity, image, description);
         
       } catch {
         // Error
