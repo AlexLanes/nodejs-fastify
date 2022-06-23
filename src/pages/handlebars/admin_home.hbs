@@ -94,7 +94,8 @@
       <h1>Criar Livro</h1>
       <!-- ISBN -->
         <label>ISBN</label><br/>
-        <input type="text" id="isbn" name="isbn" required /><br/>
+        <input type="text" id="create_book_input_isbn" name="isbn" required /><br/>
+        <i id="create_book_isbn_generator" class="fa-solid fa-shuffle"></i><br/>
       <!-- Name -->
         <label>Nome</label><br/>
         <input type="text" id="name" name="name" minlength="1" required /><br/>
@@ -180,8 +181,7 @@
       <!-- Password -->
         <label>Senha</label><br/>
         <input type="password" id="update_password_input_password" name="password" required /><br/>
-        <i class="fa-solid fa-eye" id="update_password_eye"></i>
-        <br/>
+        <i class="fa-solid fa-eye" id="update_password_eye"></i><br/>
       <!-- Input Button -->
         <button type="submit">Alterar</button><br/>
     </form>

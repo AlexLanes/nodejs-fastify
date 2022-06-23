@@ -47,11 +47,13 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
           console.log("Creating table books");
           await db.run(`
             CREATE TABLE books (
-              isbn     TEXT    NOT NULL UNIQUE CHECK (length(isbn) = 10),
-              name     TEXT    NOT NULL UNIQUE, 
-              author   TEXT    NOT NULL, 
-              pages    INTEGER NOT NULL        CHECK (pages >= 1),
-              quantity INTEGER NOT NULL        CHECK (quantity >= 0) 
+              isbn        TEXT    NOT NULL UNIQUE CHECK (length(isbn) = 10),
+              name        TEXT    NOT NULL UNIQUE, 
+              author      TEXT    NOT NULL, 
+              pages       INTEGER NOT NULL        CHECK (pages >= 1),
+              quantity    INTEGER NOT NULL        CHECK (quantity >= 0),
+              image       TEXT,
+              description TEXT
             )
           `); 
         // Add books from data_set to the table
@@ -64,10 +66,14 @@ dbWrapper.open( {filename: dbFile, driver: sqlite3.Database} )
                   "${book.title}", 
                   "${book.authors.filter(Boolean).join(" && ")}", 
                   ${book.pageCount}, 
-                  ${random.int(1, 22)}
+                  ${random.int(1, 22)},
+                  "${ book.thumbnailUrl != null || book.thumbnailUrl != undefined ? book.thumbnailUrl : "" }",
+                  "${ [book.shortDescription, book.longDescription].filter(Boolean)[0] === undefined || [book.shortDescription, book.longDescription].filter(Boolean)[0] === null
+                      ? ""
+                      : [book.shortDescription, book.longDescription].filter(Boolean)[0] }"
                 )
               `);
-            } catch(dbError) {}
+            } catch {}
           }
           result = await db.all("SELECT COUNT(*) as counter FROM books");
           console.log(`${result[0].counter} books inserted`);

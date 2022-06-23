@@ -30,10 +30,10 @@
         <input type="number" id="days" name="days" min="1" required />
         <!-- Book -->
         <label>Escolha um Livro</label>
-        <select id="book" name="book" required>
-          <option value=""></option>
+        <select id="create_rent_select_book" name="book" required>
+          <option disabled>Escolha um Livro</option>
           {{#each books}}
-            <option value="{{isbn}}" descricao="" link="">{{name}}</option>
+            <option value="{{isbn}}" description="{{description}}" image="{{image}}">{{name}}</option>
           {{/each}}
         </select><p/>
         <!-- Submit -->
@@ -42,6 +42,12 @@
         </button>  
       </form>
     </div>
+    
+    <div class="div_create_rent_image">
+      <img id="create_rent_image" src="{{img}}">
+    </div>
+    <br/>    
+    <label id="create_rent_description"></label>
     
   </body>
 

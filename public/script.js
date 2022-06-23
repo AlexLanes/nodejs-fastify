@@ -39,10 +39,53 @@
     // return attribute from selected option
     return select.options[select.selectedIndex].getAttribute(attribute);
   };
+  function setElementAttribute(element, attribute, value){
+    // Change an attribute from current element
+    return element.setAttribute(attribute, value);
+  };
   function changeElementValue(value, element){
     // Change pair select
     return element.value = value;
   };
+  function changeElementInnerHTML(value, element){
+    // Change text value displayed
+    return element.innerHTML = value;
+  };
+
+
+
+  
+  async function validateImage(link){
+    try {
+      let options = {
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify({ link: link })
+      }
+      let data = await fetch(`https://${window.location.hostname}/validate/image`, options);
+      let json = await data.json();
+      console.log(json);
+      return json.link;
+    } catch(e) {
+      console.log(`Validate image resulted in Error: ${e}`);
+    }
+  };
+  async function changeCreateRentValue(select, src, label){
+    let book        = getSelectText(select);
+    let image       = getSelectAttribute(select, "image");
+    let description = getSelectAttribute(select, "description");
+    // Change description
+    changeElementInnerHTML(description, label);
+    // Change image url
+    setElementAttribute(src, "src", image);
+    // validate image link
+    console.log(await validateImage(image));
+    return;
+  };
+  
+
+
+
   function confirmRentCreation(book_name, days){
     let date = addDays(new Date(), days);
     let confirm = window.confirm(`Irei devolver o livro "${book_name}" até ${parseDate(date)} !`);
@@ -63,6 +106,27 @@
     let div = document.getElementById(div_id);
     // Hide the div
     return div.style.display = "none";
+  };
+  async function getRandomISBN10(){
+    try {
+      let options = {
+        method: 'GET',
+        headers: { }
+      }
+      let data = await fetch(`https://${window.location.hostname}/random/isbn10`, options);
+      let json = await data.json();
+      return json.isbn10;
+    } catch(e) {
+      console.log(`Random ISBN resulted in Error: ${e}`);
+    }
+  };
+  async function changeCreateBookISBN(input){
+    try {
+      let isbn = await getRandomISBN10();
+      return changeElementValue(isbn, input);
+    } catch(e) {
+      console.log(`changeCreateBookISBN resulted in Error: ${e}`);
+    }
   };
   function confirmBookCreation(){
     let confirm = window.confirm("Está correto das informações inseridas ?");
@@ -130,12 +194,22 @@ window.onload = function() {
         : {};
     // Create rent listener
       var create_rent_listener = document.getElementById("form_create_rent");
-      create_rent_listener != null && create_rent_listener != undefined
-        ? create_rent_listener.onsubmit = function(){ 
+      if(create_rent_listener != null && create_rent_listener != undefined){
+        // Confirmation
+          create_rent_listener.onsubmit = function(){ 
             let select = this.childNodes[0].parentNode[1];
             return confirmRentCreation( getSelectText(select), this.childNodes[0].parentNode[0].value ); 
           }
-        : {};
+        // On select name change
+          var create_rent_select_book = document.getElementById("create_rent_select_book");
+          var create_rent_image       = document.getElementById("create_rent_image");
+          var create_rent_description = document.getElementById("create_rent_description");
+          create_rent_select_book.onchange = function(){
+            changeCreateRentValue( this, create_rent_image, create_rent_description );
+          }
+        // On load
+          changeCreateRentValue( create_rent_select_book, create_rent_image, create_rent_description )
+      };
     // Delete rent listener
       var delete_rent_listener = document.getElementById("form_delete_rent");
       delete_rent_listener != null && delete_rent_listener != undefined
@@ -160,9 +234,16 @@ window.onload = function() {
       };
     // Create book listener
       var create_book_listener = document.getElementById("create_book");
-      create_book_listener != null && create_book_listener != undefined
-        ? create_book_listener.onsubmit = function(){ return confirmBookCreation(); }
-        : {};
+        if(create_book_listener != null && create_book_listener != undefined){
+          // Create confirmation
+            create_book_listener.onsubmit = function(){ return confirmBookCreation(); }
+          // Random isbn
+              var create_book_isbn_generator = document.getElementById("create_book_isbn_generator");
+              var create_book_input_isbn     = document.getElementById("create_book_input_isbn");
+              create_book_isbn_generator.onclick = function(){
+                changeCreateBookISBN(create_book_input_isbn);
+              }
+        };  
     // Update book listener
       var update_book_listener = document.getElementById("update_book");
       if(update_book_listener != null && update_book_listener != undefined){
