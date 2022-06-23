@@ -471,6 +471,7 @@
       border: none;
       color:#f4d71a;
       outline: 0;
+      text-align-last: center;
     }
     .admin_home .admin_home_float_rigth form {
       text-align:center;
