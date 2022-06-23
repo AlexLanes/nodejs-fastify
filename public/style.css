@@ -281,6 +281,24 @@
   .rent form i {
     background-color:transparent;
   }
+  .div_create_rent_image {
+    position:fixed;
+    top:25%;
+    left:10%;
+  }
+  .div_create_rent_image img {
+    max-width:200px;
+    max-height:200px;
+  }
+  #create_rent_description {
+    position:absolute;
+    left:6%;
+    top:66%;
+    max-width:90%;
+    text-align:center;
+    font-family:Garamond,Baskerville,'Baskerville Old Face','Hoefler Text','Times New Roman',serif;
+    font-size:22px;
+  }
 
 /* user_home */
   .user_home {
@@ -512,6 +530,13 @@
       display: block;
       margin: 0 auto;
       cursor:pointer;
+    }
+    .admin_home .admin_home_float_rigth .create_book #create_book_isbn_generator {
+      cursor:pointer;
+      position:relative;
+      bottom:20px;
+      left:71px;
+      top:-19px;
     }
     .admin_home .admin_home_float_rigth .update_book form i:hover {
       transition-duration: 0.4s;

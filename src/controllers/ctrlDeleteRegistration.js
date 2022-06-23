@@ -1,6 +1,6 @@
-const ctrl   = require("./ctrlCookie.js");
-const home   = require("./ctrlViewHome.js");
-const db     = require("../database/sqlite.js");
+const ctrl = require("./ctrlCookie.js");
+const home = require("./ctrlViewHome.js");
+const db   = require("../database/sqlite.js");
 
 module.exports = {
   

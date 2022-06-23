@@ -23,7 +23,8 @@ module.exports = {
   parameters: async function(){
     return { 
       seo:   seo,
-      books: await db.getBooks()
+      img:   process.env.IMAGE_UNAVAILABLE,
+      books: await db.getBooks(),
     }
   }
   

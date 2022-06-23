@@ -94,7 +94,8 @@
       <h1>Criar Livro</h1>
       <!-- ISBN -->
         <label>ISBN</label><br/>
-        <input type="text" id="isbn" name="isbn" required /><br/>
+        <input type="text" id="create_book_input_isbn" name="isbn" required /><br/>
+        <i id="create_book_isbn_generator" class="fa-solid fa-shuffle"></i><br/>
       <!-- Name -->
         <label>Nome</label><br/>
         <input type="text" id="name" name="name" minlength="1" required /><br/>
@@ -106,7 +107,13 @@
         <input type="number" id="pages" name="pages" min="1" required /><br/>
       <!-- Quantity -->
         <label>Quantidade</label><br/>
-        <input type="number" id="quantity" name="quantity" min="1" required /><br/><br/>
+        <input type="number" id="quantity" name="quantity" min="1" required /><br/>
+      <!-- Image -->
+        <label>Url Imagem</label><br/>
+        <input type="text" id="image" name="image" /><br/>
+      <!-- Description -->
+        <label>Descrição</label><br/>
+        <input type="text" id="description" name="description" /><br/><br/>
       <!-- Input Button -->
         <button type="submit">Cadastrar</button><br/>
     </form>
@@ -123,7 +130,7 @@
         <select id="update_book_select_name" name="name">
           <option disabled>Selecione um Nome</option>
           {{#each books}}
-            <option isbn="{{isbn}}" value="{{name}}" author="{{author}}" pages="{{pages}}" quantity="{{quantity}}">{{name}}</option>
+            <option isbn="{{isbn}}" value="{{name}}" author="{{author}}" pages="{{pages}}" quantity="{{quantity}}" image="{{image}}" description="{{description}}">{{name}}</option>
           {{/each}}
         </select>
         <input id="update_book_input_name" name="name" required disabled/><br/>
@@ -135,7 +142,13 @@
         <input type="number" id="pages" name="pages" min="1" required /><br/>
       <!-- Quantity -->
         <label>Quantidade</label><br/>
-        <input type="number" id="quantity" name="quantity" min="0" required /><br/><br/>
+        <input type="number" id="quantity" name="quantity" min="0" required /><br/>
+      <!-- Image -->
+        <label>Url Imagem</label><br/>
+        <input type="text" id="image" name="image" /><br/>
+      <!-- Description -->
+        <label>Descrição</label><br/>
+        <input type="text" id="description" name="description" /><br/><br/>      
       <!-- Input Button -->
         <button type="submit">Alterar</button><br/>
     </form>
@@ -180,8 +193,7 @@
       <!-- Password -->
         <label>Senha</label><br/>
         <input type="password" id="update_password_input_password" name="password" required /><br/>
-        <i class="fa-solid fa-eye" id="update_password_eye"></i>
-        <br/>
+        <i class="fa-solid fa-eye" id="update_password_eye"></i><br/>
       <!-- Input Button -->
         <button type="submit">Alterar</button><br/>
     </form>

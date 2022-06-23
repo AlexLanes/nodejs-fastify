@@ -1,6 +1,7 @@
 const ctrl = require("./ctrlCookie.js");
 const seo  = require("../util/seo.json");
 const db   = require("../database/sqlite.js");
+const rd   = require('random');
 
 module.exports = {
   
@@ -12,7 +13,7 @@ module.exports = {
     console.log("exec viewHome");
     // Validate authentication cookie
       await ctrl.validateCookie(request, reply);
-
+    
     // Success
       // Parameters
         let params = await module.exports.parameters(request);
