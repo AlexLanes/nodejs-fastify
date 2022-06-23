@@ -152,6 +152,45 @@ module.exports = {
     }
   },
   
+  // Update password of user in the database
+  updatePassword: async(id, user, password) => {
+    console.log("exec db deleteUser");
+    // We use a try catch block in case of db errors
+    try {
+      await db.run(`
+        UPDATE users 
+        SET password="${password}"
+        WHERE 
+          id=${id} AND
+          user="${user}"
+      `);
+      
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+      throw(dbError);
+    }
+  },
+  
+  // Delete a user in the database
+  deleteUser: async(id, user) => {
+    console.log("exec db deleteUser");
+    // We use a try catch block in case of db errors
+    try {
+      await db.run(`
+        DELETE FROM users 
+        WHERE 
+          id = ${id} AND 
+          user = "${user}"
+      `);
+      
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+      throw(dbError);
+    }
+  },
+  
   // Get a book by isbn in the database
   getBook: async(isbn) => {
     console.log("exec db getBook");
@@ -227,13 +266,17 @@ module.exports = {
   },
   
   // Update book quantity in the database
-  updateBook: async(isbn, quantity) => {
+  updateBook: async(isbn, name, author, pages, quantity) => {
     console.log("exec db updateBook");
     // We use a try catch block in case of db errors
     try {
       await db.run(`
         UPDATE books 
-        SET quantity=${quantity} 
+        SET 
+          name="${name}",
+          author="${author}",
+          pages=${pages},
+          quantity=${quantity}
         WHERE isbn="${isbn}"
       `);
       
@@ -260,6 +303,25 @@ module.exports = {
         )
       `);
             
+    } catch (dbError) {
+      // Database connection error
+      console.error(dbError);
+      throw(dbError);
+    }
+  },
+  
+  // Delete a book in the database
+  deleteBook: async(isbn, name) => {
+    console.log("exec db deleteRent");
+    // We use a try catch block in case of db errors
+    try {
+      await db.run(`
+        DELETE FROM books 
+        WHERE 
+          isbn = ${isbn} AND 
+          name = "${name}"
+      `);
+      
     } catch (dbError) {
       // Database connection error
       console.error(dbError);

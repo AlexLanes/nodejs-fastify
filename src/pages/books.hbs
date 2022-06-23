@@ -9,6 +9,7 @@
   </head>
 
   <body>
+    
     <!-- Top Navigation Bar -->
     {{> topnav}}
     <!-- Message -->
@@ -29,6 +30,7 @@
             <th>ISBN</th>
             <th>Nome</th>
             <th>Autor</th>
+            <th>Páginas</th>
             <th>Estoque</th>
           </tr>
         </thead>
@@ -38,12 +40,14 @@
               <td>{{isbn}}</td>
               <td>{{name}}</td>
               <td>{{author}}</td>
+              <td>{{pages}}</td>
               <td class="quantity">{{quantity}}</td>
             </tr>
           {{/each}}
         </tbody>
       </table>
     </div>
+    
   </body>
 
 </html>

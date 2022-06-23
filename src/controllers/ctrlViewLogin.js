@@ -1,4 +1,4 @@
-const seo  = require("../util/seo.json");
+const seo = require("../util/seo.json");
 
 module.exports = {
   

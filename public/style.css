@@ -2,6 +2,7 @@
 @import url("//fonts.googleapis.com/css2?family=Bungee+Shade:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 @import url("//fonts.googleapis.com/css2?family=Butterfly+Kids:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 @import url("//fonts.googleapis.com/css2?family=Adamina:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("//fonts.googleapis.com/css2?family=Yomogi:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 
 /* message */
   .message {
@@ -262,6 +263,7 @@
     text-align:center;
     border: none;
     color:#f4d71a;
+    outline: 0;
   }
   .rent form button {
     background-color:transparent;
@@ -274,7 +276,7 @@
   .rent form button:hover {
     background-color: #6398d8;
     transition-duration: 0.4s;
-    transform: scale(1.5) perspective(1px)
+    transform: scale(1.5) perspective(1px);
   }
   .rent form i {
     background-color:transparent;
@@ -355,7 +357,7 @@
   }
   .user_home table tr:hover #delete_rent {
     transition-duration: 0.7s;
-    transform: scale(2.0) perspective(1px)
+    transform: scale(2.0) perspective(1px);
   }
 
 /* admin_home */
@@ -377,11 +379,11 @@
     display: inline-block;
   }
   .admin_home .admin_home_float_left {
-    width: 60%;
+    width: 55%;
     float: left;
   }
   .admin_home .admin_home_float_rigth {
-    width: 40%;
+    width: 45%;
     float: right;
   }
 
@@ -420,37 +422,109 @@
     .admin_home .admin_home_float_left tbody tr:last-of-type {
       border-bottom: 2px solid #81bbcf;
     }
+    .admin_home .admin_home_float_left header h1{
+      font-family:'Yomogi', handwriting;
+      color:#1dcda4;
+      font-size:33px;
+      line-height:33px;
+      font-style:italic;
+      text-decoration:none;
+      text-shadow:rgb(0, 0, 0) 0px 1px 1px, rgb(0, 0, 0) 0px -1px 1px, rgb(0, 0, 0) 1px 0px 1px, rgb(0, 0, 0) -1px 0px 1px;
+      letter-spacing:2.2px;
+    }
 
   /* rigth */
     .admin_home .admin_home_float_rigth {
       position:fixed;
-      padding-top:5%;
+      padding-top:4%;
       max-width:500px;
+      padding-right:4%;
+      transform: translate(0%, -15%);
     }
     .admin_home .admin_action {
       text-align:center;
       padding-top:5px;
       padding-bottom:4%;
     }
-    .admin_home .admin_action select {
+    .admin_home .admin_home_float_rigth .create_book, 
+    .admin_home .admin_home_float_rigth .update_book,
+    .admin_home .admin_home_float_rigth .delete_book,
+    .admin_home .admin_home_float_rigth .delete_registration, 
+    .admin_home .admin_home_float_rigth .update_password {
+      display: none;
+    }
+    .admin_home .admin_home_float_rigth label {
+      font-size:22px;
+      font-family:Garamond,Baskerville,'Baskerville Old Face','Hoefler Text','Times New Roman',serif;
+      line-height:22px;
+      text-shadow:none;
+      letter-spacing:2.2px;
+      box-shadow:none;
+    }
+    .admin_home .admin_home_float_rigth select {
       text-align:center;
       border-top-left-radius:50px;
       border-top-right-radius:50px;
       border-bottom-left-radius:50px;
       border-bottom-right-radius:50px;
+      background-color:rgba(63,105,87,0.57);
+      border: none;
+      color:#f4d71a;
+      outline: 0;
+      text-align-last: center;
     }
     .admin_home .admin_home_float_rigth form {
       text-align:center;
-      border-color:rgba(52,152,219,0.28);
-      border-style:solid;
-      border-width:2px;
+      border-bottom-color:rgba(153,153,168,0.28);
+      border-right-color:rgba(76,122,152,0.28);
+      border-style:none;
+      box-shadow:0px 0px 50px 11px rgba(0,0,0,0.59);
       border-top-left-radius:22px;
       border-top-right-radius:22px;
       border-bottom-left-radius:22px;
       border-bottom-right-radius:22px;
+      padding-bottom:4%;
+      padding-top:1% !important;
     }
-    .admin_home .admin_home_float_rigth .create_book, 
-    .admin_home .admin_home_float_rigth .update_book,
-    .admin_home .admin_home_float_rigth .delete_book {
+    .admin_home .admin_home_float_rigth form h1 {
+      font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+      font-weight:300;
+      color:#f4d71a;
+      letter-spacing:2.2px;
+    }
+    .admin_home .admin_home_float_rigth form input {
+      text-align: center;
+      background: transparent;
+      outline: none;
+      color:#f4d71a;
+      border-top-left-radius:50px;
+      border-top-right-radius:50px;
+      border-bottom-left-radius:50px;
+      border-bottom-right-radius:50px;
+    }
+    .admin_home .admin_home_float_rigth form button {
+      border-top-left-radius:50px;
+      border-top-right-radius:50px;
+      border-bottom-left-radius:50px;
+      border-bottom-right-radius:50px;
+      background-color:#000000;
+      color:#ffffff;
+      display: block;
+      margin: 0 auto;
+      cursor:pointer;
+    }
+    .admin_home .admin_home_float_rigth .update_book form i:hover {
+      transition-duration: 0.4s;
+      transform: scale(1.5) perspective(1px);
+      cursor:pointer;
+    }
+    .admin_home .admin_home_float_rigth .update_book #update_book_input_name {
       display: none;
+    }
+    .admin_home .admin_home_float_rigth .update_password #update_password_eye {
+      cursor:pointer;
+      position:relative;
+      bottom:20px;
+      left:71px;
+      top:-19px;
     }
